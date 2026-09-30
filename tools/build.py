@@ -13,7 +13,9 @@ fuente = raiz / "src" / "pagina.html"
 pagina = fuente.read_text(encoding="utf-8")
 
 # ---- fotos usadas: galerías [id, título, alt] y fondos (heroes) ----
-ids = set(re.findall(r"\['([a-z0-9-]+)','[^']*','[^']*'\]", pagina))
+ids = set()
+for m in re.finditer(r"fotos:\[(.*?)\]\]\}", pagina, re.S):
+    ids |= set(re.findall(r"\['([a-z0-9-]+)','[^']*','[^']*'\]", m.group(1) + "]"))
 for m in re.finditer(r"heroes:\[([^\]]*)\]", pagina):
     ids |= set(re.findall(r"'([a-z0-9-]+)'", m.group(1)))
 destino = raiz / "photos"
