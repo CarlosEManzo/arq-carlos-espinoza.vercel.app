@@ -372,7 +372,10 @@ body:has(.slide.abierta) .nav{display:none}
 .mq-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 28px;flex-wrap:wrap}
 .mq-head h3{margin:4px 0 8px;font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1}
 .mq-head p{margin:0;max-width:56ch;color:var(--text-muted);font-size:15px}
-.mq-tabs button{min-height:46px;padding:8px 18px;font-size:12px}
+.mq-tabs{flex:1 1 380px;max-width:560px}
+.mq-tabs button{flex:1 1 0;display:inline-flex;align-items:center;justify-content:center;min-height:68px;padding:14px 26px;font-size:15px;gap:12px}
+.mq-tabs .ic{width:24px;height:24px}
+@media (max-width:760px){.mq-tabs{max-width:none;flex-basis:100%}.mq-tabs button{padding:12px 10px;font-size:13px;min-height:60px}}
 .mq-body[hidden]{display:none}
 .mq .demo{padding:0;background:transparent}
 .mq .demo>.dtop{justify-content:flex-end}
@@ -496,11 +499,11 @@ body:has(.slide.abierta) .nav{display:none}
         <div><span class="mono muted">Prototipo funcional · pruébalo</span><h3 id="mq-t">Metric.arq</h3>
           <p>Del modelo de Revit al costo, el calendario y las instalaciones. Elige una herramienta, mueve un control o toca un ejemplo y el resultado cambia al instante.</p></div>
         <div class="seg mq-tabs" role="group" aria-label="Herramienta de Metric.arq">
-          <button type="button" data-mq="calc" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-calc"/></svg>Instalaciones</button>
-          <button type="button" data-mq="muro" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Muro de block</button>
+          <button type="button" data-mq="muro" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Muro de block</button>
+          <button type="button" data-mq="calc" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-calc"/></svg>Instalaciones</button>
         </div>
       </div>
-      <div class="mq-body" data-mq="calc">
+      <div class="mq-body" data-mq="calc" hidden>
       <div class="calc">
         <div class="calc-tabs" role="tablist" aria-label="Instalación a calcular">
           <button type="button" role="tab" data-c="agua" aria-selected="true"><svg class="ic" aria-hidden="true"><use href="#i-gota"/></svg>Agua</button>
@@ -551,7 +554,7 @@ body:has(.slide.abierta) .nav{display:none}
         </div>
       </div>
       </div>
-      <div class="mq-body" data-mq="muro" hidden>
+      <div class="mq-body" data-mq="muro">
         <div class="demo" id="demo-pu">
           <div class="dtop"><span class="mono muted"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Costo de un muro armado</span>
             <div class="seg" role="group" aria-label="Vista del demo"><button type="button" data-v="probar" aria-pressed="true">Probar</button><button type="button" data-v="como" aria-pressed="false">Cómo funciona</button></div></div>
@@ -1608,7 +1611,7 @@ function abreVisor(i,w){
   $('#stg-a0').onload=function(){ ajustaFr(this); }; $('#stg-a0').src='photos/'+o.fotos[0][0]+'.jpg'; $('#stg-f0').src='photos/'+o.fotos[0][0]+'.jpg';
   function ajustaFr(im){ var sg=$('#stg'); if(!sg||!im||!im.naturalWidth) return; var nw=im.naturalWidth, nh=im.naturalHeight, W=sg.clientWidth, Hs=sg.clientHeight, kc=Math.max(W/nw,Hs/nh), cw=nw*kc, ch=nh*kc;
   /* si la foto cubre toda la ventana recortando poco y sin ampliarse de más, va a pantalla completa; si no, se encaja entera con esquinas redondeadas */
-  if(kc<=1.15&&1-(W*Hs)/(cw*ch)<=.32){ im.classList.add('cubre'); im.style.width=cw+'px'; im.style.height=ch+'px'; im.style.left=((W-cw)*.7)+'px'; im.style.top=((Hs-ch)*.5)+'px'; return; }
+  if(kc<=1.5&&1-(W*Hs)/(cw*ch)<=.4){ im.classList.add('cubre'); im.style.width=cw+'px'; im.style.height=ch+'px'; im.style.left=((W-cw)*.7)+'px'; im.style.top=((Hs-ch)*.5)+'px'; return; }
   im.classList.remove('cubre'); var ip=$('.info-p',$('#pn3')), pw=innerWidth>900&&ip?ip.offsetWidth+12:0, aw=W-pw-36, ah=Hs-(innerWidth>900?112:100)-18, k=Math.min(aw/nw,ah/nh,1), w=nw*k, h=nh*k; im.style.width=w+'px'; im.style.height=h+'px'; im.style.left=(pw+18+(aw-w)/2)+'px'; im.style.top=(18+(ah-h)/2)+'px'; }
   function foto(k){
     fotoK=(k+N3)%N3; var f=o.fotos[fotoK], src='photos/'+f[0]+'.jpg', nx=1-slot, a=$('#stg-a'+nx), b=$('#stg-f'+nx), a0=$('#stg-a'+slot), b0=$('#stg-f'+slot);
