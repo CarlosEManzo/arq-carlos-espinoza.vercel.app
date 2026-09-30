@@ -27,7 +27,7 @@ if sobran:
 # ---- cabecera del documento (en el artifact la ponía la plataforma) ----
 titulo = re.search(r"<title>(.*?)</title>", pagina).group(1)
 pagina = re.sub(r"<title>.*?</title>\s*", "", pagina, count=1)
-desc = ("Portafolio de Carlos Espinoza, arquitecto en Morelia: estructuras metálicas, coordinación BIM, "
+desc = ("Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, "
         "obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.")
 favicon = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E"
            "%3Crect width='64' height='64' fill='%230D0D0D'/%3E%3Cpath d='M14 50V14h12l12 22V14h12v36H38L26 28v22z' fill='%23fff'/%3E%3C/svg%3E")

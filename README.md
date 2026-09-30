@@ -1,4 +1,4 @@
-# Portafolio · Arq. Carlos Espinoza
+# Portafolio · Arq. Carlos Francisco Espinoza Manzo
 
 Sitio estático (HTML + CSS + JS, sin build en el servidor). Diseño «Minimalismo monolítico»: recorrido horizontal por cuatro obras, monografías con información, maqueta 3D (Three.js) y planos, y un panel DEMOS / CÓDIGO con una calculadora de instalaciones.
 

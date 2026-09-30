@@ -1,4 +1,4 @@
-<title>Portafolio Arq. Carlos Espinoza</title>
+<title>Portafolio Arq. Carlos Francisco Espinoza Manzo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap">
 <style>
@@ -330,7 +330,7 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol>
 </defs></svg>
 <header class="top" id="top">
-  <span class="who">Arq. Carlos Espinoza</span>
+  <span class="who">Arq. Carlos Francisco Espinoza Manzo</span>
   <span class="prog num" id="prog" aria-live="polite"><b>01</b> / 04</span>
   <button class="btn lab" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button>
 </header>
@@ -344,7 +344,7 @@ body:has(.slide.abierta) .nav{display:none}
   <div class="head"><span class="mono muted">Portafolio de arquitectura · Rev. 2026</span><button class="btn lab-big" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button></div>
   <div class="mid">
     <div class="oficio">Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</div>
-    <h1 class="nombre">Carlos<br>Espinoza<br>Manzo</h1>
+    <h1 class="nombre">Carlos Francisco<br>Espinoza Manzo</h1>
   </div>
   <div class="foot"><button class="btn solid" type="button" id="iniciar">Iniciar recorrido espacial →</button><span class="mono muted">Desliza ↓ para iniciar</span></div>
 </section>
@@ -1403,9 +1403,14 @@ rail.addEventListener('click',function(e){ var b=e.target.closest('[data-obra]')
 /* teclado global */
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){ if(estado.lab){cierraLab();e.preventDefault();return} if(estado.visor){cierraVisor();e.preventDefault();return} return; }
-  if(estado.umbral||estado.lab) return;
+  if(e.defaultPrevented||estado.umbral||estado.lab) return;
   var t=e.target; if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||(t.closest&&t.closest('#visor'))))return;
-  if(e.key==='ArrowRight'){ir(idx+1);e.preventDefault()} else if(e.key==='ArrowLeft'){ir(idx-1);e.preventDefault()} else if(e.key==='ArrowUp'&&idx===0){volverPortada();e.preventDefault()}
+  if(e.altKey||e.ctrlKey||e.metaKey) return;
+  var sig=e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||(e.key===' '&&!(t&&(t.tagName==='BUTTON'||t.tagName==='A'))), ant=e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp';
+  if(sig){ ir(idx+1); e.preventDefault(); }
+  else if(ant){ if(idx===0) volverPortada(); else ir(idx-1); e.preventDefault(); }
+  else if(e.key==='Home'){ ir(0); e.preventDefault(); }
+  else if(e.key==='End'){ ir(total-1); e.preventDefault(); }
   else if(e.key==='Enter'&&idx<N&&!estado.visor&&(t===rail||t===document.body)){abreVisor(idx);e.preventDefault()}
 });
 

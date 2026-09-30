@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Portafolio Arq. Carlos Espinoza</title>
-<meta name="description" content="Portafolio de Carlos Espinoza, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
+<title>Portafolio Arq. Carlos Francisco Espinoza Manzo</title>
+<meta name="description" content="Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
 <meta name="theme-color" content="#0D0D0D">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D0D0D'/%3E%3Cpath d='M14 50V14h12l12 22V14h12v36H38L26 28v22z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://arq-carlos-espinoza.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
-<meta property="og:title" content="Portafolio Arq. Carlos Espinoza">
-<meta property="og:description" content="Portafolio de Carlos Espinoza, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
+<meta property="og:title" content="Portafolio Arq. Carlos Francisco Espinoza Manzo">
+<meta property="og:description" content="Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
 <meta property="og:url" content="https://arq-carlos-espinoza.vercel.app/">
 <meta property="og:image" content="https://arq-carlos-espinoza.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Portafolio Arq. Carlos Espinoza">
-<meta name="twitter:description" content="Portafolio de Carlos Espinoza, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
+<meta name="twitter:title" content="Portafolio Arq. Carlos Francisco Espinoza Manzo">
+<meta name="twitter:description" content="Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.">
 <meta name="twitter:image" content="https://arq-carlos-espinoza.vercel.app/og.jpg">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -354,7 +354,7 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol>
 </defs></svg>
 <header class="top" id="top">
-  <span class="who">Arq. Carlos Espinoza</span>
+  <span class="who">Arq. Carlos Francisco Espinoza Manzo</span>
   <span class="prog num" id="prog" aria-live="polite"><b>01</b> / 04</span>
   <button class="btn lab" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button>
 </header>
@@ -368,7 +368,7 @@ body:has(.slide.abierta) .nav{display:none}
   <div class="head"><span class="mono muted">Portafolio de arquitectura · Rev. 2026</span><button class="btn lab-big" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button></div>
   <div class="mid">
     <div class="oficio">Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</div>
-    <h1 class="nombre">Carlos<br>Espinoza<br>Manzo</h1>
+    <h1 class="nombre">Carlos Francisco<br>Espinoza Manzo</h1>
   </div>
   <div class="foot"><button class="btn solid" type="button" id="iniciar">Iniciar recorrido espacial →</button><span class="mono muted">Desliza ↓ para iniciar</span></div>
 </section>
@@ -1427,9 +1427,14 @@ rail.addEventListener('click',function(e){ var b=e.target.closest('[data-obra]')
 /* teclado global */
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){ if(estado.lab){cierraLab();e.preventDefault();return} if(estado.visor){cierraVisor();e.preventDefault();return} return; }
-  if(estado.umbral||estado.lab) return;
+  if(e.defaultPrevented||estado.umbral||estado.lab) return;
   var t=e.target; if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||(t.closest&&t.closest('#visor'))))return;
-  if(e.key==='ArrowRight'){ir(idx+1);e.preventDefault()} else if(e.key==='ArrowLeft'){ir(idx-1);e.preventDefault()} else if(e.key==='ArrowUp'&&idx===0){volverPortada();e.preventDefault()}
+  if(e.altKey||e.ctrlKey||e.metaKey) return;
+  var sig=e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||(e.key===' '&&!(t&&(t.tagName==='BUTTON'||t.tagName==='A'))), ant=e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp';
+  if(sig){ ir(idx+1); e.preventDefault(); }
+  else if(ant){ if(idx===0) volverPortada(); else ir(idx-1); e.preventDefault(); }
+  else if(e.key==='Home'){ ir(0); e.preventDefault(); }
+  else if(e.key==='End'){ ir(total-1); e.preventDefault(); }
   else if(e.key==='Enter'&&idx<N&&!estado.visor&&(t===rail||t===document.body)){abreVisor(idx);e.preventDefault()}
 });
 
