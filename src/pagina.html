@@ -332,6 +332,7 @@ body:has(.slide.abierta) .nav{display:none}
 .ap[open]{background:rgba(255,255,255,.03)}
 .stg .fr{position:absolute;inset:auto;width:auto;height:auto;padding:0;object-fit:fill;border-radius:var(--r-m);box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06)}
 .slide .info .wbtns .btn{border-radius:var(--r-s)}
+.stg .fr.cubre{border-radius:0;box-shadow:none}
 @media (min-width:901px){
  .info-p,.ctl{left:12px;top:12px;bottom:12px;width:calc(var(--pw) - 12px);border-radius:var(--r);border:1px solid var(--border-color);box-shadow:0 20px 60px rgba(0,0,0,.45)}
  .info-p{padding-top:24px}
@@ -341,6 +342,39 @@ body:has(.slide.abierta) .nav{display:none}
  .stg .nav-f.s{right:20px}
 }
 @media (max-width:900px){.info-p,.ctl{border-radius:var(--r-m) var(--r-m) 0 0}}
+
+/* panel de demos: Metric.arq al frente, todo en dos pantallas */
+.mq{border:1px solid var(--text-muted);border-radius:var(--r);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));padding:clamp(16px,2.4vw,28px);display:flex;flex-direction:column;gap:18px}
+.mq-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 28px;flex-wrap:wrap}
+.mq-head h3{margin:4px 0 8px;font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1}
+.mq-head p{margin:0;max-width:56ch;color:var(--text-muted);font-size:15px}
+.mq-tabs button{min-height:46px;padding:8px 18px;font-size:12px}
+.mq-body[hidden]{display:none}
+.mq .demo{padding:0;background:transparent}
+.mq .demo>.dtop{justify-content:flex-end}
+.mq .demo>.dtop .mono{display:none}
+.mq .calc{border-color:var(--border-color)}
+.mq-que summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);min-height:40px;display:flex;align-items:center}
+.mq-que summary:hover{color:var(--text-main)}
+.mq-que ol{margin:8px 0 6px;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mq-que li{border-left:2px solid var(--border-color);padding-left:12px;font-size:14px;color:var(--text-main)}
+.mq-que .res{margin:8px 0 0;font-size:14px;color:var(--text-muted)}
+@media (max-width:760px){.mq-que ol{grid-template-columns:1fr}}
+.mq .vista[data-v="probar"]{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.mq .col-a,.mq .col-b{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media (min-width:901px){.mq .vista[data-v="probar"]{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:start}}
+.otros{display:flex;flex-direction:column;gap:14px}
+.dps{border:1px solid var(--border-color);border-radius:var(--r-m);background:rgba(255,255,255,.02)}
+.dps>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 18px;min-height:56px;font-size:15px;font-weight:700}
+.dps>summary::-webkit-details-marker{display:none}
+.dps>summary span{flex:1;min-width:0}
+.dps>summary i{font-style:normal;font-family:var(--mono);font-size:20px;color:var(--text-muted);transition:transform .5s var(--ease)}
+.dps[open]>summary i{transform:rotate(45deg)}
+.dps .demo{padding:4px 18px 20px;background:transparent}
+.dps .demo>.dtop .mono{display:none}
+.prs{margin-bottom:2px}
+.prs .lb{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);align-self:center;margin-right:2px}
+.labw{gap:26px;padding-top:24px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -433,9 +467,16 @@ body:has(.slide.abierta) .nav{display:none}
 <aside class="labp" id="lab" role="dialog" aria-modal="true" aria-labelledby="lab-t">
   <div class="labh"><span class="mono" id="lab-t">DEMOS / CÓDIGO</span><button class="btn" type="button" id="lab-cerrar">[ Esc / cerrar ]</button></div>
   <div class="labw">
-    <p class="labintro">Son herramientas propias, aquí en versión de prueba. Mueve los deslizadores, cambia una opción o toca un ejemplo y el resultado se recalcula al momento. Cada demo tiene su pestaña «Cómo funciona» con las fórmulas y la norma que usa.</p>
-    <section aria-labelledby="calc-t" id="calc">
-      <div class="sec-t"><h3 id="calc-t"><svg class="ic" aria-hidden="true"><use href="#i-calc"/></svg>Calculadora de instalaciones</h3><span class="mono muted">Módulo de Metric.arq</span></div>
+    <section class="mq" aria-labelledby="mq-t">
+      <div class="mq-head">
+        <div><span class="mono muted">Prototipo funcional · pruébalo</span><h3 id="mq-t">Metric.arq</h3>
+          <p>Del modelo de Revit al costo, el calendario y las instalaciones. Elige una herramienta, mueve un control o toca un ejemplo y el resultado cambia al instante.</p></div>
+        <div class="seg mq-tabs" role="group" aria-label="Herramienta de Metric.arq">
+          <button type="button" data-mq="calc" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-calc"/></svg>Instalaciones</button>
+          <button type="button" data-mq="muro" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Muro de block</button>
+        </div>
+      </div>
+      <div class="mq-body" data-mq="calc">
       <div class="calc">
         <div class="calc-tabs" role="tablist" aria-label="Instalación a calcular">
           <button type="button" role="tab" data-c="agua" aria-selected="true"><svg class="ic" aria-hidden="true"><use href="#i-gota"/></svg>Agua</button>
@@ -485,14 +526,13 @@ body:has(.slide.abierta) .nav{display:none}
           <span class="mono muted">Revisión preliminar · no sustituye el proyecto firmado</span>
         </div>
       </div>
-    </section>
-    <section aria-labelledby="dm-t">
-      <div class="sec-t"><h3 id="dm-t"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>Más demos</h3></div>
-      <div class="demos">
+      </div>
+      <div class="mq-body" data-mq="muro" hidden>
         <div class="demo" id="demo-pu">
-          <div class="dtop"><span class="mono muted"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Metric.arq</span>
+          <div class="dtop"><span class="mono muted"><svg class="ic" aria-hidden="true"><use href="#i-muro"/></svg>Costo de un muro armado</span>
             <div class="seg" role="group" aria-label="Vista del demo"><button type="button" data-v="probar" aria-pressed="true">Probar</button><button type="button" data-v="como" aria-pressed="false">Cómo funciona</button></div></div>
           <div class="vista" data-v="probar">
+            <div class="col-a">
             <h4>Muro de block armado</h4>
             <div><div class="big num" id="pu-total">$44,890</div><span class="mono muted">sin IVA</span></div>
             <svg class="dib" id="pu-svg" viewBox="0 0 400 200" role="img" aria-label="Elevación del muro con su cimentación, castillos y dalas de cerramiento, junto a una persona"></svg>
@@ -500,10 +540,13 @@ body:has(.slide.abierta) .nav{display:none}
             <label class="rng" for="pu-l"><span class="lbl">Longitud <output id="pu-lo">12 m</output></span><input id="pu-l" type="range" min="2" max="40" step="0.5" value="12"></label>
             <label class="rng" for="pu-h"><span class="lbl">Altura <output id="pu-ho">3 m</output></span><input id="pu-h" type="range" min="2" max="6" step="0.1" value="3"></label>
             <div class="chips" role="group" aria-label="Muros de ejemplo"><button type="button" data-m="3,3">3 × 3 m</button><button type="button" data-m="6,3">6 × 3 m</button><button type="button" data-m="12,3">12 × 3 m</button><button type="button" data-m="30,3">30 × 3 m</button><button type="button" data-m="12,5">12 × 5 m</button></div>
+            </div>
+            <div class="col-b">
             <div class="stats3 stats4"><div><b id="pu-block">1,418</b><span>Blocks</span></div><div><b id="pu-cast">6</b><span>Castillos</span></div><div><b id="pu-jor">12</b><span>Jornadas</span></div><div><b id="pu-hh">190</b><span>Horas-hombre</span></div></div>
             <div class="desg" id="pu-desg"></div>
             <div class="split" id="pu-split" role="img" aria-label="Reparto del costo directo"><i id="pu-sm" style="width:50%;background:#E6E6E6"></i><i id="pu-so" style="width:48%;background:#888"></i><i id="pu-sh" style="width:2%;background:#444"></i></div>
             <div class="legend"><span><i style="background:#E6E6E6"></i>Material</span><span><i style="background:#888"></i>Mano de obra</span><span><i style="background:#444"></i>Herramienta</span></div>
+            </div>
           </div>
           <div class="vista" data-v="como" hidden>
             <h4>Cómo funciona</h4>
@@ -517,6 +560,12 @@ body:has(.slide.abierta) .nav{display:none}
             </ul>
           </div>
         </div>
+      </div>
+      <details class="mq-que" id="mq-que"></details>
+    </section>
+    <section class="otros" aria-labelledby="ot-t">
+      <div class="sec-t"><h3 id="ot-t"><svg class="ic" aria-hidden="true"><use href="#i-codigo"/></svg>Otros desarrollos</h3><span class="mono muted">Con código</span></div>
+      <details class="dps"><summary><svg class="ic" aria-hidden="true"><use href="#i-rollo"/></svg><span>Probar el demo de Mr. Pasto: cuántos rollos de pasto comprar</span><i aria-hidden="true">+</i></summary>
         <div class="demo" id="demo-ps">
           <div class="dtop"><span class="mono muted"><svg class="ic" aria-hidden="true"><use href="#i-rollo"/></svg>Mr. Pasto</span>
             <div class="seg" role="group" aria-label="Vista del demo"><button type="button" data-v="probar" aria-pressed="true">Probar</button><button type="button" data-v="como" aria-pressed="false">Cómo funciona</button></div></div>
@@ -539,10 +588,7 @@ body:has(.slide.abierta) .nav{display:none}
             </ul>
           </div>
         </div>
-      </div>
-    </section>
-    <section aria-labelledby="ap-t">
-      <div class="sec-t"><h3 id="ap-t"><svg class="ic" aria-hidden="true"><use href="#i-codigo"/></svg>Apéndice: desarrollos &amp; código</h3></div>
+      </details>
       <div id="apps"></div>
     </section>
   </div>
@@ -986,7 +1032,7 @@ var APPS=[
  {n:'02',nombre:'Metric.arq',icono:'metric',estado:'Prototipo funcional',stack:'Revit · Dynamo · Python · GuBIMClass',
   problema:'Pasar de un modelo de Revit a un costo y un calendario de obra obliga a volver a medir y a capturar todo a mano.',
   pasos:[['Se clasifica el modelo.','Cada elemento recibe su código GuBIMClass y se ubica por ejes y niveles.'],['Se presupuesta y se programa.','Un catálogo de precios unitarios propio da el costo, y la ruta crítica da el calendario y el flujo de efectivo.'],['Se controlan los cambios.','Al comparar versiones del modelo, la herramienta redacta borradores de notas de bitácora conforme a la ley estatal.']],
-  res:'Probado con una casa de dos plantas con todas sus instalaciones, verificada por un camino independiente. Pensado desde la obra pública estatal. Incluye la calculadora de instalaciones: pruébala en el Lab.'},
+  res:'Probado con una casa de dos plantas con todas sus instalaciones, verificada por un camino independiente. Pensado desde la obra pública estatal. Incluye la calculadora de instalaciones y el costo de un muro armado: pruébalos aquí arriba.'},
  {n:'03',nombre:'Em Dental',icono:'diente',estado:'En producción',stack:'Next.js · Supabase · Vercel · n8n',
   problema:'Un consultorio de ortodoncia necesita captar pacientes nuevos y llevar en un solo lugar la agenda, el expediente y los presupuestos.',
   pasos:[['Llega el paciente.','Hace una valoración en línea desde el sitio público y llega al panel como prospecto.'],['Se le atiende.','Se agenda la cita y se abre su expediente, con odontograma, historial de tratamiento y pagos.'],['Se le cotiza.','El presupuesto se imprime o se envía por WhatsApp desde el mismo panel.']],
@@ -1455,7 +1501,7 @@ function cargaModelo(o){
   V.tyBase=V.orb.t.y; V.maxOff=Math.max(0,m.ey(b.mx[1])); V.tPrev=0;
   $('#despiece').value=0; $('#corte').value=0; aplicaDespiece(); aplicaCorte(); ponHora(12); tam();
 }
-var CIELO=[[8,{top:'#26324a',hor:'#b9825e',sol:0xffd2a1,si:.95,hs:0x8b93a8,hg:0x2a211c,hi:.4,fill:0x9fb4dc}],[12,{top:'#22375a',hor:'#7f95b6',sol:0xfff3e0,si:1.5,hs:0xa9bbd6,hg:0x2d2d2f,hi:.5,fill:0x8fa6d8}],[17,{top:'#1f2238',hor:'#cf774a',sol:0xff9a5c,si:1.0,hs:0x8a7f9a,hg:0x2a1e1a,hi:.36,fill:0x7d86c4}]];
+var CIELO=[[8,{top:'#242b3a',hor:'#8c857b',sol:0xffe4c6,si:.95,hs:0x8a90a0,hg:0x25211e,hi:.4,fill:0x9aa8c8}],[12,{top:'#232f45',hor:'#738199',sol:0xfff6ea,si:1.5,hs:0xa2aec2,hg:0x2b2b2d,hi:.5,fill:0x93a5cc}],[17,{top:'#22252f',hor:'#978072',sol:0xffd3ac,si:1.0,hs:0x8a8494,hg:0x27201d,hi:.36,fill:0x8189b0}]];
 function mezcla(a,b,t){ var A=new THREE.Color(a),B=new THREE.Color(b); return A.lerp(B,t); }
 function estiloHora(h){
   var k0=CIELO[0],k1=CIELO[1],t; if(h<=8){k1=k0;t=0} else if(h<=12){t=(h-8)/4} else if(h<17){k0=CIELO[1];k1=CIELO[2];t=(h-12)/5} else {k0=k1=CIELO[2];t=0}
@@ -1536,7 +1582,10 @@ function abreVisor(i,w){
      '<div class="pie"><span id="f-cap">'+esc(o.fotos[0][1])+'</span><span id="f-n">1 / '+N3+'</span></div></div></div>';
   $('#pn3').innerHTML=stage+'<div class="info-p">'+info+'</div>';
   $('#stg-a0').onload=function(){ ajustaFr(this); }; $('#stg-a0').src='photos/'+o.fotos[0][0]+'.jpg'; $('#stg-f0').src='photos/'+o.fotos[0][0]+'.jpg';
-  function ajustaFr(im){ var sg=$('#stg'); if(!sg||!im||!im.naturalWidth) return; var ip=$('.info-p',$('#pn3')), pw=innerWidth>900&&ip?ip.offsetWidth+12:0, aw=sg.clientWidth-pw-36, ah=sg.clientHeight-(innerWidth>900?112:100)-18, k=Math.min(aw/im.naturalWidth,ah/im.naturalHeight,1), w=im.naturalWidth*k, h=im.naturalHeight*k; im.style.width=w+'px'; im.style.height=h+'px'; im.style.left=(pw+18+(aw-w)/2)+'px'; im.style.top=(18+(ah-h)/2)+'px'; }
+  function ajustaFr(im){ var sg=$('#stg'); if(!sg||!im||!im.naturalWidth) return; var nw=im.naturalWidth, nh=im.naturalHeight, W=sg.clientWidth, Hs=sg.clientHeight, kc=Math.max(W/nw,Hs/nh), cw=nw*kc, ch=nh*kc;
+  /* si la foto cubre toda la ventana recortando poco y sin ampliarse de más, va a pantalla completa; si no, se encaja entera con esquinas redondeadas */
+  if(kc<=1.15&&1-(W*Hs)/(cw*ch)<=.32){ im.classList.add('cubre'); im.style.width=cw+'px'; im.style.height=ch+'px'; im.style.left=((W-cw)*.7)+'px'; im.style.top=((Hs-ch)*.5)+'px'; return; }
+  im.classList.remove('cubre'); var ip=$('.info-p',$('#pn3')), pw=innerWidth>900&&ip?ip.offsetWidth+12:0, aw=W-pw-36, ah=Hs-(innerWidth>900?112:100)-18, k=Math.min(aw/nw,ah/nh,1), w=nw*k, h=nh*k; im.style.width=w+'px'; im.style.height=h+'px'; im.style.left=(pw+18+(aw-w)/2)+'px'; im.style.top=(18+(ah-h)/2)+'px'; }
   function foto(k){
     fotoK=(k+N3)%N3; var f=o.fotos[fotoK], src='photos/'+f[0]+'.jpg', nx=1-slot, a=$('#stg-a'+nx), b=$('#stg-f'+nx), a0=$('#stg-a'+slot), b0=$('#stg-f'+slot);
     a.alt=f[2]; a.onload=function(){ a.onload=null; ajustaFr(a); a.classList.add('on'); b.classList.add('on'); a0.classList.remove('on'); b0.classList.remove('on'); }; b.src=src; a.src=src; slot=nx;
@@ -1573,7 +1622,7 @@ document.addEventListener('keydown',function(e){
 });
 
 /* ================= LAB ================= */
-$('#apps').innerHTML=APPS.map(function(a){
+$('#apps').innerHTML=APPS.filter(function(a){return a.nombre!=='Metric.arq'}).map(function(a){
   return '<details class="ap"><summary><span class="n">'+a.n+'</span><span class="nm">'+ic(a.icono)+esc(a.nombre)+'</span><span class="sk">'+esc(a.stack)+'</span><span class="st">'+esc(a.estado)+' +</span></summary>'+
    '<div class="cuerpo"><div><span class="k">El problema</span><p class="p">'+esc(a.problema)+'</p><span class="k">Cómo funciona</span><ol>'+a.pasos.map(function(p){return '<li><span><b>'+esc(p[0])+'</b> '+esc(p[1])+'</span></li>'}).join('')+'</ol><p class="res">'+esc(a.res)+'</p><span class="sk mono muted">'+esc(a.stack)+'</span>'+
    (a.link?'<a class="btn" style="align-self:flex-start" href="'+a.link+'" target="_blank" rel="noopener noreferrer">Abrir '+a.link.replace('https://','')+' ↗</a>':'')+'</div></div></details>';
@@ -1637,6 +1686,18 @@ $$('[data-m]').forEach(function(b){b.addEventListener('click',function(){var v=b
 $$('[data-t]').forEach(function(b){b.addEventListener('click',function(){var t=b.dataset.t.split('x'); $('#ps-l').value=t[0]; $('#ps-a').value=t[1]; ps()})});
 $$('.demo .seg button').forEach(function(b){b.addEventListener('click',function(){ var demo=b.closest('.demo'); $$('.seg button',demo).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')}); $$('.vista',demo).forEach(function(v){v.hidden=v.dataset.v!==b.dataset.v}); })});
 pintaDemos();
+
+/* Metric.arq: pestañas entre herramientas, «qué hace» y ejemplos con un toque */
+(function(){
+  var MQ=APPS.filter(function(a){return a.nombre==='Metric.arq'})[0];
+  if(MQ) $('#mq-que').innerHTML='<summary>Qué hace Metric.arq</summary><ol>'+MQ.pasos.map(function(q){return '<li><b>'+esc(q[0])+'</b> '+esc(q[1])+'</li>'}).join('')+'</ol><p class="res">'+esc(MQ.res)+'</p>';
+  $$('.mq-tabs button').forEach(function(b){ b.addEventListener('click',function(){ $$('.mq-tabs button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')}); $$('.mq-body').forEach(function(c){ c.hidden=c.dataset.mq!==b.dataset.mq; }); }); });
+  function pon(ids,vals){ ids.forEach(function(id,i){ var e=$('#'+id); e.value=vals[i]; e.dispatchEvent(new Event('input',{bubbles:true})); }); }
+  function ejemplos(pane,titulo,lista,ids){ var d=document.createElement('div'); d.className='chips prs'; d.setAttribute('role','group'); d.setAttribute('aria-label',titulo); d.innerHTML='<span class="lb">'+titulo+'</span>'+lista.map(function(x,k){return '<button type="button" data-k="'+k+'">'+x[0]+'</button>'}).join('');
+    $$('button',d).forEach(function(b){ b.addEventListener('click',function(){ pon(ids,lista[+b.dataset.k][1]); }); }); var cin=$('.cpane[data-c="'+pane+'"] .cin'); cin.insertBefore(d,cin.firstChild); }
+  ejemplos('agua','Ejemplos',[['Depa 70 m²',[70,2,1]],['Casa 160 m²',[160,3,3]],['Casa 300 m²',[300,4,4]]],['c-m2','c-rec','c-ban']);
+  ejemplos('ac','Ejemplos',[['Recámara 14 m²',[14,2,2]],['Sala 30 m²',[30,5,6]]],['c-aa','c-ap','c-av']);
+})();
 
 
 /* ================= CALCULADORA (módulo de Metric.arq) ================= */
