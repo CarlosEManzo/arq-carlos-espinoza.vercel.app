@@ -1,3 +1,5 @@
 src
 tools
 README.md
+.env*
+.vercel
