@@ -139,6 +139,7 @@ body:has(.slide.abierta) .nav{bottom:calc(min(70vh,660px) + 14px)}
 .slide .info{max-width:none}
 .slide .info>*:not(.wbtns){max-width:1100px}
 .wbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px;width:100%}
+.wbtns.dos{grid-template-columns:repeat(2,minmax(0,1fr))}
 .wbtns .btn{min-height:54px;padding:0 22px;justify-content:center;width:100%}
 @media (max-width:600px){.wbtns .btn{padding:0 6px;font-size:11px;gap:6px}}
 .wbtns .btn[aria-pressed="true"]{background:var(--accent);color:var(--bg-dark);border-color:var(--accent)}
@@ -425,6 +426,7 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-teleferico" viewBox="0 0 24 24"><path d="M2 6l20 3 M12 7.5v3 M8 10.5h8v6.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1z M8 14h8"/></symbol>
 <symbol id="i-nave" viewBox="0 0 24 24"><path d="M2.5 20.5V10l5 3.5V10l5 3.5V10l5 3.5V5h3.5v15.5z M6 20.5v-3h3v3 M12 20.5v-3h3v3"/></symbol>
 <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11.5l9-8 9 8 M5.5 10v10.5h13V10 M10 20.5v-5.5h4v5.5"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M10 9l5 3-5 3z"/></symbol>
 <symbol id="i-bim" viewBox="0 0 24 24"><path d="M3.5 5h17 M3.5 12h17 M3.5 19h17 M6.5 5v14 M12 5v14 M17.5 5v14 M4 2.5h3 M17 21.5h3"/></symbol>
 <symbol id="i-lab" viewBox="0 0 24 24"><path d="M9 3h6 M10 3v6l-5.2 9.2A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-2.8L14 9V3 M7.5 15h9"/></symbol>
 <symbol id="i-pasto" viewBox="0 0 24 24"><path d="M3 20.5h18 M6.5 20.5c0-5 .8-9 2-14 M12 20.5c0-6 0-10 0-16 M17.5 20.5c0-5-.8-9-2-14"/></symbol>
@@ -1047,6 +1049,7 @@ var OBRAS=[
    ['casa-01','Fachada en obra','Fachada de casa habitación en construcción, acabado blanco'],['casa-02','Render de la propuesta','Render 3D de la propuesta de casa habitación'],['casa-03','Fachada, otro ángulo','Otro ángulo de la fachada de la casa habitación en obra']]},
  {id:'bim',icono:'bim',n:'04',titulo:'Proyectos BIM',anio:'2024–2025',empresa:'Métrica Estudio',tipo:'BIM · renders',rol:'Arquitecto freelance',
   meta:'2024–2025 | 5 proyectos | Revit · renders',cifras:[['5','Proyectos'],['3','Clientes'],['MEP','Coordinado']],modelo:'bim',
+  enlaces:[['Recorrido del Loft 6×15 (video)','play','recorrido/'],['Dashboard BIM completo','bim','dashboard/']],
   texto:'Cinco proyectos en Revit con metodología BIM para tres clientes, residenciales y comerciales, con renders y recorridos virtuales para vender y validar cada propuesta. La galería reúne renders de la Casa Colibrí y modelos y planos de la Casa Valenciano y las Canchas Sofía.',
   heroes:['hero-bim-1','hero-bim-3','hero-bim-2'],
   fotos:[['ren-03','Casa Colibrí · recámara','Render de una recámara con cama, ventanal hacia la alberca y vestidor'],
@@ -1089,7 +1092,9 @@ rail.innerHTML=OBRAS.map(function(o,i){
    '<div class="wbtns" role="group" aria-label="Monografía de '+esc(o.titulo)+'">'+
    '<button class="btn solid" type="button" data-obra="'+i+'" data-w="3" aria-pressed="false">'+ic('memoria')+'Información</button>'+
    '<button class="btn" type="button" data-obra="'+i+'" data-w="1" aria-pressed="false">'+ic('cubo')+'Maqueta 3D</button>'+
-   '<button class="btn" type="button" data-obra="'+i+'" data-w="2" aria-pressed="false">'+ic('plano')+'Planos</button></div></div></article>';
+   '<button class="btn" type="button" data-obra="'+i+'" data-w="2" aria-pressed="false">'+ic('plano')+'Planos</button></div>'+
+   (o.enlaces?'<div class="wbtns dos" role="group" aria-label="Recorrido y dashboard de '+esc(o.titulo)+'">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+
+   '</div></article>';
 }).join('')+
 '<article class="slide contacto" data-i="'+N+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
  '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><span class="v" id="mail">arqcarlosem@gmail.com</span><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
@@ -1607,7 +1612,7 @@ function abreVisor(i,w){
   $('#v-cod').textContent=o.n+' / 04'; $('#v-titulo').textContent=o.titulo;
   var modelo=MODELOS[o.modelo](); V.plan={o:o,modelo:modelo,ip:0}; V.act={}; sistemasDe(modelo).forEach(function(k){V.act[k]=true}); pintaChips(modelo); $('#v-ico').innerHTML=ic(o.icono); pintaPlanos();
   var N3=o.fotos.length, fotoK=0, slot=0;
-  var info='<div class="txt"><span class="mono muted">'+esc(o.tipo)+' · '+esc(o.anio)+'</span><p>'+esc(o.texto)+'</p><dl class="dl"><dt>Rol</dt><dd>'+esc(o.rol)+'</dd>'+(o.empresa?'<dt>Empresa</dt><dd>'+esc(o.empresa)+'</dd>':'')+'<dt>Tipo</dt><dd>'+esc(o.tipo)+'</dd><dt>Año</dt><dd>'+esc(o.anio)+'</dd>'+o.cifras.map(function(c){return '<dt>'+esc(c[1])+'</dt><dd class="num">'+esc(c[0])+'</dd>'}).join('')+'</dl></div>';
+  var info='<div class="txt"><span class="mono muted">'+esc(o.tipo)+' · '+esc(o.anio)+'</span><p>'+esc(o.texto)+'</p><dl class="dl"><dt>Rol</dt><dd>'+esc(o.rol)+'</dd>'+(o.empresa?'<dt>Empresa</dt><dd>'+esc(o.empresa)+'</dd>':'')+'<dt>Tipo</dt><dd>'+esc(o.tipo)+'</dd><dt>Año</dt><dd>'+esc(o.anio)+'</dd>'+o.cifras.map(function(c){return '<dt>'+esc(c[1])+'</dt><dd class="num">'+esc(c[0])+'</dd>'}).join('')+'</dl>'+(o.enlaces?'<div class="wbtns dos" style="margin-top:18px">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+'</div>';
   var stage='<div class="stg" id="stg" tabindex="0" role="group" aria-roledescription="carrusel" aria-label="Fotos de '+esc(o.titulo)+'">'+
     '<img class="fondo on" id="stg-f0" alt="" aria-hidden="true"><img class="fondo" id="stg-f1" alt="" aria-hidden="true">'+
     '<img class="fr on" id="stg-a0" alt="'+esc(o.fotos[0][2])+'" decoding="async"><img class="fr" id="stg-a1" alt="" decoding="async">'+
