@@ -290,7 +290,7 @@ rail.addEventListener('scroll',function(){lee();if(!corriendo){corriendo=true;re
 var PORT0=1.2,PORT1=5.0;var EMB=/[?&]embed=1/.test(location.search)||window.self!==window.top; if(EMB)document.body.classList.add('emb');
 var AUTO={on:false,raf:0,t:0};
 function autoPara(){AUTO.on=false;}
-function autoPaso(ts){if(!AUTO.on)return;var dt=Math.min(.1,(ts-AUTO.t)/1000||0);AUTO.t=ts;var fin=maxVideo()+PANT_CIERRE*VW()*0.9,dur=(META&&META.dur)||105;var fa=Math.min(META.n-1,Math.ceil(AUTO.x/maxVideo()*(META.n-1))+Math.round((META.n-1)/dur*1.5));if(img[fa]===undefined&&AUTO.x<maxVideo()){if(cargaPaso)cargaPaso();AUTO.raf=requestAnimationFrame(autoPaso);return;}AUTO.x+=maxVideo()/dur*dt;
+function autoPaso(ts){if(!AUTO.on){programaReposo();return;}var dt=Math.min(.1,(ts-AUTO.t)/1000||0);AUTO.t=ts;var fin=maxVideo()+PANT_CIERRE*VW()*0.9,dur=(META&&META.dur)||105;var fa=Math.min(META.n-1,Math.ceil(AUTO.x/maxVideo()*(META.n-1))+Math.round((META.n-1)/dur*1.5));if(img[fa]===undefined&&AUTO.x<maxVideo()){if(cargaPaso)cargaPaso();AUTO.raf=requestAnimationFrame(autoPaso);return;}AUTO.x+=maxVideo()/dur*dt;
   if(AUTO.x>=fin){AUTO.x=fin;rail.scrollLeft=fin;AUTO.on=false;return;}rail.scrollLeft=AUTO.x;AUTO.raf=requestAnimationFrame(autoPaso);}
 function autoInicia(desde0){if(!META||AUTO.on)return;var fin=maxVideo()+PANT_CIERRE*VW()*0.9;if(desde0||rail.scrollLeft>=fin-VW()*.2)rail.scrollLeft=0;AUTO.x=rail.scrollLeft;AUTO.on=true;AUTO.t=performance.now();AUTO.raf=requestAnimationFrame(autoPaso);}
 $('#salir').addEventListener('click',function(){autoPara();avisa('next');});
@@ -303,9 +303,21 @@ rail.addEventListener('wheel',function(e){if(Math.abs(e.deltaX)>Math.abs(e.delta
   if(EMB&&e.deltaY>0&&rail.scrollLeft>=fin-VW()*.05){avisa('next');return;}
   rail.scrollLeft+=e.deltaY*(e.deltaMode===1?32:1);},{passive:false});
 addEventListener('keydown',function(e){if(['ArrowRight','ArrowLeft','PageDown','PageUp',' '].indexOf(e.key)>=0){autoPara();var fin0=maxVideo()+PANT_CIERRE*VW()*0.9;if(EMB&&(e.key==='ArrowLeft'||e.key==='PageUp')&&rail.scrollLeft<=2){e.preventDefault();avisa('prev');return;}if(EMB&&(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')&&rail.scrollLeft>=fin0-VW()*.05){e.preventDefault();avisa('next');return;}}var w=VW()*0.5;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();rail.scrollBy({left:w,behavior:'smooth'});}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();rail.scrollBy({left:-w,behavior:'smooth'});}if(e.key==='Home')rail.scrollTo({left:0,behavior:'smooth'});if(e.key==='End')rail.scrollTo({left:1e6,behavior:'smooth'});});
+/* ---- reposo: al detenerse el scroll se busca el siguiente cuadro CON DEFINICIÓN (1080p) y se dibuja exacto, sin mezcla ---- */
+var hdTim=0,hdSet=null,hdImg={},hdActual=-1;
+function hdCerca(f){if(!META||!META.hd)return -1;if(!hdSet){hdSet=new Set(META.hd.ids);META.hd.ids.sort(function(a,b){return a-b;});}
+  var i=Math.round(f);for(var d=0;d<2;d++){if(hdSet.has(i+d))return i+d;if(d&&hdSet.has(i-d))return i-d;}return -1;}
+function reposo(){if(!META)return;var id=hdCerca(frame);if(id<0){ult=-1;frame=Math.round(frame);dibuja(true);return;}
+  var fin=function(im){if(hdTok!==tok)return;hdActual=id;ctx.globalAlpha=1;pinta(im);};var tok=++hdTok;
+  if(hdImg[id]&&hdImg[id].complete&&hdImg[id].naturalWidth){fin(hdImg[id]);return;}
+  var im=new Image();im.decoding='async';im.onload=function(){hdImg[id]=im;fin(im);};im.src='frames_hd/h_'+('000'+id).slice(-4)+'.webp?v=14';
+  /* mientras llega, el cuadro normal exacto (sin fantasma de mezcla) */
+  ult=-1;var f0=frame;frame=Math.round(frame);dibuja(true);frame=f0;}
+var hdTok=0;
+function programaReposo(){clearTimeout(hdTim);hdTok++;hdTim=setTimeout(function(){if(!AUTO.on)reposo();},260);}
 function bucle(){if(cargaPaso)cargaPaso();actual+=(objetivo-actual)*(reduce?1:0.22);if(Math.abs(objetivo-actual)<0.4)actual=objetivo;
   var u=Math.max(0,Math.min(1,actual/maxVideo()));frame=META?u*(META.n-1):0;dibuja();escenas(u);
-  if(actual!==objetivo)requestAnimationFrame(bucle);else corriendo=false;}
+  if(actual!==objetivo)requestAnimationFrame(bucle);else{corriendo=false;programaReposo();}}
 
 /* ---------- HUD (la misma lógica de los gráficos motion del video) ---------- */
 var ease=function(x){return x<=0?0:x>=1?1:x*x*(3-2*x)},lerp=function(a,b,t){return a+(b-a)*t},dang=function(a,b){return((b-a+540)%360)-180};
