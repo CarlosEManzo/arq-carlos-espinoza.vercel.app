@@ -269,6 +269,7 @@ td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
 .kpis>div{background:#141517}
 .hs .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
 
+#drawer:not(.on),.sheet:not(.on){box-shadow:none}
 /* ---- apoyos gráficos del video ---- */
 .hrg{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(236,236,234,.55);display:grid;place-items:center;flex:none;background:rgba(14,15,16,.55);transition:border-color .3s,background .3s}
 .hrg svg{width:50%;height:50%;fill:none;stroke:var(--text);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -485,11 +486,11 @@ function money(n){return '$'+Math.round(n).toLocaleString('es-MX');}
 
 /* ---------- estancias ---------- */
 var PANOS={
- cochera:{img:'img/pano-cochera.jpg?v=7',n:'Cochera',d:'Acceso, arco de entrada, portón y vista hacia la doble altura',x:3.00,y:-2.40,yaw0:0,nivel:0,ic:'cochera'},
- sala:{img:'img/pano-sala.jpg?v=7',n:'Sala y doble altura',d:'TV, comedor y vitrina de plantas bajo la escalera, a la luz del día',x:3.40,y:2.60,yaw0:-90,nivel:0,ic:'sala'},
- cocina:{img:'img/pano-cocina.jpg?v=7',n:'Cocina',d:'Isla con barra, cocina corrida y alacenas de madera',x:2.10,y:3.90,yaw0:0,nivel:0,ic:'cocina'},
- jardin:{img:'img/pano-jardin.jpg?v=7',n:'Patio y asador',d:'Patio con asador, comedor exterior y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0,ic:'patio'},
- tapanco:{img:'img/pano-tapanco.jpg?v=7',n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1,ic:'tapanco'}};
+ cochera:{img:'img/pano-cochera.jpg?v=8',n:'Cochera',d:'Acceso, arco de entrada, portón y vista hacia la doble altura',x:3.00,y:-2.40,yaw0:0,nivel:0,ic:'cochera'},
+ sala:{img:'img/pano-sala.jpg?v=8',n:'Sala y doble altura',d:'TV, comedor y vitrina de plantas bajo la escalera, a la luz del día',x:3.40,y:2.60,yaw0:-90,nivel:0,ic:'sala'},
+ cocina:{img:'img/pano-cocina.jpg?v=8',n:'Cocina',d:'Isla con barra, cocina corrida y alacenas de madera',x:2.10,y:3.90,yaw0:0,nivel:0,ic:'cocina'},
+ jardin:{img:'img/pano-jardin.jpg?v=8',n:'Patio y asador',d:'Patio con asador, comedor exterior y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0,ic:'patio'},
+ tapanco:{img:'img/pano-tapanco.jpg?v=8',n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1,ic:'tapanco'}};
 var FOTOS={
  fachada:{img:'img/fachada.jpg',n:'Fachada',d:'Atardecer sobre la calle, con rampa de acceso',x:3.0,y:-3.6,nivel:0,ic:'fachada'},
  tv:{img:'img/tv.jpg',n:'Muro de TV',d:'Arte, iluminación cálida y pantalla Metric.arq',x:3.69,y:2.62,yaw:-107.8,nivel:0,ic:'noche'}};
@@ -523,7 +524,7 @@ function setVista(v){
   $('#pilln').textContent=VISTAS.filter(function(x){return x[0]===v})[0][1];
   $$('#pilll button').forEach(function(b){b.setAttribute('aria-current',b.dataset.v===v)}); $$('#dnav a').forEach(function(b){b.setAttribute('aria-current',b.dataset.v===v)});
   if(mod){esperaModelo(function(w){var s=w.__showroom;
-      ocultaCtl(w,v!=='maqueta');
+      ocultaCtl(w,v!=='maqueta');s.axo(true);
       if(v==='maqueta'){s.fase(null);s.capas(false);s.fijaModo('ext');}
       if(v==='obra'){s.capas(false);s.fijaModo('ext');s.cam({az:0.75,el:0.5,dist:(innerWidth<700?36:27),tgt:[3,-2.0,-8.2]});setFase(+$('#oslider').value/100);}
       if(v==='inst'){s.fase(null);s.fijaModo('ext');s.capas(true);s.cam({az:0.75,el:0.5,dist:(innerWidth<700?27:15),tgt:[3,2,-8.2]});pintaSis();}
@@ -596,7 +597,7 @@ $('#bfull').onclick=function(){var d=document,e=d.documentElement;if(d.fullscree
 
 /* ---------- hojas: estancias y plano ---------- */
 function listaEst(){
-  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=7"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
+  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=8"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
   $$('#estl .est').forEach(function(b){b.onclick=function(){muestra(b.dataset.id)};});
 }
 function hoja(id,btn){var s=$(id),o=!s.classList.contains('on');cierraHojas();if(o){s.classList.add('on');$(btn).setAttribute('aria-pressed','true');}}
@@ -606,7 +607,7 @@ var nivel=0,svgs={};
 function pintaPlan(){
   var cargar=function(n,cb){if(svgs[n]){cb(svgs[n]);return;}fetch(n===0?'planta-baja.svg':'planta-tapanco.svg').then(function(r){return r.text()}).then(function(t){svgs[n]=t;cb(t)}).catch(function(){cb('')});};
   cargar(nivel,function(t){
-    var P=$('#plan');P.innerHTML='';P.style.backgroundImage='url(img/'+(nivel===0?'plano-baja':'plano-tapanco')+'.jpg?v=7)';
+    var P=$('#plan');P.innerHTML='';P.style.backgroundImage='url(img/'+(nivel===0?'plano-baja':'plano-tapanco')+'.jpg?v=8)';
     ORDEN.forEach(function(id){var I=info(id);if((I.nivel||0)!==nivel)return;var px=(I.x+1.395)/8.788*100,py=(11.3-I.y)/16.6*100;
       if(py>100)py=96;
       var b=document.createElement('button');b.className='pin';b.dataset.id=id;b.style.left=px+'%';b.style.top=py+'%';b.setAttribute('aria-label',I.n);b.title=I.n;b.innerHTML='<svg viewBox="0 0 24 24"><use href="#i-pin"/></svg>';b.onclick=function(){muestra(id)};P.appendChild(b);});

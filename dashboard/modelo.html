@@ -1085,7 +1085,9 @@ function aplicaCielo(){
   var noche=dia<0.06;luces.forEach(function(l){l.intensity=noche?0.5:(dia<0.2?0.4:0);});rebotes.forEach(function(l){l.intensity=noche?0.14:(0.28+0.5*dia*(1-nube*0.4));});LAMP.emissive.set(noche?'#ffcf8a':'#000000');LAMP.emissiveIntensity=noche?0.65:0;glows.forEach(function(g){g.visible=noche||dia<0.2;});lamparas.forEach(function(l){l.material.color.set(noche?0xffe2a0:0x777770);});renderer.toneMappingExposure=noche?1.15:0.85;
   suelo.material.color.set(noche?'#15130f':'#4a4640');lluvia.visible=clima==='llu';
   $('#hora-t').textContent=('0'+Math.floor(hora)).slice(-2)+':'+('0'+Math.round((hora%1)*60)).slice(-2)+' · sol a '+Math.max(0,Math.round(el*180/Math.PI))+'°';
-  $('#clima-t').textContent=climas.filter(function(c){return c[0]===clima})[0][1];dirty=true;}
+  $('#clima-t').textContent=climas.filter(function(c){return c[0]===clima})[0][1];
+  if(AXO){scene.background=new T.Color('#ffffff');scene.fog=null;hemi.intensity=1.25;hemi.color.set('#ffffff');hemi.groundColor.set('#cfcfcd');sol.intensity=0.85;sol.color.set('#ffffff');sol.position.set(13,34,-1);suelo.material.color.set('#f4f4f2');renderer.toneMappingExposure=1.0;luces.forEach(function(l){l.intensity=0;});rebotes.forEach(function(l){l.intensity=0;});glows.forEach(function(g){g.visible=false;});lluvia.visible=false;}
+  dirty=true;}
 
 /* ---------------- cámaras y modos ---------------- */
 var modo='ext', nivel=0, selId=null, tgt=new T.Vector3(3,2.0,-6.5), az=0.38, el=0.5, dist=27, zoomO=1, panO=new T.Vector3(3,0,-8), yaw=0, pitch=0;
@@ -1094,7 +1096,7 @@ function setClip(y){cutY=y;renderer.clippingPlanes=y==null?[]:[new T.Plane(new T
 var DBG=null;
 function colocaCam(){
   if(DBG){cam=persp;persp.fov=DBG.fov||70;persp.position.copy(H(DBG.x,DBG.y,DBG.z));persp.up.set(0,1,0);var dd=new T.Vector3(Math.sin(DBG.yaw)*Math.cos(DBG.pitch||0),Math.sin(DBG.pitch||0),-Math.cos(DBG.yaw)*Math.cos(DBG.pitch||0));persp.lookAt(persp.position.clone().add(dd));cam.updateProjectionMatrix();dirty=true;return;}
-  if(modo==='ext'){cam=persp;persp.fov=40;persp.position.set(tgt.x+dist*Math.sin(az)*Math.cos(el),tgt.y+dist*Math.sin(el),tgt.z+dist*Math.cos(az)*Math.cos(el));persp.up.set(0,1,0);persp.lookAt(tgt);}
+  if(modo==='ext'){cam=persp;var fv=AXO?18:40,dd2=AXO?dist*2.3:dist;persp.fov=fv;var ke=AXO?0.43:1;etiquetas.forEach(function(e){e.scale.set(0.16*ke,0.032*ke,1);});persp.position.set(tgt.x+dd2*Math.sin(az)*Math.cos(el),tgt.y+dd2*Math.sin(el),tgt.z+dd2*Math.cos(az)*Math.cos(el));persp.up.set(0,1,0);persp.lookAt(tgt);}
   else if(modo==='plano'){cam=ortho;var asp=stage.clientWidth/stage.clientHeight,hh=9.2/zoomO;ortho.left=-hh*asp;ortho.right=hh*asp;ortho.top=hh;ortho.bottom=-hh;ortho.position.set(panO.x,30,panO.z);ortho.up.set(0,0,-1);ortho.lookAt(panO.x,0,panO.z);ortho.updateProjectionMatrix();}
   else{cam=persp;var r=D.recintos.filter(function(q){return q.id===selId})[0];if(r){var c=CAMS[selId]||centro(r);var z=(r.nivel==='Nivel-01'?2.7:0)+1.6;persp.position.copy(H(c[0],c[1],z));persp.fov=78;persp.up.set(0,1,0);var d=new T.Vector3(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),-Math.cos(yaw)*Math.cos(pitch));persp.lookAt(persp.position.clone().add(d));}}
   cam.updateProjectionMatrix();dirty=true;}
@@ -1107,9 +1109,46 @@ function visibilidad(){
     if(modo==='plano'&&rol==='plafon')vis=false;
     m.visible=vis; var mt=m.material; if(rol==='muro'||rol==='piso'||rol==='plafon'){ if(!m.userData.base)m.userData.base=mt; if(ghost&&modo!=='hab'){ if(!m.userData.gh){var gm=mt.clone();gm.transparent=true;gm.opacity=.07;gm.depthWrite=false;m.userData.gh=gm;} m.material=m.userData.gh; m.castShadow=false;} else {m.material=m.userData.base;m.castShadow=(rol!=='piso');} } });
   infraMeshes.forEach(function(m){m.visible=capasOn[m.userData.grupo]!==false&&anyInfra()||false;});
-  var inf=capasAct&&modo!=='plano';site.visible=!inf;Object.keys(mobil).forEach(function(k){mobil[k].visible=!inf;});suelo.visible=!inf;bordes.forEach(function(b){b.visible=inf;});etiquetas.forEach(function(e){e.visible=inf&&!LIMPIO;}); 
-  setClip(modo==='plano'?(nivel===0?1.7:5.0):null);if(faseP!=null)aplicaFase();dirty=true;}
-var faseP=null,LIMPIO=false;
+  var inf=capasAct&&modo!=='plano';site.visible=!inf;Object.keys(mobil).forEach(function(k){mobil[k].visible=!inf;});suelo.visible=!inf;bordes.forEach(function(b){b.visible=inf;});etiquetas.forEach(function(e,i){e.visible=inf&&!LIMPIO&&i<etiquetas.length-1;}); 
+  setClip(modo==='plano'?(nivel===0?1.7:5.0):null);if(faseP!=null)aplicaFase();axoPost();dirty=true;}
+var faseP=null,LIMPIO=false,AXO=false;
+/* ---------------- estilo axonométrico blanco ---------------- */
+var axoBase=null,axoOl=null,axoHid=[];var AXC={muro:'#f8f8f6',piso:'#ececea',plafon:'#f2f2f0',escalera:'#dddbd7',puerta:'#e3e1dd',azulejo:'#efefed',aparato:'#efefed',equipo:'#ededeb',disp:'#ededeb',mob:'#e2e2e0',site:'#dcdcda'},axoMat={},axoSaved=new Map(),axoLn=[],axoGh=null;
+function axoM(k){if(!axoMat[k])axoMat[k]=(k==='vidrio')?new T.MeshStandardMaterial({color:'#dde5ea',roughness:.15,metalness:0,transparent:true,opacity:.3,depthWrite:false}):new T.MeshStandardMaterial({color:AXC[k]||'#e4e4e2',roughness:1,metalness:0});return axoMat[k];}
+function axoGhost(){if(!axoGh)axoGh=new T.MeshStandardMaterial({color:'#ffffff',roughness:1,transparent:true,opacity:.1,depthWrite:false});return axoGh;}
+function axoPost(){
+  if(!AXO){axoHid.forEach(function(o){o.visible=true;});if(axoOl)axoOl.forEach(function(o){o.visible=true;});axoSaved.forEach(function(mat,m){m.material=mat;});axoSaved.clear();axoLn.forEach(function(pr){pr[1].visible=false;});if(axoBase){axoBase.visible=false;axoBase.userData.ln.visible=false;}site.children.forEach(function(c){if(c.userData.axoIn!==undefined)c.visible=true;});return;}
+  var ghost=anyInfra()&&modo!=='hab';
+  struct.forEach(function(m){var rol=m.userData.rol;
+    if(ghost&&(rol==='muro'||rol==='piso'||rol==='plafon'))m.material=axoGhost();
+    else if(rol==='vidrio')m.material=axoM('vidrio');
+    else m.material=axoM(rol);
+    m.castShadow=!ghost&&rol!=='piso'&&rol!=='vidrio';
+    if(!ghost&&faseP==null){if(m.userData.axoBB===undefined){m.geometry.computeBoundingBox();m.userData.axoBB=m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld);}
+      var bb=m.userData.axoBB;if(rol==='plafon'||(rol==='piso'&&bb.min.y>4)||((rol==='muro'||rol==='vidrio'||rol==='puerta')&&bb.min.x>5.6))m.visible=false;}});
+  var otros=[];Object.keys(mobil).forEach(function(k){mobil[k].traverse(function(o){if(o.isMesh)otros.push([o,'mob']);});});site.traverse(function(o){if(o.isMesh)otros.push([o,'site']);});
+  scene.traverse(function(o){if(o.isMesh&&o.parent&&struct.indexOf(o)<0&&o!==suelo&&o!==axoBase&&o!==lluvia&&o.material&&!o.userData.axoX){var ya=otros.some(function(q){return q[0]===o;});if(!ya)otros.push([o,'site']);}
+    if(o.isMesh&&o!==axoBase&&o!==suelo&&o!==lluvia&&struct.indexOf(o)<0){if(o.userData.axoFuera===undefined){var bb2=new T.Box3().setFromObject(o),c2=bb2.getCenter(new T.Vector3());o.userData.axoFuera=!(c2.x>-0.6&&c2.x<6.6&&c2.z<0.6&&c2.z>-15.6);}
+      if(o.userData.axoFuera){if(axoHid.indexOf(o)<0)axoHid.push(o);o.visible=false;}}});
+  otros.forEach(function(pr){var m=pr[0];if(!axoSaved.has(m))axoSaved.set(m,m.material);m.material=axoM(pr[1]);});
+  if(!axoBase){var bx=new T.Mesh(new T.BoxGeometry(6.05,0.2,15.1),new T.MeshStandardMaterial({color:'#f2f2f0',roughness:1}));bx.position.copy(H(3,3.0,-0.1));bx.receiveShadow=true;bx.castShadow=false;root.add(bx);axoBase=bx;
+    var lb=new T.LineSegments(new T.EdgesGeometry(bx.geometry),new T.LineBasicMaterial({color:0x777777}));lb.userData.axo=1;lb.position.copy(bx.position);root.add(lb);axoBase.userData.ln=lb;}
+  axoBase.visible=true;axoBase.userData.ln.visible=true;suelo.visible=false;
+  site.children.forEach(function(c){if(c.userData.axoIn===undefined){var bb=new T.Box3().setFromObject(c),ct=bb.getCenter(new T.Vector3());c.userData.axoIn=(ct.x>-0.4&&ct.x<6.4&&ct.z<0.3&&ct.z>-15.3);}c.visible=!!c.userData.axoIn&&(!faseP||faseP>0.92);});
+  if(!axoOl){axoOl=[];scene.traverse(function(o){if(o.isLineSegments&&o.userData.axo===undefined&&bordes.indexOf(o)<0)axoOl.push(o);});}
+  axoOl.forEach(function(o){o.visible=false;});
+  if(!axoLn.length){struct.forEach(function(m){var r=m.userData.rol;if(r==='muro'||r==='piso'||r==='plafon'||r==='escalera'){var eg=new T.EdgesGeometry(m.geometry,32);if(eg.attributes.position.count>6000)return;var ln=new T.LineSegments(eg,new T.LineBasicMaterial({color:0x111111,transparent:true,opacity:.9}));ln.userData.axo=1;m.updateMatrixWorld(true);ln.matrixAutoUpdate=false;ln.matrix.copy(m.matrixWorld);ln.visible=false;root.add(ln);axoLn.push([m,ln]);}});}
+  axoLn.forEach(function(pr){pr[1].visible=pr[0].visible&&!(pr[0].userData.rol==='piso'&&!ghost&&false);});
+}
+var AXL=[['COCHERA',3,-2.2,0.35],['INGRESO PEATONAL',0.7,-0.8,1.1],['SALA',3.2,2.0,0.8],['DOBLE ALTURA',3.2,2.6,3.7],['COCINA',1.5,5.8,0.8],['MEDIO BAÑO',4.5,6.3,0.8],['RECÁMARA',1.6,5.6,3.4],['BAÑO COMPLETO',4.5,6.3,3.4],['JARDÍN',3,9.2,0.3]];
+function axoEtiq(){var el=document.getElementById('axol');
+  if(!el){el=document.createElement('div');el.id='axol';el.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:6';el.innerHTML='<svg width="100%" height="100%" style="position:absolute;inset:0;overflow:visible"></svg>';document.body.appendChild(el);}
+  var show=AXO&&stage.clientWidth>=700&&modo==='ext'&&faseP==null&&!capasAct&&!LIMPIO&&!DBG;el.style.display=show?'':'none';if(!show)return;
+  var W=stage.clientWidth,Hh=stage.clientHeight,pts=AXL.map(function(l){var v=H(l[1],l[2],l[3]).clone().project(cam);return {t:l[0],x:(v.x+1)/2*W,y:(1-v.y)/2*Hh,ok:v.z<1};}).filter(function(p){return p.ok;}).sort(function(a,b){return a.y-b.y;});
+  var Lx=Math.max(120,W*0.22),last=-1e9,g='';
+  pts.forEach(function(p){var ly=Math.max(p.y,last+17);last=ly;g+='<text x="'+Lx+'" y="'+(ly+3.5)+'" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="10.5" font-weight="800" fill="#111" letter-spacing=".02em">'+p.t+'</text><polyline points="'+(Lx+8)+','+ly+' '+(Lx+8+14)+','+ly+' '+p.x.toFixed(1)+','+p.y.toFixed(1)+'" fill="none" stroke="#555" stroke-width=".8"/><circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="2.1" fill="#111"/>';});
+  el.firstChild.innerHTML=g;}
+
 var FASES=[[0.14,'Cimentación y losas'],[0.36,'Muros y estructura'],[0.58,'Instalaciones'],[0.78,'Acabados y carpintería'],[0.94,'Mobiliario y equipamiento'],[1.01,'Entrega']];
 function faseNombre(p){for(var i=0;i<FASES.length;i++)if(p<FASES[i][0])return FASES[i][1];return 'Entrega';}
 function aplicaFase(){var p=faseP,inf=capasAct;
@@ -1222,11 +1261,12 @@ window.addEventListener('resize',function(){var w=stage.clientWidth,h=stage.clie
 
 var t0=performance.now();
 (function frame(){if(lluvia.visible){var p=lluvia.geometry.attributes.position;for(var i=0;i<NL;i++){p.array[i*6+1]-=0.45;p.array[i*6+4]-=0.45;if(p.array[i*6+4]<0){p.array[i*6+1]+=14;p.array[i*6+4]+=14;}}p.needsUpdate=true;dirty=true;}
-  if(dirty){renderer.render(scene,cam);dirty=false;}requestAnimationFrame(frame);})();
+  if(dirty){renderer.render(scene,cam);dirty=false;if(AXO)axoEtiq();}requestAnimationFrame(frame);})();
 listaCuartos();fijaModo('ext');aplicaCielo();$('#cargando').hidden=true;
 window.__showroom={escena:scene,sol:sol,hemi:hemi,lluvia:lluvia,etiquetas:etiquetas,infraMeshes:infraMeshes,rebotes:rebotes,luces:luces,fijaModo:fijaModo,setHora:function(h){hora=h;$('#hora').value=h;aplicaCielo();},setClima:function(c){clima=c;aplicaCielo();},selecciona:function(id){selId=id;listaCuartos();resaltaSel();muestraFicha();colocaCam();},capas:function(a){capasAct=a;visibilidad();aplicaCielo();},cam:function(o){if(modo!=='ext')fijaModo('ext');if(o.az!=null)az=o.az;if(o.el!=null)el=o.el;if(o.dist!=null)dist=o.dist;if(o.tgt)tgt.set(o.tgt[0],o.tgt[1],o.tgt[2]);colocaCam();dirty=true;},sistemas:CAPAS.map(function(c){return {k:c[0],n:c[1],c:c[2]};}),setSistema:function(k,v){capasOn[k]=v;visibilidad();},fase:function(p){faseP=(p==null?null:p);capasAct=(p!=null&&p>=0.36&&p<0.58);visibilidad();aplicaCielo();return p==null?null:faseNombre(p);},fases:FASES,camaraActual:function(){return cam;},ventanal:function(t){if(window.__ventanal)window.__ventanal(t);},vista:function(o){DBG=o;colocaCam();},vistaOff:function(){DBG=null;colocaCam();}};
 window.__showroom.cenital=function(n,zoom,x,z){modo='plano';nivel=n;zoomO=zoom;panO.set(x,0,z);visibilidad();colocaCam();dirty=true;};
 window.__showroom.intensifica=function(cols,esc){infraMeshes.forEach(function(m){var g=m.userData.grupo,c=cols&&cols[g];if(!c)return;m.material.color.set(c);m.material.opacity=1;m.material.transparent=false;if(m.geometry.type==='CylinderGeometry')m.scale.set(esc,1,esc);else m.scale.setScalar(esc);});dirty=true;};
+window.__showroom.axo=function(on){AXO=!!on;visibilidad();aplicaCielo();colocaCam();dirty=true;};
 window.__showroom.limpio=function(on){LIMPIO=!!on;window.__showroom.estilo(on?'.ov{display:none!important}':'');visibilidad();};
 window.__showroom.estilo=function(css){var st=document.getElementById('xs');if(!st){st=document.createElement('style');st.id='xs';document.head.appendChild(st);}st.textContent=css||'';};
 window.addEventListener('message',function(e){var m=e.data;if(!m)return;if(m.__sr==='ping'){try{parent.postMessage({__sr:'listo'},'*');}catch(x){}return;}
