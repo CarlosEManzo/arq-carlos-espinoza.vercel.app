@@ -147,6 +147,29 @@ body.fin .bl,body.fin #serie,body.fin .hud{opacity:0;pointer-events:none}
 @keyframes cae{0%{opacity:0;transform:translateY(-70px)}55%{opacity:1;transform:translateY(8px)}100%{opacity:1;transform:none}}
 .logo.fijo .l-aro,.logo.fijo .l-disco,.logo.fijo .l-flecha,.logo.fijo .l-letra,.logo.fijo .l-punto{animation:none;opacity:1;transform:none;stroke-dashoffset:0}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01s!important;animation-duration:.01s!important;animation-delay:0s!important}}
+
+/* ---- modo embebido (dentro del portafolio): sin rótulos propios, el portafolio pone el suyo ---- */
+body.emb .esq.tl,body.emb .esq.tr,body.emb #volver,body.emb #guia{display:none!important}
+body.emb .hud{top:calc(84px + env(safe-area-inset-top,0px))}
+body.emb #bar{bottom:0}
+#salir{display:none}
+body.emb #salir{display:inline-flex;position:fixed;z-index:23;left:50%;transform:translateX(-50%);bottom:calc(var(--gut) + 8px + env(safe-area-inset-bottom,0px));background:rgba(14,15,16,.55);backdrop-filter:blur(6px)}
+body.emb.fin #salir{opacity:0;pointer-events:none}
+@media (max-width:640px){body.emb #salir{left:var(--gut);transform:none}}
+
+/* ---- portada estilo portafolio (solo embebido): la pantalla 04 del portafolio se funde con los primeros segundos del paseo ---- */
+#portada{display:none}
+body.emb #portada{display:block;position:fixed;inset:0;z-index:9;pointer-events:none}
+#portada .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.94) 0%,rgba(13,13,13,.5) 38%,rgba(13,13,13,.35) 70%,rgba(13,13,13,.6) 100%)}
+#portada .info{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(var(--gut) + 8px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;max-width:1100px}
+#portada .kick{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a}
+#portada .kick b{color:#fff;font-weight:700}
+#portada h2{font-size:clamp(38px,8.5vw,128px);font-weight:800;letter-spacing:-.035em;line-height:.94;text-transform:uppercase;text-wrap:balance;color:#fff}
+#portada .ficha{display:flex;gap:28px;flex-wrap:wrap}
+#portada .ficha b{display:block;font-size:clamp(26px,4vw,48px);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:#fff;line-height:1}
+#portada .ficha span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a}
+#portada .meta{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+body.emb #cv{filter:grayscale(.45) contrast(1.05) brightness(.72)}
 </style>
 </head>
 <body>
@@ -162,6 +185,11 @@ body.fin .bl,body.fin #serie,body.fin .hud{opacity:0;pointer-events:none}
 
 <canvas id="cv" aria-label="Recorrido del Loft 6 × 15; avanza con el scroll"></canvas>
 <div id="vel"></div><div id="oscuro"></div>
+<div id="portada" aria-hidden="true"><div class="veil"></div><div class="info">
+  <div class="kick"><b>04 / 04</b> — Metric.arq · Morelia, Michoacán</div>
+  <h2>Recorrido<br>Loft 6 × 15</h2>
+  <div class="ficha"><div><b>52</b><span>m² construidos</span></div><div><b>6×15</b><span>m de lote</span></div><div><b>4D</b><span>obra y costos</span></div></div>
+  <div class="meta">[ 2026 | Loft 6 × 15 | BIM · Revit · D5 ]</div></div></div>
 <main id="rail" tabindex="0" aria-label="Recorrido. Desliza o usa las flechas izquierda y derecha."><div id="pista"></div></main>
 
 <div class="esq tl"><span class="mono" id="serie">Loft 6 × 15 — Recorrido</span></div>
@@ -169,6 +197,7 @@ body.fin .bl,body.fin #serie,body.fin .hud{opacity:0;pointer-events:none}
 <div class="esq bl"><a href="../" aria-label="Metric.arq, volver al portafolio" id="home"><svg class="logo fijo" viewBox="0 0 1027 204" role="img" aria-label="Metric.arq"><circle cx="102" cy="102" r="96.5" fill="none" stroke="#FFFFFF" stroke-width="7.00" class="l-aro"/><circle cx="102" cy="102" r="84.00" fill="#FFFFFF" class="l-disco"/><path d="M102.00,49.50 L141.00,142.00 L102.00,122.00 L63.00,142.00Z" fill="#16181A" stroke="#16181A" stroke-width="12.00" stroke-linejoin="round" class="l-flecha"/><path d="M362.54999999999995 44.7V150.0H336.9V86.85L313.35 150.0H292.65L268.95 86.7V150.0H243.3V44.7H273.6L303.15 117.6L332.4 44.7Z" fill="#FFFFFF" class="l-letra" style="--i:0"/><path d="M457.95 114.30000000000001H399.9Q400.5 122.1 404.92499999999995 126.225Q409.34999999999997 130.35 415.8 130.35Q425.4 130.35 429.15 122.25H456.45Q454.34999999999997 130.5 448.875 137.1Q443.4 143.7 435.15 147.45Q426.9 151.2 416.7 151.2Q404.4 151.2 394.79999999999995 145.95Q385.2 140.7 379.79999999999995 130.95Q374.4 121.2 374.4 108.15Q374.4 95.1 379.725 85.35Q385.05 75.60000000000001 394.65 70.35000000000001Q404.25 65.10000000000001 416.7 65.10000000000001Q428.84999999999997 65.10000000000001 438.29999999999995 70.2Q447.75 75.3 453.075 84.75Q458.4 94.2 458.4 106.80000000000001Q458.4 110.4 457.95 114.30000000000001ZM432.15 100.05000000000001Q432.15 93.45 427.65 89.55000000000001Q423.15 85.65 416.4 85.65Q409.95 85.65 405.525 89.4Q401.09999999999997 93.15 400.05 100.05000000000001Z" fill="#FFFFFF" class="l-letra" style="--i:1"/><path d="M517.05 128.25V150.0H503.99999999999994Q490.04999999999995 150.0 482.25 143.175Q474.45 136.35 474.45 120.9V87.6H464.24999999999994V66.3H474.45V45.900000000000006H500.09999999999997V66.3H516.9V87.6H500.09999999999997V121.2Q500.09999999999997 124.95 501.9 126.6Q503.7 128.25 507.9 128.25Z" fill="#FFFFFF" class="l-letra" style="--i:2"/><path d="M581.7 65.4V92.55000000000001H574.65Q565.05 92.55000000000001 560.25 96.67500000000001Q555.45 100.80000000000001 555.45 111.15V150.0H529.8V66.3H555.45V80.25Q559.95 73.35000000000001 566.7 69.375Q573.45 65.4 581.7 65.4Z" fill="#FFFFFF" class="l-letra" style="--i:3"/><path d="M590.1 43.8Q590.1 37.8 594.375 33.825Q598.6500000000001 29.85000000000001 605.4000000000001 29.85000000000001Q612.0 29.85000000000001 616.2750000000001 33.825Q620.5500000000001 37.8 620.5500000000001 43.8Q620.5500000000001 49.650000000000006 616.2750000000001 53.62500000000001Q612.0 57.60000000000001 605.4000000000001 57.60000000000001Q598.6500000000001 57.60000000000001 594.375 53.62500000000001Q590.1 49.650000000000006 590.1 43.8ZM618.1500000000001 66.3V150.0H592.5V66.3Z" fill="#FFFFFF" class="l-letra" style="--i:4"/><path d="M672.1500000000001 65.10000000000001Q687.9000000000001 65.10000000000001 698.4750000000001 73.35000000000001Q709.0500000000001 81.60000000000001 712.35 96.6H685.0500000000001Q681.6 87.0 671.7 87.0Q664.6500000000001 87.0 660.45 92.475Q656.25 97.95 656.25 108.15Q656.25 118.35 660.45 123.825Q664.6500000000001 129.3 671.7 129.3Q681.6 129.3 685.0500000000001 119.7H712.35Q709.0500000000001 134.4 698.4000000000001 142.8Q687.75 151.2 672.1500000000001 151.2Q659.85 151.2 650.325 145.95Q640.8000000000001 140.7 635.4750000000001 130.95Q630.1500000000001 121.2 630.1500000000001 108.15Q630.1500000000001 95.1 635.4750000000001 85.35Q640.8000000000001 75.60000000000001 650.325 70.35000000000001Q659.85 65.10000000000001 672.1500000000001 65.10000000000001Z" fill="#FFFFFF" class="l-letra" style="--i:5"/><path d="M721.2 137.4Q721.2 131.4 725.475 127.35Q729.75 123.3 736.5 123.3Q743.1 123.3 747.375 127.35Q751.6500000000001 131.4 751.6500000000001 137.4Q751.6500000000001 143.25 747.375 147.225Q743.1 151.2 736.5 151.2Q729.75 151.2 725.475 147.225Q721.2 143.25 721.2 137.4Z" fill="#B3124E" class="l-punto" style="--i:6"/><path d="M797.1 65.10000000000001Q805.95 65.10000000000001 812.625 68.7Q819.3 72.3 822.9 78.15V66.3H848.55V150.0H822.9V138.15Q819.15 144.0 812.4749999999999 147.6Q805.8 151.2 796.95 151.2Q786.75 151.2 778.35 145.875Q769.95 140.55 765.075 130.72500000000002Q760.2 120.9 760.2 108.0Q760.2 95.1 765.075 85.35Q769.95 75.60000000000001 778.35 70.35000000000001Q786.75 65.10000000000001 797.1 65.10000000000001ZM804.6 87.45Q796.95 87.45 791.625 92.92500000000001Q786.3 98.4 786.3 108.0Q786.3 117.6 791.625 123.225Q796.95 128.85 804.6 128.85Q812.25 128.85 817.575 123.3Q822.9 117.75 822.9 108.15Q822.9 98.55000000000001 817.575 93.0Q812.25 87.45 804.6 87.45Z" fill="#FFFFFF" class="l-letra" style="--i:7"/><path d="M917.5500000000001 65.4V92.55000000000001H910.5Q900.9 92.55000000000001 896.1 96.67500000000001Q891.3000000000001 100.80000000000001 891.3000000000001 111.15V150.0H865.65V66.3H891.3000000000001V80.25Q895.8000000000001 73.35000000000001 902.5500000000001 69.375Q909.3000000000001 65.4 917.5500000000001 65.4Z" fill="#FFFFFF" class="l-letra" style="--i:8"/><path d="M961.5000000000001 65.4Q969.45 65.4 975.75 68.17500000000001Q982.0500000000001 70.95 985.95 75.9V66.3H1011.6V189.9H985.95V139.5Q981.6 144.75 975.375 147.9Q969.1500000000001 151.05 961.2 151.05Q951.0000000000001 151.05 942.3000000000001 145.65Q933.6 140.25 928.4250000000001 130.5Q923.2500000000001 120.75 923.2500000000001 108.30000000000001Q923.2500000000001 95.85 928.4250000000001 86.1Q933.6 76.35000000000001 942.375 70.875Q951.1500000000001 65.4 961.5000000000001 65.4ZM967.6500000000001 87.6Q963.1500000000001 87.6 958.95 89.925Q954.7500000000001 92.25 952.0500000000001 96.9Q949.35 101.55000000000001 949.35 108.30000000000001Q949.35 115.05000000000001 952.0500000000001 119.625Q954.7500000000001 124.2 958.95 126.525Q963.1500000000001 128.85 967.6500000000001 128.85Q972.1500000000001 128.85 976.4250000000001 126.525Q980.7 124.2 983.325 119.55000000000001Q985.95 114.9 985.95 108.15Q985.95 101.4 983.325 96.825Q980.7 92.25 976.5 89.925Q972.3000000000001 87.6 967.6500000000001 87.6Z" fill="#FFFFFF" class="l-letra" style="--i:9"/></svg></a></div>
 <div class="esq br"><span id="guia" class="mono">Desliza <svg class="i"><use href="#i-der"/></svg></span></div>
 <div id="bar"></div>
+<button id="salir" class="btn" type="button" aria-label="Seguir con el portafolio">Seguir <svg class="i"><use href="#i-der"/></svg></button>
 <a id="wa" class="btn" href="#" target="_blank" rel="noopener"><span class="pt"></span>Cotiza tu proyecto</a>
 
 <div class="hud" id="hud-rec" aria-hidden="true">
@@ -225,7 +254,7 @@ var IC={"llegada": "M3 12h13 M11 6l6 6-6 6 M21 5v14", "cochera": "M4 20V9l8-5 8 
 var $=function(s){return document.querySelector(s)}, $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 function ic(n){var d=IC[n]||'';var ps=d.split(' M').map(function(x,i){return '<path pathLength="1" d="'+(i?'M':'')+x+'"/>';}).join('');return '<svg viewBox="0 0 24 24">'+ps+'</svg>';}
-$('#dash').href=DASHBOARD_URL;
+$('#dash').href=DASHBOARD_URL;if(window.self!==window.top||/[?&]embed=1/.test(location.search)){$('#dash').target='_top';$('#home').target='_top';$('#capCta').target='_blank';}
 var rail=$('#rail'),cv=$('#cv'),ctx=cv.getContext('2d',{alpha:false});
 var META=null,img=[],cargadas=0,t0=Date.now();
 var VW=function(){return rail.clientWidth};
@@ -246,7 +275,7 @@ function cargaTodo(){
 function progreso(){var p=Math.round(cargadas/META.n*100);$('#cBar').style.width=p+'%';$('#cTxt').textContent='Cargando recorrido '+p+' %';listo();dibuja(true);}
 function listo(){if(!META||$('#carga').classList.contains('off'))return;
   var minimo=reduce?0:2900;
-  if(cargadas>=Math.min(META.n,60)&&Date.now()-t0>=minimo){$('#carga').classList.add('off');rail.focus({preventScroll:true});escenas(0);}
+  if(cargadas>=Math.min(META.n,60)&&Date.now()-t0>=minimo){$('#carga').classList.add('off');rail.focus({preventScroll:true});escenas(0);avisa('listo');if(AUTO.pend){AUTO.pend=false;autoInicia(false);}}
   else if(cargadas>=Math.min(META.n,60))setTimeout(listo,200);}
 function mejor(i){if(img[i])return img[i];for(var d=1;d<META.n;d++){if(img[i-d])return img[i-d];if(img[i+d])return img[i+d];}return null;}
 var ult=-1;
@@ -255,8 +284,22 @@ function dibuja(fuerza){if(!META)return;var i=Math.max(0,Math.min(META.n-1,Math.
 var objetivo=0,actual=0,frame=0,corriendo=false;
 function lee(){objetivo=rail.scrollLeft;}
 rail.addEventListener('scroll',function(){lee();if(!corriendo){corriendo=true;requestAnimationFrame(bucle);}},{passive:true});
-rail.addEventListener('wheel',function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;e.preventDefault();rail.scrollLeft+=e.deltaY*(e.deltaMode===1?32:1);},{passive:false});
-addEventListener('keydown',function(e){var w=VW()*0.5;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();rail.scrollBy({left:w,behavior:'smooth'});}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();rail.scrollBy({left:-w,behavior:'smooth'});}if(e.key==='Home')rail.scrollTo({left:0,behavior:'smooth'});if(e.key==='End')rail.scrollTo({left:1e6,behavior:'smooth'});});
+var PORT0=1.2,PORT1=5.0;var EMB=/[?&]embed=1/.test(location.search)||window.self!==window.top; if(EMB)document.body.classList.add('emb');
+var AUTO={on:false,raf:0,t:0};
+function autoPara(){AUTO.on=false;}
+function autoPaso(ts){if(!AUTO.on)return;var dt=Math.min(.1,(ts-AUTO.t)/1000||0);AUTO.t=ts;var fin=maxVideo()+PANT_CIERRE*VW()*0.9,dur=(META&&META.dur)||105;AUTO.x+=maxVideo()/dur*dt;
+  if(AUTO.x>=fin){AUTO.x=fin;rail.scrollLeft=fin;AUTO.on=false;return;}rail.scrollLeft=AUTO.x;AUTO.raf=requestAnimationFrame(autoPaso);}
+function autoInicia(desde0){if(!META||AUTO.on)return;var fin=maxVideo()+PANT_CIERRE*VW()*0.9;if(desde0||rail.scrollLeft>=fin-VW()*.2)rail.scrollLeft=0;AUTO.x=rail.scrollLeft;AUTO.on=true;AUTO.t=performance.now();AUTO.raf=requestAnimationFrame(autoPaso);}
+$('#salir').addEventListener('click',function(){autoPara();avisa('next');});
+function avisa(m){if(EMB)try{parent.postMessage({rec:m},'*')}catch(x){}}
+addEventListener('message',function(e){var m=e.data&&e.data.rec;if(m==='play'){if(!$('#carga').classList.contains('off'))AUTO.pend=true;else autoInicia(false);}else if(m==='pause'){autoPara();AUTO.pend=false;}});
+['touchstart','pointerdown'].forEach(function(n){rail.addEventListener(n,autoPara,{passive:true});});
+rail.addEventListener('wheel',function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;e.preventDefault();autoPara();
+  var fin=maxVideo()+PANT_CIERRE*VW()*0.9;
+  if(EMB&&e.deltaY<0&&rail.scrollLeft<=2){avisa('prev');return;}
+  if(EMB&&e.deltaY>0&&rail.scrollLeft>=fin-VW()*.05){avisa('next');return;}
+  rail.scrollLeft+=e.deltaY*(e.deltaMode===1?32:1);},{passive:false});
+addEventListener('keydown',function(e){if(['ArrowRight','ArrowLeft','PageDown','PageUp',' '].indexOf(e.key)>=0){autoPara();var fin0=maxVideo()+PANT_CIERRE*VW()*0.9;if(EMB&&(e.key==='ArrowLeft'||e.key==='PageUp')&&rail.scrollLeft<=2){e.preventDefault();avisa('prev');return;}if(EMB&&(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')&&rail.scrollLeft>=fin0-VW()*.05){e.preventDefault();avisa('next');return;}}var w=VW()*0.5;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();rail.scrollBy({left:w,behavior:'smooth'});}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();rail.scrollBy({left:-w,behavior:'smooth'});}if(e.key==='Home')rail.scrollTo({left:0,behavior:'smooth'});if(e.key==='End')rail.scrollTo({left:1e6,behavior:'smooth'});});
 function bucle(){actual+=(objetivo-actual)*(reduce?1:0.14);if(Math.abs(objetivo-actual)<0.4)actual=objetivo;
   var u=Math.max(0,Math.min(1,actual/maxVideo()));frame=META?u*(META.n-1):0;dibuja();escenas(u);
   if(actual!==objetivo)requestAnimationFrame(bucle);else corriendo=false;}
@@ -310,6 +353,7 @@ function escenas(u){
   var cierreP=Math.max(0,Math.min(1,(actual-maxVideo())/(PANT_CIERRE*VW()*0.6)));
   var cap=capDe(f),C=META.caps[cap],ts=Math.max(0,Math.min(C.dur,(f-C.ini)/Math.max(1,C.n-1)*C.dur)),tf=cap==='obra'?(ts-META.reb)/META.constr:-1;
   var recT=cap==='casa'?ts:(cap==='obra'&&ts<2.0?(META.d_casa||META.poses.length*META.toma_s)+ts:-1);
+  if(EMB){var kp=cap==='casa'?ease((ts-PORT0)/PORT1):1;var po=$('#portada');po.style.opacity=(1-kp).toFixed(3);po.firstChild.nextSibling.style.transform='translateY('+(kp*-18).toFixed(1)+'px)';var fl=(1-kp);cv.style.filter='grayscale('+(.45*fl).toFixed(3)+') contrast('+(1+.05*fl).toFixed(3)+') brightness('+(.72+.28*kp).toFixed(3)+')';}
   var rec=recT>=0&&cierreP<.2,obr=tf>=0&&cierreP<.2,ins=obr&&tf>=META.tf_inst[0]-.01&&tf<META.tf_inst[1]+.03;
   $('#hud-rec').classList.toggle('on',rec);$('#hud-inst').classList.toggle('on',ins);$('#hud-obra').classList.toggle('on',obr);$('#hud-pres').classList.toggle('on',obr);
   if(rec)hudRec(recT);if(obr)hudObra(tf);if(ins)hudInst(tf);
@@ -317,12 +361,13 @@ function escenas(u){
   if(k!==tomaAct){tomaAct=k;var big=$('#big'),tag=$('#tag');big.classList.remove('on');tag.classList.remove('on');
     var kk=k;setTimeout(function(){
       if(tomaAct!==kk)return;
-      if(T.k==='big'){$('#bigT').innerHTML=T.l1+'<span>'+T.l2+'</span>';big.classList.toggle('cta-on',!!T.cta);big.classList.add('on');}
+      if(T.k==='big'&&EMB&&kk===0){}
+      else if(T.k==='big'){$('#bigT').innerHTML=T.l1+'<span>'+T.l2+'</span>';big.classList.toggle('cta-on',!!T.cta);big.classList.add('on');}
       else if(T.k==='tag'){$('#tagI').innerHTML=ic(T.ic);$('#tagN').textContent=T.num+(T.num.length<3?' — ':'');$('#tagL').textContent=T.label;tag.classList.add('on');}
     },reduce?0:200);
   }
   if(cap==='obra')$('#hoja').textContent='Obra 4D';if(cap==='ext')$('#hoja').textContent='Resultado';
-  $('#cap').style.visibility=cierreP>0.2?'hidden':'visible';
+  $('#cap').style.visibility=(cierreP>0.2||(EMB&&cap==='casa'&&ts<5.2))?'hidden':'visible';
   $('#oscuro').style.opacity=cierreP.toFixed(3);$('#cierre').classList.toggle('on',cierreP>0.55);document.body.classList.toggle('fin',cierreP>0.55);
   $('#guia').style.opacity=actual<30?1:0;$('#wa').classList.toggle('on',actual>=30&&cierreP<0.3);
   $('#bar').style.width=(Math.min(1,actual/(maxVideo()+PANT_CIERRE*VW()*0.6))*100)+'%';

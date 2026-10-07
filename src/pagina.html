@@ -56,6 +56,7 @@ h1,h2,h3,p{margin:0}
 .slide{position:relative;flex:0 0 100%;height:100%;scroll-snap-align:start;overflow:hidden;background:var(--bg-dark)}
 .slide .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.45) contrast(1.05) brightness(.72);transform:scale(1.07);opacity:0;transition:opacity 1.8s ease,transform 9s var(--ease)}
 .slide .bg.sel{opacity:1}
+.slide.rec iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0E0F10;display:block}
 .slide.on .bg.sel{transform:scale(1)}
 .pips{display:flex;gap:5px;margin-top:-6px}
 .pips i{display:block;width:26px;height:2px;background:rgba(255,255,255,.28);transition:background .8s}
@@ -1023,9 +1024,8 @@ var OBRAS=[
    ['cas-03','Sala con ventanal y piso porcelánico','Interior de la casa con ventanal, piso porcelánico y luminarias empotradas'],
    ['cas-04','Muro de chimenea en travertino','Muro de chimenea en travertino con andamio durante los acabados'],
    ['casa-01','Fachada en obra','Fachada de casa habitación en construcción, acabado blanco'],['casa-02','Render de la propuesta','Render 3D de la propuesta de casa habitación'],['casa-03','Fachada, otro ángulo','Otro ángulo de la fachada de la casa habitación en obra']]},
- {id:'bim',icono:'bim',n:'04',titulo:'Proyectos BIM',anio:'2024–2025',empresa:'Métrica Estudio',tipo:'BIM · renders',rol:'Arquitecto freelance',
+ {id:'bim',rec:true,icono:'bim',n:'04',titulo:'Recorrido Loft 6 × 15',anio:'2024–2025',empresa:'Métrica Estudio',tipo:'BIM · renders',rol:'Arquitecto freelance',
   meta:'2024–2025 | 5 proyectos | Revit · renders',cifras:[['5','Proyectos'],['3','Clientes'],['MEP','Coordinado']],modelo:'bim',
-  enlaces:[['Recorrido del Loft 6×15 (video)','play','recorrido/'],['Dashboard BIM completo','bim','dashboard/']],
   texto:'Cinco proyectos en Revit con metodología BIM para tres clientes, residenciales y comerciales, con renders y recorridos virtuales para vender y validar cada propuesta. La galería reúne renders de la Casa Colibrí y modelos y planos de la Casa Valenciano y las Canchas Sofía.',
   heroes:['hero-bim-1','hero-bim-3','hero-bim-2'],
   fotos:[['ren-03','Casa Colibrí · recámara','Render de una recámara con cama, ventanal hacia la alberca y vestidor'],
@@ -1058,6 +1058,7 @@ var APPS=[
 var rail=$('#rail'), N=OBRAS.length, idx=0, estado={umbral:true,visor:false,lab:false};
 rail.innerHTML=OBRAS.map(function(o,i){
   var f=o.fotos[0];
+  if(o.rec) return '<article class="slide rec" data-i="'+i+'" aria-label="'+o.n+' de 04: '+esc(o.titulo)+'"><iframe id="recfr" title="Recorrido del Loft 6 × 15 de Metric.arq" data-src="recorrido/?embed=1" allow="fullscreen" tabindex="0"></iframe></article>';
   return '<article class="slide'+(i===0?' on':'')+'" data-i="'+i+'" aria-label="'+o.n+' de 04: '+esc(o.titulo)+'">'+
    o.heroes.map(function(h,k){var ft=o.fotos.filter(function(x){return x[0]===h})[0]; return '<img class="bg'+(k===0?' sel':'')+'" src="photos/'+h+'.jpg" alt="'+esc(ft?ft[2]:o.titulo)+'" '+((i===0&&k===0)?'':'loading="lazy" ')+'decoding="async">'}).join('')+
    '<div class="veil"></div><div class="info">'+
@@ -1079,7 +1080,10 @@ rail.innerHTML=OBRAS.map(function(o,i){
 var slides=$$('.slide',rail), total=slides.length;
 
 function ir(i,suave){ i=Math.max(0,Math.min(total-1,i)); rail.scrollTo({left:i*rail.clientWidth,behavior:(reduce||suave===false)?'auto':'smooth'}); }
-function actual(){ var i=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth)); if(i!==idx||!slides[i].classList.contains('on')){ if(estado.visor&&slideAbierta&&slides[i]!==slideAbierta) cierraVisor(); idx=i; slides.forEach(function(s,k){s.classList.toggle('on',k===i)}); pinta(); } }
+function actual(){ var i=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth)); if(i!==idx||!slides[i].classList.contains('on')){ if(estado.visor&&slideAbierta&&slides[i]!==slideAbierta) cierraVisor(); idx=i; slides.forEach(function(s,k){s.classList.toggle('on',k===i)}); pinta(); recSync(); } }
+/* recorrido embebido: se carga al acercarse y EMPIEZA al llegar a su pantalla; sale a la pantalla vecina con la rueda en sus extremos */
+function recSync(){ var fr=$('#recfr'); if(!fr) return; var k=+fr.closest('.slide').dataset.i; if(idx>=k-1&&!fr.getAttribute('src')) fr.setAttribute('src',fr.dataset.src); if(fr.contentWindow) try{ fr.contentWindow.postMessage({rec:(idx===k&&!estado.umbral&&!estado.lab)?'play':'pause'},'*'); }catch(e){} if(idx===k&&!estado.umbral) setTimeout(function(){ try{fr.focus({preventScroll:true})}catch(e){} },400); }
+addEventListener('message',function(e){ var m=e.data&&e.data.rec; if(!m) return; if(m==='listo') recSync(); else if(m==='next') ir(idx+1); else if(m==='prev') ir(idx-1); });
 function pinta(){
   $('#prog').innerHTML=idx<N?'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 0'+N:'<b>Z</b> / Contacto';
   $('#barra').style.width=((idx+1)/total*100)+'%';
@@ -1116,6 +1120,7 @@ function sincroniza(){
   $('#umbral').inert=estado.visor||estado.lab;
   $('#visor').inert=estado.lab;
   $('#visor').setAttribute('aria-hidden',estado.visor?'false':'true'); $('#lab').setAttribute('aria-hidden',estado.lab?'false':'true');
+  if(typeof recSync==='function') recSync();
 }
 function inicia(){ if(!estado.umbral||estado.lab) return; $('#umbral').classList.add('open'); estado.umbral=false; sincroniza(); setTimeout(function(){ if(estado.umbral) return; rail.focus({preventScroll:true}); if(fx.raf){cancelAnimationFrame(fx.raf); fx.raf=0} },1500); }
 function volverPortada(){ if(estado.umbral||estado.lab) return; if(estado.visor) cierraVisor(); $('#umbral').classList.remove('open'); estado.umbral=true; sincroniza(); fxTam(); if(reduce){ fxPaso(0); } else if(!fx.raf){ fx.raf=requestAnimationFrame(fxBucle); } setTimeout(function(){ $('#iniciar').focus({preventScroll:true}) },900); }
