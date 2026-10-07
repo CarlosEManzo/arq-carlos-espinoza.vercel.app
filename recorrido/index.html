@@ -263,9 +263,9 @@ var PANT_VIDEO=8, PANT_CIERRE=1.2, BUF0=130;      /* cuadros contiguos que deben
 function medidas(){var w=VW();$('#pista').style.width=((PANT_VIDEO+PANT_CIERRE+1)*w)+'px';}
 function maxVideo(){return PANT_VIDEO*VW();}
 function tam(){var d=Math.min(devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;dibuja(true);}
-function nombre(i){return 'frames/f_'+('000'+i).slice(-4)+'.webp';}
+function nombre(i){return 'frames/f_'+('000'+i).slice(-4)+'.webp?v=12';}
 function cargaTodo(){
-  fetch('frames.json').then(function(r){return r.json()}).then(function(m){META=m;img=new Array(m.n);PANT_VIDEO=Math.max(5,Math.round(m.n/32));medidas();
+  fetch('frames.json?v=12').then(function(r){return r.json()}).then(function(m){META=m;img=new Array(m.n);PANT_VIDEO=Math.max(5,Math.round(m.n/32));medidas();
     $('#wa').href=m.wa;$('#capCta').href=m.wa;$('#wa2').href=m.wa;
     construyeHud();
     req=new Uint8Array(m.n);var vivos=0;
