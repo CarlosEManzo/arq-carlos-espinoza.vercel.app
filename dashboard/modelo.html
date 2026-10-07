@@ -1077,12 +1077,12 @@ function aplicaCielo(){
   var sx=E*Math.sin(azX)+N*Math.cos(azX), sy=E*Math.sin(azY)+N*Math.cos(azY);
   sol.position.set(3+sx*40,Math.max(U,0.02)*40,-8-sy*40);
   var nube=clima==='sol'?0:(clima==='nub'?0.7:0.9);
-  var cDia=new T.Color(clima==='sol'?'#8fc4ee':(clima==='nub'?'#a6b0b8':'#7d8791')),cAt=new T.Color('#e89a6a'),cNoche=new T.Color('#070b14');
+  var cDia=new T.Color(clima==='sol'?'#8fc4ee':(clima==='nub'?'#a6b0b8':'#7d8791')),cAt=new T.Color('#e89a6a'),cNoche=new T.Color('#0d1626');
   var tAt=Math.max(0,1-Math.abs(el)*5.5), sky=cNoche.clone().lerp(cDia,Math.min(1,dia*2.4+0.02));if(clima==='sol')sky.lerp(cAt,tAt*(dia>0.0?0.55:0.0)*(1-nube));
   scene.background=(capasAct&&modo!=='plano')?new T.Color('#0e1318'):sky;scene.fog=(capasAct&&modo!=='plano')?null:new T.Fog(sky.getHex(),clima==='llu'?30:60,clima==='llu'?90:200);
-  sol.intensity=(1-nube*0.88)*dia*1.05;sol.color.set(el<0.25?'#ffb27a':'#fff4e0');
-  hemi.intensity=0.12+dia*(clima==='sol'?0.95:1.05);hemi.color.copy(sky).lerp(new T.Color('#ffffff'),0.5);
-  var noche=dia<0.06;luces.forEach(function(l){l.intensity=noche?0.85:(dia<0.2?0.5:0);});rebotes.forEach(function(l){l.intensity=noche?0.3:(0.28+0.5*dia*(1-nube*0.4));});LAMP.emissive.set(noche?'#ffcf8a':'#000000');LAMP.emissiveIntensity=noche?0.9:0;glows.forEach(function(g){g.visible=noche||dia<0.2;});lamparas.forEach(function(l){l.material.color.set(noche?0xffe2a0:0x777770);});renderer.toneMappingExposure=noche?0.95:0.85;
+  sol.intensity=(1-nube*0.88)*dia*1.05;sol.color.set(el<0.25?'#ffb27a':'#fff4e0');if(dia<0.06){sol.intensity=0.34*(1-nube*0.5);sol.color.set('#9fb8ff');sol.position.set(-6,34,-14);}
+  hemi.intensity=Math.max(0.12+dia*(clima==='sol'?0.95:1.05),dia<0.06?0.36:0);hemi.color.copy(sky).lerp(new T.Color('#ffffff'),0.5);
+  var noche=dia<0.06;luces.forEach(function(l){l.intensity=noche?0.5:(dia<0.2?0.4:0);});rebotes.forEach(function(l){l.intensity=noche?0.14:(0.28+0.5*dia*(1-nube*0.4));});LAMP.emissive.set(noche?'#ffcf8a':'#000000');LAMP.emissiveIntensity=noche?0.65:0;glows.forEach(function(g){g.visible=noche||dia<0.2;});lamparas.forEach(function(l){l.material.color.set(noche?0xffe2a0:0x777770);});renderer.toneMappingExposure=noche?1.15:0.85;
   suelo.material.color.set(noche?'#15130f':'#4a4640');lluvia.visible=clima==='llu';
   $('#hora-t').textContent=('0'+Math.floor(hora)).slice(-2)+':'+('0'+Math.round((hora%1)*60)).slice(-2)+' · sol a '+Math.max(0,Math.round(el*180/Math.PI))+'°';
   $('#clima-t').textContent=climas.filter(function(c){return c[0]===clima})[0][1];dirty=true;}
@@ -1114,7 +1114,7 @@ var FASES=[[0.14,'Cimentación y losas'],[0.36,'Muros y estructura'],[0.58,'Inst
 function faseNombre(p){for(var i=0;i<FASES.length;i++)if(p<FASES[i][0])return FASES[i][1];return 'Entrega';}
 function aplicaFase(){var p=faseP,inf=capasAct;
   struct.forEach(function(m){var r=m.userData.rol,v=true;
-    if(r==='piso')v=p>0.03;else if(r==='muro')v=p>0.14;else if(r==='escalera')v=p>0.30;else if(r==='plafon')v=p>0.34;else if(r==='vidrio'||r==='puerta')v=p>0.6;else if(r==='azulejo')v=p>0.66;else if(r==='aparato'||r==='equipo'||r==='disp')v=p>0.7;
+    if(r==='piso'){if(m.userData.minY===undefined){m.geometry.computeBoundingBox();m.userData.minY=m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld).min.y;}var my=m.userData.minY;v=my<-0.02?p>0.03:(my<1?p>0.66:(my<4?p>0.2:p>0.36));}else if(r==='muro')v=p>0.14;else if(r==='escalera')v=p>0.30;else if(r==='plafon')v=p>0.34;else if(r==='vidrio'||r==='puerta')v=p>0.6;else if(r==='azulejo')v=p>0.66;else if(r==='aparato'||r==='equipo'||r==='disp')v=p>0.7;
     m.visible=v;});
   if(!inf){var ks=Object.keys(mobil);ks.forEach(function(k,i){mobil[k].visible=p>0.78+0.15*i/ks.length;});site.visible=p>0.92;}
   setClip((p>0.14&&p<0.36)?(0.2+5.2*(p-0.14)/0.22):null);if(LIMPIO)etiquetas.forEach(function(e){e.visible=false;});dirty=true;}
