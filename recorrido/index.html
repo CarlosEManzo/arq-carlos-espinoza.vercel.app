@@ -265,11 +265,13 @@ function bucle(){actual+=(objetivo-actual)*(reduce?1:0.14);if(Math.abs(objetivo-
 var ease=function(x){return x<=0?0:x>=1?1:x*x*(3-2*x)},lerp=function(a,b,t){return a+(b-a)*t},dang=function(a,b){return((b-a+540)%360)-180};
 var SC=60,px=function(x){return(x+.5)*SC},py=function(y){return(10.9-y)*SC};
 function pose(i,u){var p=META.poses[i],r=p.r*Math.PI/180;return{x:p.x+Math.sin(r)*META.dolly*u,y:p.y+Math.cos(r)*META.dolly*u,r:p.r,h:p.h};}
-function cur(t){var P=META.poses,S=META.toma_s,i=Math.min(P.length-1,Math.floor(t/S)),lt=t-S*i,u=(i===P.length-1)?lt/S:Math.min(1,lt/S),c=pose(i,u);
+function curP(t){var P=META.path,T=P[P.length-1][0];t=Math.min(Math.max(t,0),T);var i=Math.min(P.length-2,Math.floor(t/.25)),a=P[i],b=P[i+1],u=(t-a[0])/.25;return{x:lerp(a[1],b[1],u),y:lerp(a[2],b[2],u),r:a[4]+dang(a[4],b[4])*u,h:20,n:Math.max(a[5],b[5])};}
+function cur(t){if(META.path)return curP(t);var P=META.poses,S=META.toma_s,S=META.toma_s,i=Math.min(P.length-1,Math.floor(t/S)),lt=t-S*i,u=(i===P.length-1)?lt/S:Math.min(1,lt/S),c=pose(i,u);
   if(i>0&&lt<.9){var pr=pose(i-1,1),k=ease(lt/.9);c={x:lerp(pr.x,c.x,k),y:lerp(pr.y,c.y,k),r:pr.r+dang(pr.r,c.r)*k,h:c.h};}
   var h=P[i].h;if(i>0&&lt<1.0)h=lerp(P[i-1].h,P[i].h,ease(lt/1.0));c.h=h;c.i=i;c.lt=lt;return c;}
 function fmt(h){var m=Math.round(h*60/5)*5,hh=Math.floor(m/60)%24,mm=m%60;return(hh%12||12)+':'+('0'+mm).slice(-2)+' '+(hh>=12?'PM':'AM');}
-function hudRec(t){var c=cur(t);$('#hora').textContent=fmt(c.h);
+function hudRec(t){var c=cur(t);if(META.path){$('#sol-c').style.display='none';$('#cam').setAttribute('transform','translate('+px(c.x)+','+py(c.y)+') rotate('+c.r+')');var pp=[];for(var s=0;s<=t;s+=.5){var q=cur(Math.min(s,t));pp.push(px(q.x)+','+py(q.y));}$('#trail').setAttribute('points',pp.join(' '));var ti=0;(META.tag_t0||[]).forEach(function(a0,i){if(t>=a0-.6)ti=i;});$('#hoja').textContent=('0'+(ti+1)).slice(-2)+' / '+('0'+META.poses.length).slice(-2);var pn=ease((t-META.t_nivel)/.8)-ease((t-META.t_nivel_fin)/.8);$('#pa').style.opacity=pn;$('#pb').style.opacity=1-pn*.85;$('#niv').textContent=pn>.5?'PLANTA ALTA':'PLANTA BAJA';return;}
+  $('#hora').textContent=fmt(c.h);
   var th=Math.PI*(c.h-6)/14.5,sx=150-120*Math.cos(th),sy=150-120*Math.sin(th),d=$('#sol');d.setAttribute('cx',sx);d.setAttribute('cy',sy);d.setAttribute('fill',c.h>18.6?'#9fb4d6':'#ECECEA');
   $('#rastro').style.strokeDashoffset=1-(c.h-6)/14.5;
   $('#cam').setAttribute('transform','translate('+px(c.x)+','+py(c.y)+') rotate('+c.r+')');
@@ -307,7 +309,7 @@ function escenas(u){
   if(!META)return;var f=u*(META.n-1);
   var cierreP=Math.max(0,Math.min(1,(actual-maxVideo())/(PANT_CIERRE*VW()*0.6)));
   var cap=capDe(f),C=META.caps[cap],ts=Math.max(0,Math.min(C.dur,(f-C.ini)/Math.max(1,C.n-1)*C.dur)),tf=cap==='obra'?(ts-META.reb)/META.constr:-1;
-  var recT=cap==='casa'?ts:(cap==='obra'&&ts<2.0?META.poses.length*META.toma_s+ts:-1);
+  var recT=cap==='casa'?ts:(cap==='obra'&&ts<2.0?(META.d_casa||META.poses.length*META.toma_s)+ts:-1);
   var rec=recT>=0&&cierreP<.2,obr=tf>=0&&cierreP<.2,ins=obr&&tf>=META.tf_inst[0]-.01&&tf<META.tf_inst[1]+.03;
   $('#hud-rec').classList.toggle('on',rec);$('#hud-inst').classList.toggle('on',ins);$('#hud-obra').classList.toggle('on',obr);$('#hud-pres').classList.toggle('on',obr);
   if(rec)hudRec(recT);if(obr)hudObra(tf);if(ins)hudInst(tf);
