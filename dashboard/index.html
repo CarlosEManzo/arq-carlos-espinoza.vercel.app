@@ -330,6 +330,51 @@ td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
 .plan{aspect-ratio:900/1700;width:calc((100vh - 190px) * .529);background:#0E0F10 center/100% 100% no-repeat;border-radius:10px;overflow:hidden}
 .rl{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.8);font-weight:500}
 .pin svg{fill:#fff;stroke:#0E0F10}
+
+/* ---- control de obra: Gantt protagonista ---- */
+#obra{left:50%;translate:-50% 0;bottom:calc(var(--gut) + env(safe-area-inset-bottom,0px));width:min(1080px,calc(100vw - 2*var(--gut)));padding:14px 18px 12px;display:grid;gap:10px;background:rgba(14,15,16,.88)}
+.ob-top{display:grid;grid-template-columns:auto 1fr minmax(180px,260px) auto;gap:18px;align-items:center}
+.ob-sem #hsem{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.ob-sem #hsem small{font-size:16px;color:var(--muted);font-weight:600}
+.ob-fase{display:flex;gap:12px;align-items:center;min-width:0}
+.ob-fase .hrg{width:46px;height:46px;background:var(--text);border-color:var(--text);animation:pop .5s var(--ease)}
+.ob-fase .hrg svg{stroke:#0E0F10}
+.ob-fase h3{margin:2px 0 0;font-size:19px;letter-spacing:-.01em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@keyframes pop{from{transform:scale(.7);opacity:.3}to{transform:none;opacity:1}}
+.ob-pres-n{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.ob-pres-n b{font-size:24px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ob-pres-n i{font-style:normal;font-size:16px;font-weight:800;color:var(--muted)}
+.ob-pres .bs{margin-top:6px}
+.ob-gantt{position:relative;padding:20px 0 0;touch-action:none;cursor:ew-resize;user-select:none}
+#hgantt .gt{display:grid;grid-template-columns:132px 1fr;gap:10px;align-items:center;margin:0;padding:3px 0;opacity:.4;transition:opacity .35s;cursor:pointer}
+#hgantt .gt.act{opacity:1}#hgantt .gt.hecho{opacity:.8}
+#hgantt .gt .nmw{display:flex;align-items:center;gap:8px;min-width:0}
+#hgantt .gt .hrg{width:28px;height:28px;transition:background .35s,border-color .35s,transform .35s}
+#hgantt .gt.act .hrg{background:var(--text);border-color:var(--text);transform:scale(1.12)}
+#hgantt .gt.act .hrg svg{stroke:#0E0F10}
+#hgantt .gt .nm{width:auto;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#E2E2E0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hgantt .gt .tr{position:relative;height:24px;border-radius:6px;background:repeating-linear-gradient(to right,rgba(236,236,234,.07) 0,rgba(236,236,234,.07) 1px,transparent 1px,transparent calc(100%/26))}
+#hgantt .gt .tr b{position:absolute;top:4px;height:16px;border-radius:5px;border:1.5px solid rgba(236,236,234,.6);overflow:hidden;transition:box-shadow .35s,border-color .35s}
+#hgantt .gt.act .tr b{border-color:#fff;box-shadow:0 0 14px rgba(255,255,255,.4)}
+#hgantt .gt .tr b i{display:block;height:100%;width:0;transition:width .45s var(--ease);background:linear-gradient(90deg,#d9d9d6,#fff)}
+#hgantt .gt.act .tr b::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);animation:brilla 1.6s linear infinite}
+@keyframes brilla{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+#hgantt .gt .ok{position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;display:grid;place-items:center;opacity:0;transform:scale(.3);transition:all .4s var(--ease)}
+#hgantt .gt .ok svg{width:11px;height:11px;stroke:#0E0F10;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#hgantt .gt.hecho .ok{opacity:1;transform:none}
+.ob-ejes{position:absolute;left:142px;right:0;top:0;height:16px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+.ob-ejes span{position:absolute;transform:translateX(-50%)}
+.ob-cur{position:absolute;top:16px;bottom:0;left:142px;right:0;pointer-events:none}
+.ob-cur i{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.8);transition:left .35s var(--ease)}
+.ob-cur b{position:absolute;top:-17px;transform:translateX(-50%);background:#fff;color:#0E0F10;font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:99px;transition:left .35s var(--ease);font-weight:700}
+.ob-hoy{position:absolute;top:16px;bottom:0;left:142px;right:0;pointer-events:none}
+.ob-hoy span{position:absolute;bottom:-3px;transform:translateX(-50%);font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--muted);left:var(--hx,65%)}
+.ob-hoy::before{content:"";position:absolute;top:0;bottom:10px;left:var(--hx,65%);border-left:1px dashed rgba(236,236,234,.5)}
+#obra input[type=range]{height:3px}
+@keyframes entra-fila{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+#obra.on .gt{animation:entra-fila .5s var(--ease) both;animation-delay:calc(var(--i)*70ms + 150ms)}
+@media (max-height:780px){#obra{padding:10px 16px 8px;gap:6px}.ob-sem #hsem{font-size:38px}.ob-fase .hrg{width:38px;height:38px}#hgantt .gt{padding:1px 0}#hgantt .gt .tr{height:20px}#hgantt .gt .tr b{top:3px;height:14px}#hgantt .gt .ok{top:1px;width:16px;height:16px}}
+@media (max-width:760px){.ob-top{grid-template-columns:auto 1fr auto}.ob-pres{display:none}.ob-sem #hsem{font-size:34px}.ob-fase h3{font-size:14px}#hgantt .gt{grid-template-columns:34px 1fr}#hgantt .gt .nm{display:none}.ob-ejes,.ob-cur,.ob-hoy{left:44px}}
 </style>
 </head>
 <body>
@@ -398,12 +443,17 @@ td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
 </div>
 
 <div class="hud" id="hmini" aria-hidden="true"><div class="hcard"><div class="hmm"><span>Cámara</span></div><div id="hminis"></div><span class="hmm niv" id="hniv"></span></div></div>
-<div class="hud" id="hobra" aria-hidden="true"><div class="hcard"><div class="hmm"><span>Semana · ejemplo</span><span>Gantt</span></div><div style="display:flex;justify-content:space-between;align-items:flex-end;margin:6px 0 8px"><div id="hsem"></div><div id="hpct"></div></div><div id="gbox"><div class="hhoy"><i id="hhoy"></i></div><div id="hgantt"></div><div class="ejes" id="hejes"></div></div></div></div>
-<div class="hud" id="hpres" aria-hidden="true" style="top:auto;bottom:calc(150px + env(safe-area-inset-bottom,0px))"><div class="hcard"><div class="hmm"><span>Presupuesto · ejemplo</span></div><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px"><div id="hej">$0</div><div id="hejp">0%</div></div><div class="hmm" style="margin-top:2px"><span id="htot"></span></div><div class="bs" id="hbseg"></div><div class="bl2" id="hbleg"></div></div></div>
-<div class="panel" id="obra" role="region" aria-label="Control de obra en 4D">
-  <div class="fila"><div><div class="mono muted" id="osem">Semana 0 de 26</div><h3 id="ofase">Cimentación y losas</h3></div><div class="mono" id="oav"></div></div>
-  <div class="rng"><button class="rb" id="oplay" type="button" aria-label="Reproducir la obra"><svg class="i"><use href="#i-play"/></svg></button><input id="oslider" type="range" min="0" max="100" value="65" step="1" aria-label="Avance de la obra"></div>
+<div class="panel" id="obra" role="region" aria-label="Control de obra en 4D: Gantt, avance y presupuesto">
+  <div class="ob-top">
+    <div class="ob-sem"><span class="hmm">Semana · ejemplo</span><div id="hsem"></div></div>
+    <div class="ob-fase"><div class="hrg" id="ofi"></div><div><span class="hmm" id="oav"></span><h3 id="ofase">Cimentación y losas</h3></div></div>
+    <div class="ob-pres"><span class="hmm">Presupuesto ejercido · ejemplo</span><div class="ob-pres-n"><b id="hej">$0</b><i id="hejp">0%</i></div><div class="bs" id="hbseg"></div></div>
+    <button class="rb" id="oplay" type="button" aria-label="Reproducir la obra"><svg class="i"><use href="#i-play"/></svg></button>
   </div>
+  <div class="ob-gantt" id="gbox"><div class="ob-ejes" id="hejes"></div><div id="hgantt"></div><div class="ob-cur" id="hcur"><i></i><b id="hcurl"></b></div><div class="ob-hoy" id="hhoy"><span>HOY</span></div></div>
+  <input id="oslider" type="range" min="0" max="100" value="65" step="1" aria-label="Avance de la obra">
+  <span class="hmm" id="osem" style="display:none"></span><span id="hpct" style="display:none"></span><span id="htot" style="display:none"></span><span id="hbleg" style="display:none"></span>
+</div>
 <div class="panel" id="inst" role="region" aria-label="Instalaciones"><h3>Redes del modelo</h3><div id="isis"></div><p class="muted" style="margin:10px 0 0;font-size:11.5px">Toca una red para ocultarla · arrastra para girar.</p></div>
 <div class="panel" id="maq" role="region" aria-label="Maqueta"><h3>Maqueta 3D</h3><p class="muted" style="margin:0;font-size:13px">Exterior, planta por nivel y cada habitación en 360°. Cambia la hora y el clima abajo.</p></div>
 
@@ -435,11 +485,11 @@ function money(n){return '$'+Math.round(n).toLocaleString('es-MX');}
 
 /* ---------- estancias ---------- */
 var PANOS={
- cochera:{img:'img/pano-cochera.jpg?v=4',n:'Cochera',d:'Acceso, arco de entrada, portón y vista hacia la doble altura',x:3.00,y:-2.40,yaw0:0,nivel:0,ic:'cochera'},
- sala:{img:'img/pano-sala.jpg?v=4',n:'Sala y doble altura',d:'TV, comedor y vitrina de plantas bajo la escalera, a la luz del día',x:3.40,y:2.60,yaw0:-90,nivel:0,ic:'sala'},
- cocina:{img:'img/pano-cocina.jpg?v=4',n:'Cocina',d:'Isla con barra, cocina corrida y alacenas de madera',x:2.10,y:3.90,yaw0:0,nivel:0,ic:'cocina'},
- jardin:{img:'img/pano-jardin.jpg?v=4',n:'Patio y asador',d:'Patio con asador, comedor exterior y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0,ic:'patio'},
- tapanco:{img:'img/pano-tapanco.jpg?v=4',n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1,ic:'tapanco'}};
+ cochera:{img:'img/pano-cochera.jpg?v=7',n:'Cochera',d:'Acceso, arco de entrada, portón y vista hacia la doble altura',x:3.00,y:-2.40,yaw0:0,nivel:0,ic:'cochera'},
+ sala:{img:'img/pano-sala.jpg?v=7',n:'Sala y doble altura',d:'TV, comedor y vitrina de plantas bajo la escalera, a la luz del día',x:3.40,y:2.60,yaw0:-90,nivel:0,ic:'sala'},
+ cocina:{img:'img/pano-cocina.jpg?v=7',n:'Cocina',d:'Isla con barra, cocina corrida y alacenas de madera',x:2.10,y:3.90,yaw0:0,nivel:0,ic:'cocina'},
+ jardin:{img:'img/pano-jardin.jpg?v=7',n:'Patio y asador',d:'Patio con asador, comedor exterior y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0,ic:'patio'},
+ tapanco:{img:'img/pano-tapanco.jpg?v=7',n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1,ic:'tapanco'}};
 var FOTOS={
  fachada:{img:'img/fachada.jpg',n:'Fachada',d:'Atardecer sobre la calle, con rampa de acceso',x:3.0,y:-3.6,nivel:0,ic:'fachada'},
  tv:{img:'img/tv.jpg',n:'Muro de TV',d:'Arte, iluminación cálida y pantalla Metric.arq',x:3.69,y:2.62,yaw:-107.8,nivel:0,ic:'noche'}};
@@ -466,7 +516,7 @@ function setVista(v){
   if(v===vista&&entro)return; vista=v; cierraHojas(); closePill();
   var mod=(v==='maqueta'||v==='obra'||v==='inst');
   $('#v-tour').classList.toggle('on',v==='tour'); $('#v-renders').classList.toggle('on',v==='renders'); $('#v-modelo').classList.toggle('on',mod); $('#v-panel').classList.toggle('on',v==='panel');
-  $('#hmini').classList.toggle('on',v==='tour');$('#hobra').classList.toggle('on',v==='obra');$('#hpres').classList.toggle('on',v==='obra');
+  $('#hmini').classList.toggle('on',v==='tour');
   $('#obra').classList.toggle('on',v==='obra'); $('#inst').classList.toggle('on',v==='inst'); $('#maq').classList.toggle('on',v==='maqueta');
   var tour=(v==='tour');
   ['#bl','#br','#cap'].forEach(function(s){$(s).style.display=tour?'':'none';});
@@ -475,7 +525,7 @@ function setVista(v){
   if(mod){esperaModelo(function(w){var s=w.__showroom;
       ocultaCtl(w,v!=='maqueta');
       if(v==='maqueta'){s.fase(null);s.capas(false);s.fijaModo('ext');}
-      if(v==='obra'){s.capas(false);s.fijaModo('ext');s.cam({az:0.75,el:0.5,dist:(innerWidth<700?27:15),tgt:[3,2,-8.2]});setFase(+$('#oslider').value/100);}
+      if(v==='obra'){s.capas(false);s.fijaModo('ext');s.cam({az:0.75,el:0.5,dist:(innerWidth<700?36:27),tgt:[3,-2.0,-8.2]});setFase(+$('#oslider').value/100);}
       if(v==='inst'){s.fase(null);s.fijaModo('ext');s.capas(true);s.cam({az:0.75,el:0.5,dist:(innerWidth<700?27:15),tgt:[3,2,-8.2]});pintaSis();}
     });}
   if(v==='obra')$('#oslider').dispatchEvent(new Event('input'));
@@ -546,7 +596,7 @@ $('#bfull').onclick=function(){var d=document,e=d.documentElement;if(d.fullscree
 
 /* ---------- hojas: estancias y plano ---------- */
 function listaEst(){
-  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=4"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
+  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=7"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
   $$('#estl .est').forEach(function(b){b.onclick=function(){muestra(b.dataset.id)};});
 }
 function hoja(id,btn){var s=$(id),o=!s.classList.contains('on');cierraHojas();if(o){s.classList.add('on');$(btn).setAttribute('aria-pressed','true');}}
@@ -556,7 +606,7 @@ var nivel=0,svgs={};
 function pintaPlan(){
   var cargar=function(n,cb){if(svgs[n]){cb(svgs[n]);return;}fetch(n===0?'planta-baja.svg':'planta-tapanco.svg').then(function(r){return r.text()}).then(function(t){svgs[n]=t;cb(t)}).catch(function(){cb('')});};
   cargar(nivel,function(t){
-    var P=$('#plan');P.innerHTML='';P.style.backgroundImage='url(img/'+(nivel===0?'plano-baja':'plano-tapanco')+'.jpg?v=4)';
+    var P=$('#plan');P.innerHTML='';P.style.backgroundImage='url(img/'+(nivel===0?'plano-baja':'plano-tapanco')+'.jpg?v=7)';
     ORDEN.forEach(function(id){var I=info(id);if((I.nivel||0)!==nivel)return;var px=(I.x+1.395)/8.788*100,py=(11.3-I.y)/16.6*100;
       if(py>100)py=96;
       var b=document.createElement('button');b.className='pin';b.dataset.id=id;b.style.left=px+'%';b.style.top=py+'%';b.setAttribute('aria-label',I.n);b.title=I.n;b.innerHTML='<svg viewBox="0 0 24 24"><use href="#i-pin"/></svg>';b.onclick=function(){muestra(id)};P.appendChild(b);});
@@ -618,35 +668,45 @@ function semDe(p){if(!PTS){PTS=[0,.14,.36,.58,.78,.94].map(function(q,i){return 
 var CF=null;function costosFase(){if(CF)return CF;CF=D.fases.map(function(_,i){return D.partidas.filter(function(x){return x.fase===i}).reduce(function(s,x){return s+x.imp},0);});return CF;}
 function ejercido(w){var c=costosFase();return D.fases.reduce(function(s,f,i){return s+c[i]*Math.min(Math.max((w-f.s0)/(f.s1+1-f.s0),0),1);},0);}
 function construyeObraHud(){
-  $('#hgantt').innerHTML=D.fases.map(function(f,i){return '<div class="gt" id="hgt'+i+'">'+hrg(FCORTA[i][1])+'<span class="nm">'+FCORTA[i][0]+'</span><div class="tr"><b style="left:'+((f.s0-1)/D.semanas*100)+'%;width:'+((f.s1+1-f.s0)/D.semanas*100)+'%"><i id="hgf'+i+'"></i></b></div></div>';}).join('');
-  $('#hejes').innerHTML=[1,5,10,15,20,26].map(function(w){return '<span style="left:'+((w-1)/D.semanas*100)+'%">'+w+'</span>';}).join('');
+  $('#hgantt').innerHTML=D.fases.map(function(f,i){return '<div class="gt" id="hgt'+i+'" style="--i:'+i+'" data-i="'+i+'"><div class="nmw">'+hrg(FCORTA[i][1])+'<span class="nm">'+FCORTA[i][0]+'</span></div><div class="tr"><b style="left:'+((f.s0-1)/D.semanas*100)+'%;width:'+((f.s1+1-f.s0)/D.semanas*100)+'%"><i id="hgf'+i+'"></i></b><span class="ok" style="left:calc('+((f.s1+1)/D.semanas*100)+'% + 4px)"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div></div>';}).join('');
+  $('#hejes').innerHTML=[1,5,10,15,20,26].map(function(w){return '<span style="left:'+((w-.5)/D.semanas*100)+'%">'+w+'</span>';}).join('');
   var c=costosFase(),con=c.map(function(v,i){return v?i:-1}).filter(function(i){return i>=0});
   $('#hbseg').innerHTML=con.map(function(i){return '<div id="hbs'+i+'"><i></i></div>';}).join('');
-  $('#hbleg').innerHTML=con.map(function(i){return '<span>'+FCORTA[i][0]+'</span>';}).join('');
   $('#htot').textContent='de '+money(D.total);
+  $('#hhoy').style.setProperty('--hx',((D.hoy-.5)/D.semanas*100)+'%');
+  $$('#hgantt .nmw').forEach(function(r){r.onclick=function(){var i=+r.parentNode.dataset.i;fijaP(i===0?0.07:UMB[i-1]+0.02);};});
+  var g=$('#gbox'),drag=false;
+  function desdeX(ev){var tr=$('#hgantt .tr');var r=tr.getBoundingClientRect();var w=Math.min(D.semanas,Math.max(1,(ev.clientX-r.left)/r.width*D.semanas));fijaP(pDeSem(w));}
+  g.addEventListener('pointerdown',function(e){if(!e.target.closest('.tr'))return;drag=true;try{g.setPointerCapture(e.pointerId);}catch(x){}autoStop();desdeX(e);});
+  g.addEventListener('pointermove',function(e){if(drag)desdeX(e);});
+  g.addEventListener('pointerup',function(){drag=false;});
 }
-function hudObra(p){var w=semDe(p),c=costosFase();
-  $('#hsem').innerHTML=('0'+Math.max(1,Math.round(w))).slice(-2)+'<small> / '+D.semanas+'</small>';$('#hpct').textContent=Math.round(p*100)+'%';
-  $('#hhoy').style.left=((w-1)/D.semanas*100)+'%';
-  D.fases.forEach(function(f,i){var fill=Math.min(Math.max((w-f.s0)/(f.s1+1-f.s0),0),1),act=w>=f.s0&&w<f.s1+1,el=$('#hgt'+i);$('#hgf'+i).style.width=(fill*100)+'%';el.style.opacity=act?1:(fill>=1?.7:.38);
-    var rg=el.querySelector('.hrg');rg.style.background=act?'#ECECEA':'rgba(14,15,16,.55)';el.querySelector('svg').style.stroke=act?'#0E0F10':'#ECECEA';
+function pDeSem(w){var lo=0,hi=1;for(var k=0;k<24;k++){var m=(lo+hi)/2;if(semDe(m)<w)lo=m;else hi=m;}return (lo+hi)/2;}
+function fijaP(p){p=Math.min(1,Math.max(0,p));$('#oslider').value=Math.round(p*100);setFase(p);}
+function autoStop(){if(tim){clearInterval(tim);tim=null;$('#oplay').innerHTML=ic('play');}}
+function hudObra(p){var w=semDe(p),c=costosFase(),sem=Math.max(1,Math.round(w));
+  $('#hsem').innerHTML=('0'+sem).slice(-2)+'<small> / '+D.semanas+'</small>';
+  var pos=((w-.5)/D.semanas*100)+'%';$('#hcur').firstChild.style.left=pos;$('#hcurl').style.left=pos;$('#hcurl').textContent='S'+sem;
+  var act=0;
+  D.fases.forEach(function(f,i){var fill=Math.min(Math.max((w-f.s0)/(f.s1+1-f.s0),0),1),on=w>=f.s0&&w<f.s1+1,el=$('#hgt'+i);$('#hgf'+i).style.width=(fill*100)+'%';
+    el.classList.toggle('act',on);el.classList.toggle('hecho',fill>=1);if(on)act=i;
     var s=$('#hbs'+i);if(s){s.firstChild.style.width=((c[i]?fill:0)*100)+'%';}});
+  var fa=D.fases.findIndex(function(f){return w>=f.s0&&w<f.s1+1});if(fa<0)fa=w>=D.semanas?D.fases.length-1:act;
+  var oi=$('#ofi');if(oi.dataset.k!==String(fa)){oi.dataset.k=fa;oi.innerHTML=icv(FCORTA[fa][1]);oi.style.animation='none';void oi.offsetWidth;oi.style.animation='';}
   var e=ejercido(w);$('#hej').textContent=money(e);$('#hejp').textContent=Math.round(e/D.total*100)+'%';}
 function setFase(p){
   if(!HOBRA){HOBRA=true;construyeObraHud();} hudObra(p);
   var nom='';esperaModelo(function(w){nom=w.__showroom.fase(p>=1?null:p)||'Entrega';
     $('#ofase').textContent=p>=1?'Entrega':nom;});
-  var sem=Math.round(p*D.semanas);
-  $('#osem').textContent='Semana '+sem+' de '+D.semanas;
   var k=0;while(k<UMB.length-1&&p>=UMB[k])k++;
-  var f=NF[k];if(f)$('#oav').textContent=(sem<=D.hoy?'REAL':'PLAN')+' · '+f.av+' % de la fase';
+  var f=NF[k];if(f)$('#oav').textContent=(semDe(p)<=D.hoy?'REAL':'PLAN')+' · '+f.av+' % de la fase';
 }
-$('#oslider').oninput=function(){setFase(+this.value/100);};
+$('#oslider').oninput=function(){autoStop();setFase(+this.value/100);};
 var tim=null;
 $('#oplay').onclick=function(){
-  if(tim){clearInterval(tim);tim=null;this.innerHTML=ic('play');return;}
-  var s=$('#oslider');if(+s.value>=100)s.value=0;this.innerHTML=ic('pausa');var btn=this;
-  tim=setInterval(function(){var v=+s.value+1;if(v>100){clearInterval(tim);tim=null;btn.innerHTML=ic('play');return;}s.value=v;setFase(v/100);},reduce?30:230);
+  if(tim){autoStop();return;}
+  var s=$('#oslider');if(+s.value>=100)s.value=0;this.innerHTML=ic('pausa');
+  tim=setInterval(function(){var v=+s.value+1;if(v>100){autoStop();return;}s.value=v;setFase(v/100);},reduce?30:200);
 };
 
 /* ---------- instalaciones ---------- */
