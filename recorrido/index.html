@@ -263,9 +263,9 @@ var PANT_VIDEO=8, PANT_CIERRE=1.2, BUF0=130;      /* cuadros contiguos que deben
 function medidas(){var w=VW();$('#pista').style.width=((PANT_VIDEO+PANT_CIERRE+1)*w)+'px';}
 function maxVideo(){return PANT_VIDEO*VW();}
 function tam(){var d=Math.min(devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;dibuja(true);}
-function nombre(i){return 'frames/f_'+('000'+i).slice(-4)+'.webp?v=13';}
+function nombre(i){return 'frames/f_'+('000'+i).slice(-4)+'.webp?v=15';}
 function cargaTodo(){
-  fetch('frames.json?v=13').then(function(r){return r.json()}).then(function(m){META=m;img=new Array(m.n);PANT_VIDEO=Math.max(5,Math.round(m.n/32));medidas();
+  fetch('frames.json?v=15').then(function(r){return r.json()}).then(function(m){META=m;img=new Array(m.n);PANT_VIDEO=Math.max(5,Math.round(m.n/32));medidas();
     $('#wa').href=m.wa;$('#capCta').href=m.wa;$('#wa2').href=m.wa;
     construyeHud();
     req=new Uint8Array(m.n);var vivos=0;
@@ -310,7 +310,7 @@ function hdCerca(f){if(!META||!META.hd)return -1;if(!hdSet){hdSet=new Set(META.h
 function reposo(){if(!META)return;var id=hdCerca(frame);if(id<0){ult=-1;frame=Math.round(frame);dibuja(true);return;}
   var fin=function(im){if(hdTok!==tok)return;hdActual=id;ctx.globalAlpha=1;pinta(im);};var tok=++hdTok;
   if(hdImg[id]&&hdImg[id].complete&&hdImg[id].naturalWidth){fin(hdImg[id]);return;}
-  var im=new Image();im.decoding='async';im.onload=function(){hdImg[id]=im;fin(im);};im.src='frames_hd/h_'+('000'+id).slice(-4)+'.webp?v=14';
+  var im=new Image();im.decoding='async';im.onload=function(){hdImg[id]=im;fin(im);};im.src='frames_hd/h_'+('000'+id).slice(-4)+'.webp?v=15';
   /* mientras llega, el cuadro normal exacto (sin fantasma de mezcla) */
   ult=-1;var f0=frame;frame=Math.round(frame);dibuja(true);frame=f0;}
 var hdTok=0;
