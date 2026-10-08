@@ -30,7 +30,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stro
 /* ---------- splash ---------- */
 #splash{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:#000;overflow:hidden;transition:opacity .9s var(--ease),transform 1.1s var(--ease),visibility 0s .9s}
 #splash.out{opacity:0;transform:scale(1.06);visibility:hidden;pointer-events:none}
-#splash .bg{position:absolute;inset:-4%;background:center/cover url(img/fachada.jpg);animation:kb 22s ease-in-out infinite alternate;filter:saturate(1.05)}
+#splash .bg{position:absolute;inset:-4%;background:center/cover url(img/fachada.jpg?v=12);animation:kb 22s ease-in-out infinite alternate;filter:saturate(1.05)}
 #splash::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.15) 40%,rgba(0,0,0,.78))}
 @keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
 #splash .in{position:relative;z-index:2;text-align:center;padding:0 var(--gut);display:grid;gap:18px;justify-items:center}
@@ -655,8 +655,8 @@ var PANOS={
  jardin:{img:'img/pano-jardin.jpg?v=11',n:'Patio y asador',d:'Patio con asador, comedor exterior y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0,ic:'patio'},
  tapanco:{img:'img/pano-tapanco.jpg?v=11',n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1,ic:'tapanco'}};
 var FOTOS={
- fachada:{img:'img/fachada.jpg',n:'Fachada',d:'Atardecer sobre la calle, con rampa de acceso',x:3.0,y:-3.6,nivel:0,ic:'fachada'},
- tv:{img:'img/tv.jpg',n:'Muro de TV',d:'Arte, iluminación cálida y pantalla Metric.arq',x:3.69,y:2.62,yaw:-107.8,nivel:0,ic:'noche'}};
+ fachada:{img:'img/fachada.jpg?v=12',n:'Fachada',d:'Atardecer sobre la calle, con rampa de acceso',x:3.0,y:-3.6,nivel:0,ic:'fachada'},
+ tv:{img:'img/tv.jpg?v=12',n:'Muro de TV',d:'Arte, iluminación cálida y pantalla Metric.arq',x:3.69,y:2.62,yaw:-107.8,nivel:0,ic:'noche'}};
 var ORDEN=['fachada','cochera','sala','cocina','jardin','tapanco','tv'];
 function info(id){return PANOS[id]||FOTOS[id];}
 var visitadas={};
@@ -690,7 +690,7 @@ function setVista(v){
   $('#pilln').textContent=VISTAS.filter(function(x){return x[0]===v})[0][1];
   $$('#pilll button').forEach(function(b){b.setAttribute('aria-current',b.dataset.v===v)}); $$('#dnav a').forEach(function(b){b.setAttribute('aria-current',b.dataset.v===v)});
   if(mod){esperaModelo(function(w){var s=w.__showroom;
-      ocultaCtl(w,v!=='maqueta');s.axo(true);
+      ocultaCtl(w,v!=='maqueta');s.axo(false);
       if(v==='maqueta'){s.fase(null);s.capas(false);s.fijaModo('ext');}
       if(v==='obra'){s.capas(false);s.fijaModo('ext');s.cam({az:0.75,el:0.5,dist:(innerWidth<700?36:27),tgt:[3,-2.0,-8.2]});setFase(+$('#oslider').value/100);}
       if(v==='inst'){s.fase(null);s.fijaModo('ext');s.capas(true);s.cam({az:0.75,el:0.5,dist:(innerWidth<700?27:15),tgt:[3,2,-8.2]});pintaSis();}
@@ -765,7 +765,7 @@ $('#bfull').onclick=function(){var d=document,e=d.documentElement;if(d.fullscree
 
 /* ---------- hojas: estancias y plano ---------- */
 function listaEst(){
-  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button style="--i:'+ORDEN.indexOf(id)+'" class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=11"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
+  $('#estl').innerHTML=ORDEN.map(function(id){var I=info(id);return '<button style="--i:'+ORDEN.indexOf(id)+'" class="est'+(visitadas[id]?' vis':'')+'" data-id="'+id+'" aria-current="'+(escena===id)+'"><img alt="" src="img/t-'+(PANOS[id]?'pano-'+id:id)+'.jpg?v=12"><span><b>'+I.n+'</b><small>'+I.d+'</small></span><span class="ok">'+ic('check')+'</span></button>';}).join('');
   $$('#estl .est').forEach(function(b){b.onclick=function(){muestra(b.dataset.id)};});
 }
 function hoja(id,btn){var s=$(id),o=!s.classList.contains('on');cierraHojas();if(o){s.classList.add('on');$(btn).setAttribute('aria-pressed','true');}}
@@ -815,7 +815,7 @@ function ctxBtns(){var h='';
 
 
 /* ====================== INICIO ====================== */
-var HERO=[['fachada','Fachada · atardecer'],['sala','Sala a doble altura'],['comedor','Sala hacia la cochera'],['tapanco','Tapanco'],['tv','Muro de TV']],hIdx=0,hTim=0,homeOk=false;
+var HERO=[['fachada','Fachada de noche'],['sala','Sala y cocina'],['altura','Doble altura'],['comedor','Sala hacia el patio'],['tv','Muro de TV']],hIdx=0,hTim=0,homeOk=false;
 function lamClon(k){var tp=document.getElementById('t-lam-'+k);return tp?tp.innerHTML:'';}
 var TARJ=[
  ['d2','2D','Planos técnicos','Plantas, corte y alzado dibujados a partir del modelo de Revit, con cotas, ejes y m² por recinto.','4 láminas · A-01 a A-04','lam'],
@@ -823,17 +823,17 @@ var TARJ=[
  ['obra','4D','Control de obra','Gantt de 26 semanas con la casa construyéndose en 3D, fase por fase.','26 semanas · 6 fases','gantt'],
  ['panel','5D','Costos y panel','Presupuesto por partida ligado a cada elemento del modelo.','','costo'],
  ['tour','360°','Recorrido 360°','Cinco espacios en panorámica de día, con plano y puntos de paso.','5 panoramas 4K','pano'],
- ['renders','IMG','Renders','Cinco vistas fotorrealistas del loft de noche.','5 imágenes 2K','ren']];
+ ['renders','IMG','Renders','Nueve vistas fotorrealistas del loft de noche, de la fachada al baño.','9 imágenes 2K','ren']];
 function tarjPrev(c){
   if(c==='lam')return '<div class="pv claro"><span class="dm">2D</span><div class="lamv">'+lamClon('pb')+'</div></div>';
-  if(c==='axo')return '<div class="pv claro"><span class="dm">3D</span><img class="ax" alt="" src="img/maqueta-axo.jpg"></div>';
+  if(c==='axo')return '<div class="pv"><span class="dm">3D</span><img alt="" src="img/maqueta-real.jpg" style="object-position:50% 40%"></div>';
   if(c==='gantt'){var n=D.fases.length,ini=[0,3,7,12,17,22],dur=[4,5,7,6,5,4];return '<div class="pv"><span class="dm">4D</span><div class="mg">'+D.fases.map(function(f,i){return '<i style="--k:'+i+';--s:'+(ini[i]/26*100)+'%;--w:'+(dur[i]/26*100)+'%"></i>';}).join('')+'</div></div>';}
   if(c==='costo'){var cf=costosFase(),tot=cf.reduce(function(a,b){return a+b;},0)||1;return '<div class="pv"><span class="dm">5D</span><div class="cs"><small>Presupuesto de ejemplo</small><b data-f="'+money(D.total)+'">'+money(D.total)+'</b><div class="seg">'+cf.map(function(v,i){return '<i style="--k:'+i+';--f:'+Math.max(1,Math.round(v/tot*100))+'"></i>';}).join('')+'</div></div></div>';}
   if(c==='pano')return '<div class="pv"><span class="dm">360°</span><img alt="" src="img/pano-sala.jpg" style="object-position:50% 50%"><span class="ring360">'+ic('360')+'</span></div>';
   return '<div class="pv"><span class="dm">IMG</span><div class="fan"><img alt="" src="img/t-fachada.jpg"><img alt="" src="img/t-sala.jpg"><img alt="" src="img/t-tapanco.jpg"></div></div>';}
 function homeHTML(){
   var kp=[['52','m² construidos'],['2','niveles'],['8','recintos'],['6','redes de instalaciones'],['26','semanas de obra'],[money(D.total),'presupuesto de ejemplo']];
-  return '<section class="hh">'+HERO.map(function(h,i){return '<div class="hh-s'+(i?'':' on')+'" style="background-image:url(img/'+h[0]+'.jpg)"></div>';}).join('')+
+  return '<section class="hh">'+HERO.map(function(h,i){return '<div class="hh-s'+(i?'':' on')+'" style="background-image:url(img/'+h[0]+'.jpg?v=12)"></div>';}).join('')+
    '<div class="hh-in"><div class="hh-k"><i></i>Showroom BIM · Morelia, Michoacán</div>'+
    '<h1><span><b>Loft</b></span><span><b>6 × 15</b></span></h1>'+
    '<p class="hh-p">Una vivienda de 52 m² explicada en cuatro dimensiones: planos técnicos de Revit, modelo 3D, calendario de obra y presupuesto, más recorrido 360° y renders.</p>'+
@@ -904,14 +904,14 @@ $$('#d3t button').forEach(function(b){b.onclick=function(){setVista(b.dataset.v)
 function d3Marca(){$$('#d3t button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===vista);b.setAttribute('aria-selected',b.dataset.v===vista);});}
 
 /* ---------- renders ---------- */
-var RENDERS=['fachada','sala','comedor','tapanco','tv'],rIdx=0;
-var RT={fachada:['Fachada','Atardecer sobre la calle, con rampa de acceso'],sala:['Sala a doble altura','Sala, tapanco, escalera y vitrina de plantas'],comedor:['Sala hacia la cochera','Comedor, ventanal en arco y cocina al fondo'],tapanco:['Tapanco','Recámara con escritorio y clósets'],tv:['Detalle del muro de TV','Arte, iluminación cálida y pantalla Metric.arq']};
+var RENDERS=['fachada','sala','altura','comedor','tapanco','tv','vitrina','cafe','bano'],rIdx=0;
+var RT={fachada:['Fachada de noche','La casa sobre la calle, con la sala iluminada tras el ventanal en arco'],sala:['Sala y cocina','Doble altura, tapanco, comedor y cocina de madera a la luz cálida'],altura:['Doble altura desde el tapanco','Sala, comedor y cocina vistos desde arriba, con el barandal de vidrio'],comedor:['Sala hacia el patio','Comedor de madera, escalera volada y ventanal al jardín'],tapanco:['Tapanco','Recámara con escritorio y clósets'],tv:['Muro de TV','Arte, luz de arbotante y pantalla Metric.arq'],vitrina:['Vitrina bajo la escalera','Plantas y libros con luz lineal bajo la escalera'],cafe:['Estación de café','Azulejo de patrón, cubierta de mármol y alacenas de madera'],bano:['Medio baño','Lavabo de vessel, espejo con luz y muro de piedra']};
 function pintaRender(i){var sl0=$('#rslide');sl0.style.animation='none';void sl0.offsetWidth;sl0.style.animation=reduce?'none':'kbR 14s ease-out forwards';rIdx=(i+RENDERS.length)%RENDERS.length;var id=RENDERS[rIdx],s=$('#rslide');
-  s.style.opacity=0;setTimeout(function(){s.style.backgroundImage='url(img/'+id+'.jpg)';s.style.opacity=1;},reduce?0:260);
+  s.style.opacity=0;setTimeout(function(){s.style.backgroundImage='url(img/'+id+'.jpg?v=12)';s.style.opacity=1;},reduce?0:260);
   $('#rn').textContent=('0'+(rIdx+1)).slice(-2)+' / 0'+RENDERS.length;$('#rt').textContent=RT[id][0];$('#rd').textContent=RT[id][1];
   $$('#rthumbs button').forEach(function(b,k){b.setAttribute('aria-current',k===rIdx)});}
 function rSig(d){pintaRender(rIdx+d);}
-$('#rthumbs').innerHTML=RENDERS.map(function(id,k){return '<button type="button" style="--i:'+k+'" aria-label="'+RT[id][0]+'"><img alt="" src="img/t-'+id+'.jpg"></button>';}).join('');
+$('#rthumbs').innerHTML=RENDERS.map(function(id,k){return '<button type="button" style="--i:'+k+'" aria-label="'+RT[id][0]+'"><img alt="" src="img/t-'+id+'.jpg?v=12"></button>';}).join('');
 $$('#rthumbs button').forEach(function(b,k){b.onclick=function(){pintaRender(k)};});
 $('#rprev').onclick=function(){rSig(-1)};$('#rnext').onclick=function(){rSig(1)};
 
