@@ -1127,16 +1127,7 @@ rail.innerHTML=OBRAS.map(function(o,i){
    (o.enlaces?'<div class="wbtns dos" role="group" aria-label="Recorrido y dashboard de '+esc(o.titulo)+'">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+
    '</div></article>';
 }).join('')+
-'<article class="slide dash" data-i="'+N+'" aria-label="Dashboard BIM del Loft 6 × 15">'+
- '<img class="bg sel" src="photos/dash-bg.jpg" alt="Sala y cocina del Loft 6 × 15 de noche, render" loading="lazy" decoding="async"><div class="veil"></div>'+
- '<div class="dprev" aria-hidden="true"><span class="c"><img src="photos/dash-2d.jpg" alt="" loading="lazy"></span><span class="c"><img src="photos/dash-home.jpg" alt="" loading="lazy"></span><span class="c"><img src="photos/dash-4d.jpg" alt="" loading="lazy"></span></div>'+
- '<div class="info"><div class="kick">'+ic('cubo')+'<b>D</b> — Dashboard Metric.arq · Loft 6 × 15</div>'+
- '<h2>El proyecto completo, en un tablero</h2>'+
- '<p class="lead">Planos técnicos que salen de Revit, modelo 3D con sus instalaciones, calendario de obra, presupuesto, recorrido 360° y renders. Todo en un solo lugar y listo para explorar.</p>'+
- '<div class="dchips" role="group" aria-label="Secciones del Dashboard">'+
-  '<a href="dashboard/#d2"><b>2D</b>Planos</a><a href="dashboard/#maqueta"><b>3D</b>Modelo</a><a href="dashboard/#obra"><b>4D</b>Obra</a><a href="dashboard/#panel"><b>5D</b>Costos</a><a href="dashboard/#tour"><b>360°</b>Recorrido</a><a href="dashboard/#renders"><b>IMG</b>Renders</a></div>'+
- '<div class="dcta"><a class="btn solid" href="dashboard/">'+ic('cubo')+'Abrir el Dashboard completo</a><a class="btn" href="https://arq-carlos-servicios.vercel.app" rel="noopener">Contratar el Dashboard · Metric.arq</a></div></div></article>'+
-'<article class="slide contacto" data-i="'+(N+1)+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
+'<article class="slide contacto" data-i="'+N+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
  '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><span class="v" id="mail">arqcarlosem@gmail.com</span><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
  '<div class="f"><span class="kick">'+ic('tel')+'Teléfono</span><span class="v" id="tel">+52 351 202 5030</span><button class="btn" type="button" data-copy="tel">Copiar</button></div>'+
  '<div class="f"><span class="kick">'+ic('pin')+'Ubicación</span><span class="v">Morelia, Michoacán, México</span><span></span></div></div></article>';
@@ -1148,7 +1139,7 @@ function actual(){ var i=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth)
 function recSync(){ var fr=$('#recfr'); if(!fr) return; var k=+fr.closest('.slide').dataset.i; if(idx>=k-1&&!fr.getAttribute('src')) fr.setAttribute('src',fr.dataset.src); if(fr.contentWindow) try{ fr.contentWindow.postMessage({rec:(idx===k&&!estado.umbral&&!estado.lab)?'play':'pause'},'*'); }catch(e){} if(idx===k&&!estado.umbral) setTimeout(function(){ try{fr.focus({preventScroll:true})}catch(e){} },400); }
 addEventListener('message',function(e){ var m=e.data&&e.data.rec; if(!m) return; if(m==='listo') recSync(); else if(m==='next') ir(idx+1); else if(m==='prev') ir(idx-1); });
 function pinta(){
-  $('#prog').innerHTML=idx<N?'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 0'+N:(idx===N?'<b>D</b> / Dashboard':'<b>Z</b> / Contacto');
+  $('#prog').innerHTML=idx<N?'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 0'+N:'<b>Z</b> / Contacto';
   $('#barra').style.width=((idx+1)/total*100)+'%';
 }
 var tick=false; rail.addEventListener('scroll',function(){ if(tick)return; tick=true; requestAnimationFrame(function(){tick=false;actual()}); },{passive:true});
