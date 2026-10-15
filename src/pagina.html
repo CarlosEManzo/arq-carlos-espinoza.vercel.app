@@ -178,7 +178,7 @@ body:has(.slide.abierta) .nav{display:none}
 .dshfr{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0E0F10;display:block}
 .p3d.dsh{display:block!important;overflow:hidden!important}
 .p3d.dsh>.canvasbox,.p3d.dsh>.ctl{display:none!important}
-.tri .p2d.dsh{padding:0;overflow:hidden;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:1px;align-items:stretch;background:var(--border-color)}
+.tri .p2d.dsh{padding:0;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);gap:1px;align-items:stretch;background:var(--border-color)}
 .p2d.dsh iframe{width:100%;height:100%;min-height:0;border:0;background:#0E0F10;display:block}
 @media (max-width:900px){.tri .p2d.dsh{padding:0;grid-template-columns:1fr;grid-template-rows:1fr 1fr}}
 .p2d{display:flex;flex-direction:column;align-items:center;overflow:auto;padding:14px;gap:12px}
@@ -1628,12 +1628,12 @@ function dashModo(o){
   var f=$('#dsh360'); if(f) f.remove();
   if(d){
     $('#pn1').insertAdjacentHTML('beforeend','<iframe class="dshfr" id="dsh360" title="Recorrido 360° del Loft 6 × 15 (datos de ejemplo)" data-src="dashboard/?directo&embed=1#tour" allow="fullscreen"></iframe>');
-    $('#pn2').innerHTML='<iframe id="dsh3d" title="Visor 3D del Loft 6 × 15" data-src="dashboard/?directo&embed=1#maqueta" allow="fullscreen"></iframe><iframe id="dshcal" title="Calendario de obra con costos por fase (datos de ejemplo)" data-src="dashboard/?directo&embed=obra#obra" allow="fullscreen"></iframe>';
+    $('#pn2').innerHTML='<iframe id="dsh3d" title="Visor 3D y calendario de obra con costos del Loft 6 × 15 (datos de ejemplo)" data-src="dashboard/?directo&embed=1#obra" allow="fullscreen"></iframe>';
   }
 }
 function dashCarga(){
   if(!slideAbierta||!OBRAS[+slideAbierta.dataset.i]||!OBRAS[+slideAbierta.dataset.i].dash) return;
-  var ids=panelActual==='1'?['#dsh360']:panelActual==='2'?['#dsh3d','#dshcal']:[];
+  var ids=panelActual==='1'?['#dsh360']:panelActual==='2'?['#dsh3d']:[];
   ids.forEach(function(q){ var f=$(q); if(f&&!f.getAttribute('src')) f.setAttribute('src',f.dataset.src); });
 }
 function abreVisor(i,w){
