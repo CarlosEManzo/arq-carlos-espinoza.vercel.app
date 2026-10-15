@@ -199,6 +199,12 @@ body:has(.slide.abierta) .nav{display:none}
  .ctl>div,.ctl>p{padding:14px var(--gut)}
 }
 @media (max-width:820px){.vhead{padding:8px var(--gut);gap:8px}.vhead .btn{min-height:36px;padding:6px 10px}.tabs button{padding:6px 8px;min-height:36px;font-size:11px}}
+.dshfr{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0E0F10;display:block}
+.p3d.dsh{display:block!important;overflow:hidden!important}
+.p3d.dsh>.canvasbox,.p3d.dsh>.ctl{display:none!important}
+.tri .p2d.dsh{padding:0;overflow:hidden;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:1px;align-items:stretch;background:var(--border-color)}
+.p2d.dsh iframe{width:100%;height:100%;min-height:0;border:0;background:#0E0F10;display:block}
+@media (max-width:900px){.tri .p2d.dsh{padding:0;grid-template-columns:1fr;grid-template-rows:1fr 1fr}}
 .p2d{display:flex;flex-direction:column;align-items:center;overflow:auto;padding:14px;gap:12px}
 .plsel{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .plsel button{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--border-color);padding:8px 14px;min-height:38px;color:var(--text-muted);transition:all .5s var(--ease)}
@@ -444,6 +450,7 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-atras" viewBox="0 0 24 24"><path d="M20 12H4.5 M10.5 5.5L4 12l6.5 6.5"/></symbol>
 <symbol id="i-despiece" viewBox="0 0 24 24"><path d="M12 2l8 3.5-8 3.5-8-3.5z M4 11l8 3.5 8-3.5 M4 16.5l8 3.5 8-3.5"/></symbol>
 <symbol id="i-corte" viewBox="0 0 24 24"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M12 3v18" stroke-dasharray="2 2.5"/></symbol>
+<symbol id="i-v360" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9.5" ry="4.2"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3v3 M12 18v3"/></symbol>
 <symbol id="i-cubo" viewBox="0 0 24 24"><path d="M12 2.5l8.5 4.8v9.4L12 21.5l-8.5-4.8V7.3z M12 12l8.5-4.7 M12 12v9.5 M12 12L3.5 7.3"/></symbol>
 <symbol id="i-plano" viewBox="0 0 24 24"><path d="M3.5 3.5h17v17h-17z M3.5 9.5h6 M9.5 3.5v17 M14 7h4.5 M14 14h4.5 M14 17.5h4.5"/></symbol>
 <symbol id="i-memoria" viewBox="0 0 24 24"><path d="M6.5 2.5h8l4 4v15h-12z M14.5 2.5v4h4 M9.5 12h6 M9.5 16h6"/></symbol>
@@ -1071,20 +1078,21 @@ var OBRAS=[
    ['cas-03','Sala con ventanal y piso porcelánico','Interior de la casa con ventanal, piso porcelánico y luminarias empotradas'],
    ['cas-04','Muro de chimenea en travertino','Muro de chimenea en travertino con andamio durante los acabados'],
    ['casa-01','Fachada en obra','Fachada de casa habitación en construcción, acabado blanco'],['casa-02','Render de la propuesta','Render 3D de la propuesta de casa habitación'],['casa-03','Fachada, otro ángulo','Otro ángulo de la fachada de la casa habitación en obra']]},
- {id:'bim',rec:true,icono:'bim',n:'04',titulo:'Recorrido Loft 6 × 15',anio:'2024–2025',empresa:'Métrica Estudio',tipo:'BIM · renders',rol:'Arquitecto freelance',
-  meta:'2024–2025 | 5 proyectos | Revit · renders',cifras:[['5','Proyectos'],['3','Clientes'],['MEP','Coordinado']],modelo:'bim',
-  texto:'Cinco proyectos en Revit con metodología BIM para tres clientes, residenciales y comerciales, con renders y recorridos virtuales para vender y validar cada propuesta. La galería reúne renders de la Casa Colibrí y modelos y planos de la Casa Valenciano y las Canchas Sofía.',
-  heroes:['hero-bim-1','hero-bim-3','hero-bim-2'],
-  fotos:[['ren-03','Casa Colibrí · recámara','Render de una recámara con cama, ventanal hacia la alberca y vestidor'],
-   ['ren-11','Casa Colibrí · sala y comedor','Render de la sala y el comedor de doble altura con escalera de vidrio y luz cálida'],
-   ['ren-08','Casa Colibrí · vestidor','Render de un vestidor con muebles de madera, isla central y cubierta de mármol'],
-   ['ren-02','Casa Colibrí · cocina','Render de una cocina con muebles de madera, cubierta de mármol negro y muro de piedra'],
-   ['bim-01','Coordinación MEP en Revit','Modelo isométrico de coordinación MEP en Revit, con instalaciones hidráulicas y eléctricas'],
-   ['val-01','Casa Valenciano · fachada principal','Vista de la fachada principal de la Casa Valenciano en modelo blanco, con arcos, balcones y volado inclinado'],
-   ['val-07','Casa Valenciano · axonometría','Axonometría en modelo blanco de la Casa Valenciano con planta baja, planta alta y patio'],
-   ['val-08','Casa Valenciano · sección','Sección en blanco y negro de la Casa Valenciano con sus dos niveles, la escalera y la cúpula'],
-   ['bim-05','Canchas Sofía · planta nivel +1.68','Plano de planta del nivel +1.68 de las Canchas Sofía, con ejes, cotas y locales numerados'],
-   ['bim-06','Canchas Sofía · alzado sur','Alzado sur del edificio de las Canchas Sofía con niveles, ejes y cotas']]}
+ {id:'dash',dash:true,icono:'bim',n:'04',titulo:'Dashboard de obra',anio:'2026',empresa:'Metric.arq',tipo:'Dashboard · Loft 6 × 15',rol:'Arquitecto · Metric.arq',
+  meta:'2026 | Loft 6 × 15 | Datos de ejemplo',cifras:[['26','Semanas de obra'],['6','Fases'],['$507K','MXN de ejemplo']],modelo:'bim',
+  texto:'Dashboard de obra de Metric.arq con un loft de 6 × 15 m y datos de ejemplo. Reúne el modelo 3D, el calendario de 26 semanas con el costo de cada fase, el recorrido 360° y los renders del proyecto. Explóralo aquí o ábrelo completo.',
+  enlaces:[['Abrir el Dashboard completo','cubo','dashboard/']],
+  heroes:['dl-01','dl-02','dl-04'],
+  fotos:[['dl-01','Fachada de noche','Render de la fachada del loft de noche, con ventanal en arco y luz cálida en el interior'],
+   ['dl-02','Sala y cocina','Render de la sala con doble altura, cocina al fondo y entrepiso de madera'],
+   ['dl-03','Doble altura','Render del interior con doble altura, muebles de madera y luz cálida'],
+   ['dl-04','Sala hacia el patio','Render de la sala vista hacia el patio, con escalera de madera en primer plano'],
+   ['dl-05','Muro de televisión','Render del muro de televisión con arte enmarcado y luminarias'],
+   ['dl-06','Tapanco','Render del tapanco con cama y vista hacia la doble altura'],
+   ['dl-07','Vitrina','Render de una vitrina de madera con objetos decorativos'],
+   ['dl-08','Cocina','Render de la cocina con muebles de madera, backsplash geométrico y cubierta de mármol'],
+   ['dl-09','Baño','Render del baño del loft con acabados en tonos cálidos'],
+   ['dl-10','Modelo BIM en blanco','Axonometría del modelo BIM en blanco con escalera, pérgola y cubierta']]}
 ];
 var APPS=[
  {n:'01',nombre:'Mr. Pasto',icono:'pasto',estado:'Publicada · en uso',stack:'React · TypeScript · Firebase · Vercel',link:'https://mr-pasto.vercel.app',
@@ -1105,7 +1113,6 @@ var APPS=[
 var rail=$('#rail'), N=OBRAS.length, idx=0, estado={umbral:true,visor:false,lab:false};
 rail.innerHTML=OBRAS.map(function(o,i){
   var f=o.fotos[0];
-  if(o.rec) return '<article class="slide rec" data-i="'+i+'" aria-label="'+o.n+' de 04: '+esc(o.titulo)+'"><iframe id="recfr" title="Recorrido del Loft 6 × 15 de Metric.arq" data-src="recorrido/?embed=1" allow="fullscreen" tabindex="0"></iframe></article>';
   return '<article class="slide'+(i===0?' on':'')+'" data-i="'+i+'" aria-label="'+o.n+' de 04: '+esc(o.titulo)+'">'+
    o.heroes.map(function(h,k){var ft=o.fotos.filter(function(x){return x[0]===h})[0]; return '<img class="bg'+(k===0?' sel':'')+'" src="photos/'+h+'.jpg" alt="'+esc(ft?ft[2]:o.titulo)+'" '+((i===0&&k===0)?'':'loading="lazy" ')+'decoding="async">'}).join('')+
    '<div class="veil"></div><div class="info">'+
@@ -1115,8 +1122,8 @@ rail.innerHTML=OBRAS.map(function(o,i){
    '<div class="meta">[ '+esc(o.meta)+' ]</div>'+
    '<div class="wbtns" role="group" aria-label="Monografía de '+esc(o.titulo)+'">'+
    '<button class="btn solid" type="button" data-obra="'+i+'" data-w="3" aria-pressed="false">'+ic('memoria')+'Información</button>'+
-   '<button class="btn" type="button" data-obra="'+i+'" data-w="1" aria-pressed="false">'+ic('cubo')+'Maqueta 3D</button>'+
-   '<button class="btn" type="button" data-obra="'+i+'" data-w="2" aria-pressed="false">'+ic('plano')+'Planos</button></div>'+
+   '<button class="btn" type="button" data-obra="'+i+'" data-w="1" aria-pressed="false">'+(o.dash?ic('v360')+'Visor 360':ic('cubo')+'Maqueta 3D')+'</button>'+
+   '<button class="btn" type="button" data-obra="'+i+'" data-w="2" aria-pressed="false">'+(o.dash?ic('cubo')+'3D y calendario':ic('plano')+'Planos')+'</button></div>'+
    (o.enlaces?'<div class="wbtns dos" role="group" aria-label="Recorrido y dashboard de '+esc(o.titulo)+'">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+
    '</div></article>';
 }).join('')+
@@ -1619,7 +1626,7 @@ function eventosOrbita(cv){
     if(e.key==='ArrowLeft')o.th+=.12; else if(e.key==='ArrowRight')o.th-=.12; else if(e.key==='ArrowUp')o.ph=Math.max(.12,o.ph-.08); else if(e.key==='ArrowDown')o.ph=Math.min(1.52,o.ph+.08);
     else if(e.key==='+'||e.key==='=')o.r=Math.max(V.size*.6,o.r*.9); else if(e.key==='-')o.r=Math.min(V.size*4,o.r*1.1); else used=false; if(used)e.preventDefault(); });
 }
-function bucle(){ if(!estado.visor||panelActual!=='1'||!V.ok){V.raf=0;return} V.raf=requestAnimationFrame(bucle); if(V.orb.auto)V.orb.th+=.0022; camara(); V.ren.render(V.scene,V.cam); }
+function bucle(){ if(!estado.visor||panelActual!=='1'||!V.ok||(V.plan&&V.plan.o.dash)){V.raf=0;return} V.raf=requestAnimationFrame(bucle); if(V.orb.auto)V.orb.th+=.0022; camara(); V.ren.render(V.scene,V.cam); }
 function arranca(){ if(!V.raf&&V.ok) V.raf=requestAnimationFrame(bucle); }
 
 /* ================= VISOR: pestañas y contenido ================= */
@@ -1630,7 +1637,9 @@ function panel(w){
   Object.keys(PANES).forEach(function(k){ PANES[k].classList.toggle('on',k===panelActual); });
   $$('.vhead .tabs button').forEach(function(b){ b.setAttribute('aria-selected',b.dataset.w===panelActual?'true':'false'); });
   if(slideAbierta) $$('[data-obra]',slideAbierta).forEach(function(b){ b.setAttribute('aria-pressed',estado.visor&&b.dataset.w===panelActual?'true':'false'); });
-  if(panelActual==='1'){ tam(); arranca(); }
+  var dsh=slideAbierta&&OBRAS[+slideAbierta.dataset.i]&&OBRAS[+slideAbierta.dataset.i].dash;
+  if(panelActual==='1'&&!dsh){ tam(); arranca(); }
+  dashCarga();
 }
 $$('.vhead .tabs button').forEach(function(b){ b.addEventListener('click',function(){ panel(b.dataset.w); }); });
 function pintaChips(m){ var c=$('#sis-chips'); c.innerHTML=sistemasDe(m).map(function(k){ var S=SIS[k]; return '<button type="button" class="chip-s" data-s="'+k+'" aria-pressed="true" style="--c:'+S.h+'">'+ic(S.i)+S.n+'</button>'; }).join('');
@@ -1642,12 +1651,30 @@ function pintaPlanos(){
   $$('.plsel button',$('#pn2')).forEach(function(b){ b.addEventListener('click',function(){ V.plan.ip=+b.dataset.p; pintaPlanos(); }); });
 }
 var slideAbierta=null;
+function dashModo(o){
+  var d=!!o.dash, ps=PANES;
+  $('.vhead .tabs [data-w="1"]').innerHTML=ic(d?'v360':'cubo')+(d?'Visor 360':'Maqueta 3D');
+  $('.vhead .tabs [data-w="2"]').innerHTML=ic(d?'cubo':'plano')+(d?'3D y calendario':'Planos');
+  $('.plab',ps['1']).innerHTML=ic(d?'v360':'cubo')+(d?'02 · Visor 360°':'02 · Maqueta 3D'); ps['1'].setAttribute('aria-label',d?'Visor 360°':'Maqueta 3D');
+  $('.plab',ps['2']).innerHTML=ic(d?'cubo':'plano')+(d?'03 · Visor 3D y calendario':'03 · Planos'); ps['2'].setAttribute('aria-label',d?'Visor 3D y calendario con costos':'Planos e instalaciones');
+  $('#pn1').classList.toggle('dsh',d); $('#pn2').classList.toggle('dsh',d);
+  var f=$('#dsh360'); if(f) f.remove();
+  if(d){
+    $('#pn1').insertAdjacentHTML('beforeend','<iframe class="dshfr" id="dsh360" title="Recorrido 360° del Loft 6 × 15 (datos de ejemplo)" data-src="dashboard/?directo&embed=1#tour" allow="fullscreen"></iframe>');
+    $('#pn2').innerHTML='<iframe id="dsh3d" title="Visor 3D del Loft 6 × 15" data-src="dashboard/?directo&embed=1#maqueta" allow="fullscreen"></iframe><iframe id="dshcal" title="Calendario de obra con costos por fase (datos de ejemplo)" data-src="dashboard/?directo&embed=obra#obra" allow="fullscreen"></iframe>';
+  }
+}
+function dashCarga(){
+  if(!slideAbierta||!OBRAS[+slideAbierta.dataset.i]||!OBRAS[+slideAbierta.dataset.i].dash) return;
+  var ids=panelActual==='1'?['#dsh360']:panelActual==='2'?['#dsh3d','#dshcal']:[];
+  ids.forEach(function(q){ var f=$(q); if(f&&!f.getAttribute('src')) f.setAttribute('src',f.dataset.src); });
+}
 function abreVisor(i,w){
   if(estado.visor&&slideAbierta===slides[i]){ if(!w||String(w)===panelActual){ cierraVisor(); } else { panel(w); } return; }
   if(estado.visor) cierraVisor();
   var o=OBRAS[i]; obraActual=i; visorPrev=document.activeElement; slideAbierta=slides[i]; slideAbierta.appendChild($('#visor')); slideAbierta.classList.add('abierta'); estado.visor=true; sincroniza();
   $('#v-cod').textContent=o.n+' / 04'; $('#v-titulo').textContent=o.titulo;
-  var modelo=MODELOS[o.modelo](); V.plan={o:o,modelo:modelo,ip:0}; V.act={}; sistemasDe(modelo).forEach(function(k){V.act[k]=true}); pintaChips(modelo); $('#v-ico').innerHTML=ic(o.icono); pintaPlanos();
+  var modelo=MODELOS[o.modelo](); V.plan={o:o,modelo:modelo,ip:0}; V.act={}; sistemasDe(modelo).forEach(function(k){V.act[k]=true}); pintaChips(modelo); $('#v-ico').innerHTML=ic(o.icono); dashModo(o); if(!o.dash) pintaPlanos();
   var N3=o.fotos.length, fotoK=0, slot=0;
   var info='<div class="txt"><span class="mono muted">'+esc(o.tipo)+' · '+esc(o.anio)+'</span><p>'+esc(o.texto)+'</p><dl class="dl"><dt>Rol</dt><dd>'+esc(o.rol)+'</dd>'+(o.empresa?'<dt>Empresa</dt><dd>'+esc(o.empresa)+'</dd>':'')+'<dt>Tipo</dt><dd>'+esc(o.tipo)+'</dd><dt>Año</dt><dd>'+esc(o.anio)+'</dd>'+o.cifras.map(function(c){return '<dt>'+esc(c[1])+'</dt><dd class="num">'+esc(c[0])+'</dd>'}).join('')+'</dl>'+(o.enlaces?'<div class="wbtns dos" style="margin-top:18px">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+'</div>';
   var stage='<div class="stg" id="stg" tabindex="0" role="group" aria-roledescription="carrusel" aria-label="Fotos de '+esc(o.titulo)+'">'+
@@ -1675,7 +1702,7 @@ function abreVisor(i,w){
   $$('.thumbs button',$('#pn3')).forEach(function(b){ b.addEventListener('click',function(){foto(+b.dataset.k)}) });
   var bp=$('.nav-f.a',$('#pn3')), bs=$('.nav-f.s',$('#pn3')); if(bp){ bp.addEventListener('click',function(){foto(fotoK-1)}); bs.addEventListener('click',function(){foto(fotoK+1)}); }
   var sg=$('#stg'), x0=null; sg.addEventListener('pointerdown',function(e){ if(e.target.closest('button')) return; x0=e.clientX; }); sg.addEventListener('pointerup',function(e){ if(x0===null) return; var dx=e.clientX-x0; x0=null; if(Math.abs(dx)>45&&N3>1) foto(fotoK+(dx<0?1:-1)); }); sg.addEventListener('pointercancel',function(){x0=null});
-  panel(w||'3'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ $('#visor').classList.add('on'); tam(); }); }); cargaModelo(o); tam(); arranca();
+  panel(w||'3'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ $('#visor').classList.add('on'); tam(); }); }); if(!o.dash) cargaModelo(o); tam(); arranca();
   setTimeout(function(){ if(estado.visor) $('#v-cerrar').focus({preventScroll:true}) },900);
 }
 function cierraVisor(){ var sl=slideAbierta; estado.visor=false; $('#visor').classList.remove('on'); if(sl){ $$('[data-obra]',sl).forEach(function(b){b.setAttribute('aria-pressed','false')}); setTimeout(function(){ if(slideAbierta!==sl||!estado.visor){ sl.classList.remove('abierta'); } },50); } slideAbierta=null; sincroniza(); if(visorPrev&&visorPrev.focus)try{visorPrev.focus()}catch(e){} }
