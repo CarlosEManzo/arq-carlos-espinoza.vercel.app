@@ -69,7 +69,8 @@ html.embed body .wrap{max-width:none;width:100%;padding:0;margin:0;display:block
 html.embed body .stage{height:100vh;height:100dvh;border-radius:0;border:0;margin:0}
 html.embed body .ov.bl{left:16px;bottom:16px}
 html.embed body .ov.tl{left:124px;top:14px}
-@media (max-width:640px){html.embed body .ov.tl{left:12px;top:72px}}
+@media (max-width:640px){html.embed body .ov.tl{left:12px;top:132px}}
+@media (max-width:640px){html.embed.modo-plano #c-hora,html.embed.modo-plano #c-cuartos{display:none!important}html.embed.modo-plano #plano2d .ptit{top:232px;max-width:62%}html.embed.modo-plano #plano2d svg{padding-top:196px;padding-bottom:96px}}
 html.embed body #capas{display:none}
 </style>
 
@@ -1290,7 +1291,7 @@ var CAPAS=[['af','Agua fría',CON.Agua],['ac','Agua caliente',CON.AC],['dren','D
   var v2=document.createElement('button');v2.className='chip cc';v2.hidden=true;v2.innerHTML='<i style="--c:#fff"></i>Ver toda la casa';v2.onclick=function(){if(modo!=='ext')fijaModo('ext');az=0.8;el=0.55;dist=17;tgt.set(3,2.2,-8.3);colocaCam();};cont.appendChild(v2);})();
 
 /* ---------------- interfaz: modos, hora, clima, cuartos, fichas, acabados ---------------- */
-function fijaModo(m){modo=m;$$('#modos button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.m===m);});$('#c-nivel').hidden=(m!=='plano');$('#c-cuartos').hidden=(m==='ext');$('#c-hora').hidden=false;
+function fijaModo(m){modo=m;document.documentElement.classList.toggle('modo-plano',m==='plano');$$('#modos button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.m===m);});$('#c-nivel').hidden=(m!=='plano');$('#c-cuartos').hidden=(m==='ext');$('#c-hora').hidden=false;
   if(m==='hab'&&!selId)selId='sala';if(m==='hab'){var r=D.recintos.filter(function(q){return q.id===selId})[0];yaw=(CAMS[selId]||[0,0,0])[2];pitch=0;}
   visibilidad();planoDiv.hidden=(m!=='plano');renderer.domElement.style.visibility=(m==='plano')?'hidden':'visible';if(m==='plano')dibujaPlano();colocaCam();resaltaSel();muestraFicha();}
 $$('#modos button').forEach(function(b){b.onclick=function(){fijaModo(b.dataset.m);};});
