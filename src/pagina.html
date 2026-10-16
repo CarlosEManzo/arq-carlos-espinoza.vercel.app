@@ -102,6 +102,16 @@ h1,h2,h3,p{margin:0}
 .filas .f:last-child{border-bottom:1px solid var(--border-color)}
 .filas .v{font-size:clamp(16px,2.2vw,24px);overflow-wrap:anywhere}
 @media (max-width:560px){.filas .f{grid-template-columns:1fr auto}.filas .f>span:first-child{grid-column:1/-1}}
+.umbral .pista{flex:1 0 100%;margin:0 0 4px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-main);text-shadow:0 0 12px #0D0D0D}
+.umbral .pista b{display:inline-block;font-weight:700;animation:empuja2 1.8s ease-in-out infinite}
+@keyframes empuja2{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.umbral .pista b{animation:none}}
+.puntos{position:fixed;left:50%;transform:translateX(-50%);top:calc(60px + env(safe-area-inset-top,0px));z-index:36;display:flex;gap:12px;padding:9px 14px;border-radius:999px;background:rgba(13,13,13,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.puntos[hidden]{display:none}
+.puntos button{position:relative;width:9px;height:9px;padding:0;border-radius:99px;border:1px solid rgba(236,236,234,.75);background:transparent;cursor:pointer;transition:width .35s,background .35s}
+.puntos button::after{content:"";position:absolute;inset:-12px}
+.puntos button[aria-current="true"]{width:26px;background:#ececea;border-color:#ececea}
+@media (max-width:900px){.puntos{top:calc(72px + env(safe-area-inset-top,0px))}}
 .flecha{position:fixed;top:50%;z-index:36;display:flex;align-items:center;gap:10px;height:54px;padding:0 16px;border-radius:999px;background:rgba(13,13,13,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(236,236,234,.55);color:#ececea;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .3s,opacity .4s}
 .flecha[hidden]{display:none}
 .flecha svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -473,6 +483,7 @@ body:has(.slide.abierta) .nav{display:none}
 <main class="rail" id="rail" tabindex="0" aria-label="Recorrido por la obra. Flechas izquierda y derecha para avanzar."></main>
 
 <div class="barra" id="barra"></div>
+<nav class="puntos" id="puntos" aria-label="Pantallas del recorrido" hidden></nav>
 <button class="flecha ant" id="ant" type="button" aria-label="Pantalla anterior" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
 <button class="flecha sig" id="sig" type="button" aria-label="Siguiente pantalla" hidden><span class="t">Desliza</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15 M13 6l6 6-6 6"/></svg></button>
 
@@ -483,7 +494,7 @@ body:has(.slide.abierta) .nav{display:none}
     <div class="oficio">Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</div>
     <h1 class="nombre">Carlos Francisco<br>Espinoza Manzo</h1>
   </div>
-  <div class="foot"><button class="btn solid" type="button" id="iniciar">Iniciar recorrido espacial →</button><span class="mono muted">Desliza ↓ para iniciar</span></div>
+  <div class="foot"><p class="pista mono">Después, desliza hacia la derecha <b aria-hidden="true">→</b> para ver las 4 obras</p><button class="btn solid" type="button" id="iniciar">Iniciar recorrido espacial →</button><span class="mono muted">Desliza ↓ para iniciar</span></div>
 </section>
 
 <div class="visor" id="visor" role="region" aria-labelledby="v-titulo">
@@ -1132,7 +1143,10 @@ function pinta(){
   flechas();
 }
 var avanzo=false;
-function flechas(){ if(idx>0) avanzo=true; var b=estado.umbral||estado.visor||estado.lab, s=$('#sig'), a=$('#ant'); s.hidden=b||idx>=total-1; a.hidden=b||idx<=0; s.classList.toggle('corta',avanzo); s.querySelector('.t').textContent=innerWidth>900?'Siguiente':'Desliza'; }
+var NOM=OBRAS.map(function(o){return o.titulo}).concat(['Contacto']);
+$('#puntos').innerHTML=NOM.map(function(n,k){return '<button type="button" data-k="'+k+'" aria-label="Ir a '+esc(n)+'"></button>'}).join('');
+$('#puntos').addEventListener('click',function(e){var b=e.target.closest('button'); if(b) ir(+b.dataset.k)});
+function flechas(){ if(idx>0) avanzo=true; var pu=$('#puntos'); pu.hidden=estado.umbral||estado.visor||estado.lab; $$('button',pu).forEach(function(b,k){ if(k===idx) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); }); var b=estado.umbral||estado.visor||estado.lab, s=$('#sig'), a=$('#ant'); s.hidden=b||idx>=total-1; a.hidden=b||idx<=0; s.classList.toggle('corta',avanzo); s.querySelector('.t').textContent=innerWidth>900?'Siguiente':'Desliza'; }
 $('#sig').addEventListener('click',function(){ ir(idx+1) });
 $('#ant').addEventListener('click',function(){ ir(idx-1) });
 var tick=false; rail.addEventListener('scroll',function(){ if(tick)return; tick=true; requestAnimationFrame(function(){tick=false;actual()}); },{passive:true});
