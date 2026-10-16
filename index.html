@@ -126,6 +126,16 @@ h1,h2,h3,p{margin:0}
 .filas .f:last-child{border-bottom:1px solid var(--border-color)}
 .filas .v{font-size:clamp(16px,2.2vw,24px);overflow-wrap:anywhere}
 @media (max-width:560px){.filas .f{grid-template-columns:1fr auto}.filas .f>span:first-child{grid-column:1/-1}}
+.flecha{position:fixed;top:50%;z-index:36;display:flex;align-items:center;gap:10px;height:54px;padding:0 16px;border-radius:999px;background:rgba(13,13,13,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(236,236,234,.55);color:#ececea;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .3s,opacity .4s}
+.flecha[hidden]{display:none}
+.flecha svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.flecha:hover{background:rgba(13,13,13,.85)}
+.flecha.sig{right:var(--gut);transform:translateY(-50%);animation:empuja 1.8s ease-in-out infinite}
+.flecha.sig.corta{width:54px;padding:0;justify-content:center}.flecha.sig.corta .t{display:none}
+.flecha.ant{left:var(--gut);transform:translateY(-50%);width:54px;padding:0;justify-content:center}
+@keyframes empuja{0%,100%{transform:translate(0,-50%)}50%{transform:translate(9px,-50%)}}
+@media (prefers-reduced-motion:reduce){.flecha.sig{animation:none}}
+@media (max-width:900px){.flecha{top:44%;height:50px}.flecha.sig.corta,.flecha.ant{width:46px}}
 .nav{position:fixed;right:var(--gut);bottom:calc(var(--gut) + env(safe-area-inset-bottom,0px));z-index:35;display:flex;gap:6px;align-items:center}
 .nav .btn{padding:0;width:48px;justify-content:center;background:rgba(13,13,13,.6)}
 .nav .btn[disabled]{opacity:.3;pointer-events:none}
@@ -487,6 +497,8 @@ body:has(.slide.abierta) .nav{display:none}
 <main class="rail" id="rail" tabindex="0" aria-label="Recorrido por la obra. Flechas izquierda y derecha para avanzar."></main>
 
 <div class="barra" id="barra"></div>
+<button class="flecha ant" id="ant" type="button" aria-label="Pantalla anterior" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+<button class="flecha sig" id="sig" type="button" aria-label="Siguiente pantalla" hidden><span class="t">Desliza</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15 M13 6l6 6-6 6"/></svg></button>
 
 <section class="umbral" id="umbral" aria-label="Bienvenida">
   <canvas class="fx" id="fx" aria-hidden="true"></canvas>
@@ -1141,7 +1153,12 @@ addEventListener('message',function(e){ var m=e.data&&e.data.rec; if(!m) return;
 function pinta(){
   $('#prog').innerHTML=idx<N?'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 0'+N:'<b>Z</b> / Contacto';
   $('#barra').style.width=((idx+1)/total*100)+'%';
+  flechas();
 }
+var avanzo=false;
+function flechas(){ if(idx>0) avanzo=true; var b=estado.umbral||estado.visor||estado.lab, s=$('#sig'), a=$('#ant'); s.hidden=b||idx>=total-1; a.hidden=b||idx<=0; s.classList.toggle('corta',avanzo); s.querySelector('.t').textContent=innerWidth>900?'Siguiente':'Desliza'; }
+$('#sig').addEventListener('click',function(){ ir(idx+1) });
+$('#ant').addEventListener('click',function(){ ir(idx-1) });
 var tick=false; rail.addEventListener('scroll',function(){ if(tick)return; tick=true; requestAnimationFrame(function(){tick=false;actual()}); },{passive:true});
 var lockW=false;
 rail.addEventListener('wheel',function(e){
@@ -1175,6 +1192,7 @@ function sincroniza(){
   $('#visor').inert=estado.lab;
   $('#visor').setAttribute('aria-hidden',estado.visor?'false':'true'); $('#lab').setAttribute('aria-hidden',estado.lab?'false':'true');
   if(typeof recSync==='function') recSync();
+  if(typeof flechas==='function') flechas();
 }
 function inicia(){ if(!estado.umbral||estado.lab) return; $('#umbral').classList.add('open'); estado.umbral=false; sincroniza(); setTimeout(function(){ if(estado.umbral) return; rail.focus({preventScroll:true}); if(fx.raf){cancelAnimationFrame(fx.raf); fx.raf=0} },1500); }
 function volverPortada(){ if(estado.umbral||estado.lab) return; if(estado.visor) cierraVisor(); $('#umbral').classList.remove('open'); estado.umbral=true; sincroniza(); fxTam(); if(reduce){ fxPaso(0); } else if(!fx.raf){ fx.raf=requestAnimationFrame(fxBucle); } setTimeout(function(){ $('#iniciar').focus({preventScroll:true}) },900); }
