@@ -11,13 +11,13 @@ Flujo de trabajo: se edita `src/pagina.html`, se ejecuta `python tools/build.py`
 - [x] 1.2 Botón "Contactar" fijo en la cabecera, siempre visible, junto a "DEMOS / CÓDIGO".
 - [x] 1.3 CV en PDF descargable (necesito tu PDF o los datos para generarlo).
 - [x] 1.4 Frase de valor en la portada: qué resuelves y para quién (propongo 2–3 opciones y eliges).
-- [ ] 1.5 Verificar en el sitio local que todos los enlaces abren bien.
+- [x] 1.5 Verificar en el sitio local que todos los enlaces abren bien.
 
 ## Fase 2 — Legibilidad y accesibilidad básica
-- [ ] 2.1 Texto útil ≥ 13–14 px (hoy 51 nodos < 12 px); 11–12 px solo en decoración.
-- [ ] 2.2 Gris secundario más claro (de `#888` a ≈`#A8A8A8`) y menos mayúsculas en frases largas.
-- [ ] 2.3 Objetivos táctiles ≥ 44 px (menú, pestañas, "Probar", selectores de medidas).
-- [ ] 2.4 Enlace "saltar al contenido" y `noscript` con nombre, rol y contacto.
+- [x] 2.1 Texto útil ≥ 13–14 px (hoy 51 nodos < 12 px); 11–12 px solo en decoración.
+- [x] 2.2 Gris secundario más claro (de `#888` a ≈`#A8A8A8`) y menos mayúsculas en frases largas.
+- [x] 2.3 Objetivos táctiles ≥ 44 px (menú, pestañas, "Probar", selectores de medidas).
+- [x] 2.4 Enlace "saltar al contenido" y `noscript` con nombre, rol y contacto.
 - [ ] 2.5 Un solo color de acento para acciones primarias (CTA), el resto neutro.
 
 ## Fase 3 — Prueba de que cumples (contenido)
