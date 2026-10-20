@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#0D0D0D">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D0D0D'/%3E%3Cpath d='M14 50V14h12l12 22V14h12v36H38L26 28v22z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://arq-carlos-espinoza.vercel.app/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Carlos Francisco Espinoza Manzo", "jobTitle": "Arquitecto · Estructuras metálicas y coordinación BIM", "description": "Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.", "url": "https://arq-carlos-espinoza.vercel.app/", "image": "https://arq-carlos-espinoza.vercel.app/og.jpg", "email": "mailto:arqcarlosem@gmail.com", "telephone": "+52 351 202 5030", "address": {"@type": "PostalAddress", "addressLocality": "Morelia", "addressRegion": "Michoacán", "addressCountry": "MX"}, "alumniOf": "Universidad Contemporánea de las Américas (UNICLA)", "knowsAbout": ["BIM", "Revit", "Estructuras metálicas", "Cuantificación de obra", "Coordinación de modelos", "Supervisión de obra"], "sameAs": ["https://www.linkedin.com/in/carlos-espinoza-manzo-2b3a98271/"]}</script>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:title" content="Portafolio Arq. Carlos Francisco Espinoza Manzo">
@@ -34,6 +35,19 @@
   --ease:cubic-bezier(.16,1,.3,1); --gut:16px;
 }
 @media (min-width:760px){:root{--gut:32px}}
+
+/* casos de estudio, «sobre mí» y acento */
+:root{--cta:#F2A900}
+.caso{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:14px 0 0;padding:14px 0;border-top:1px solid var(--border-color)}
+.caso dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--cta)}
+.caso dd{margin:0;font-size:14px;line-height:1.5;color:var(--text-main)}
+.slide.sobre{display:grid;align-content:safe center;padding:calc(72px + env(safe-area-inset-top,0px)) var(--gut) calc(var(--gut) + 56px);overflow:auto}
+.sobre .cols{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:32px;align-items:start;max-width:1000px;margin-top:16px}
+.sobre .cols:not(:has(.yo)){grid-template-columns:1fr}
+.sobre .yo{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--border-color);filter:grayscale(1) contrast(1.05)}
+.sobre h2{font-size:clamp(34px,6vw,72px);margin:0 0 16px;line-height:1}
+.sobre p{max-width:60ch;margin:0 0 18px}
+@media (max-width:760px){.sobre .cols{grid-template-columns:1fr;gap:20px}.sobre .yo{max-width:200px}}
 /* objetivos táctiles ≥44 px y salto al contenido */
 .tabs button,.plsel button,.seg button,.chips button,.calc-tabs button,.horas button,.tg,.calc-pie details summary{min-height:44px}
 .skip{position:fixed;left:8px;top:-60px;z-index:100;background:var(--text-main);color:var(--bg-dark);padding:12px 16px;font-family:var(--mono);font-size:13px;text-decoration:none;transition:top .15s}
@@ -475,6 +489,11 @@ body:has(.slide.abierta) .nav{display:none}
 .vhead .btn.volver{min-height:48px;padding:0 20px 0 14px}
 .labh{gap:16px;justify-content:flex-start}
 .labh .mono{margin-left:4px}
+/* acento de acción (al final para ganar la cascada) */
+.btn.solid,.top .btn.contactar,.umbral .btn.contactar{background:var(--cta);color:#0D0D0D;border-color:var(--cta)}
+.btn.solid:hover,.top .btn.contactar:hover,.umbral .btn.contactar:hover{background:#fff;color:#0D0D0D;border-color:#fff}
+@media (max-width:560px){.slide.contacto,.slide.sobre{padding-top:calc(112px + env(safe-area-inset-top,0px));padding-left:calc(var(--gut) + 44px);padding-right:calc(var(--gut) + 44px)}}
+@media (max-width:560px){.filas .f{padding:8px 0;gap:4px 12px}.slide.contacto h2{margin:4px 0 12px;font-size:clamp(44px,13vw,56px)}.sobre .yo{max-width:150px}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -519,7 +538,7 @@ body:has(.slide.abierta) .nav{display:none}
 <noscript><div class="sinjs"><h1>Carlos Francisco Espinoza Manzo</h1><p>Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</p><p>Este portafolio necesita JavaScript para el recorrido, las maquetas 3D y los planos.</p><p><a href="mailto:arqcarlosem@gmail.com">arqcarlosem@gmail.com</a> · <a href="tel:+523512025030">+52 351 202 5030</a> · <a href="cv-carlos-espinoza.pdf">CV en PDF</a></p></div></noscript>
 <header class="top" id="top">
   <span class="who">Arq. <span class="x">Carlos Francisco </span>Espinoza<span class="x"> Manzo</span></span>
-  <span class="prog num" id="prog" aria-live="polite"><b>01</b> / 04</span>
+  <span class="prog num" id="prog" aria-live="polite"><b>01</b> / 03</span>
   <span class="acc"><button class="btn lab" type="button" data-abrir="lab" aria-label="Demos y código"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS<span class="x"> / CÓDIGO</span></button><button class="btn contactar" type="button" data-contactar><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Contactar</button></span>
 </header>
 
@@ -1072,6 +1091,7 @@ var OBRAS=[
  {id:'teleferico',icono:'teleferico',n:'01',titulo:'Teleférico de Morelia',anio:'2025–hoy',empresa:'APYCSA',tipo:'Estructura metálica',rol:'Residente proyectista de estructuras metálicas',
   meta:'2025–hoy | 7 estaciones | Estructura metálica',cifras:[['7','Estaciones'],['40','Postes']],modelo:'estacion',
   texto:'Control de superestructura en las 7 estaciones de la línea, con 40 postes trabajados en simultáneo: suministro, montaje, soldadura y terminado en los frentes activos, más la coordinación de modelos BIM para planos de taller, cuantificación y boletines de cambio.',
+  caso:[['Reto','Controlar la superestructura de 7 estaciones y 40 postes trabajados en simultáneo, con varios frentes activos.'],['Mi aporte','Supervisión de suministro, montaje, soldadura y terminado; modelos BIM en Revit para planos de taller, cuantificación y boletines de cambio.'],['Resultado','Obra en curso: 7 estaciones y 40 postes bajo un mismo control de modelo, planos y cambios.']],
   heroes:['tel-01','tel-03','tel-04','tel-02'],
   fotos:[['tel-01','Estructura mixta con grúa torre','Estructura de acero y concreto de una estación del teleférico con grúa torre azul'],
    ['tel-02','Frente de obra desde lo alto','Vista aérea de una estación del teleférico en construcción junto a la avenida'],
@@ -1089,6 +1109,7 @@ var OBRAS=[
  {id:'naves',icono:'nave',n:'02',titulo:'Naves industriales',anio:'2023',empresa:'Grupo Ortiz',tipo:'Obra industrial',rol:'Residente de obra',
   meta:'2023 | 2 naves | Obra industrial',cifras:[['2','Naves'],['12,000','m² construidos'],['50×120','m por nave']],modelo:'naves',
   texto:'Despliegue de dos naves completas en sitio, con la infraestructura de vialidades y servicios que las conecta. Administración de materiales y mano de obra, y supervisión directa de maquinaria pesada.',
+  caso:[['Reto','Levantar dos naves de 50 × 120 m, con vialidades y servicios, en dos frentes a la vez.'],['Mi aporte','Programación de suministros, asignación de cuadrillas entre ambos frentes y supervisión de maquinaria pesada.'],['Resultado','12,000 m² construidos en dos naves, con la infraestructura de vialidades y servicios que las conecta.']],
   heroes:['nv2-01','nv2-02','nv2-03'],
   fotos:[['nv2-01','Nave lista para plataforma','Estructura blanca de la nave terminada con la plataforma de terracería preparada al frente'],
    ['nv2-02','Excavación de cimentación con la nave al fondo','Dos excavadoras trabajando en una cepa amplia con la estructura blanca de la nave al fondo'],
@@ -1107,6 +1128,7 @@ var OBRAS=[
  {id:'casa',icono:'casa',n:'03',titulo:'Casa habitación',anio:'2021–2022',empresa:'',tipo:'Residencial',rol:'Administrador de obra',
   meta:'2021–2022 | Residencial | Diseño y obra',cifras:[['1,000','m² de terreno'],['$5M','MXN de presupuesto']],modelo:'casa',
   texto:'Vivienda unifamiliar en un terreno de 1,000 m² con presupuesto total de $5M MXN. Diseño interior y exterior, acabados, y control de materiales y avance de principio a fin.',
+  caso:[['Reto','Una vivienda en un terreno de 1,000 m² (25 × 40 m) con presupuesto total de $5 M MXN.'],['Mi aporte','Diseño interior y exterior, aplicación de acabados y control del presupuesto, la nómina de obra y el avance frente a programa.'],['Resultado','Obra residencial administrada de principio a fin, con presupuesto, nómina y avance bajo control.']],
   heroes:['cs2-01','cs2-02','cs2-05'],
   fotos:[['cs2-01','Fachada con cancelería instalada','Fachada de la casa con acabado blanco y travertino, y ventanales de cristal ya colocados'],
    ['cs2-02','Fachada al atardecer','Fachada de la casa terminada vista desde la calle al atardecer, con cochera y marco de madera'],
@@ -1156,10 +1178,10 @@ var APPS=[
 var rail=$('#rail'), N=OBRAS.length, idx=0, estado={umbral:true,visor:false,lab:false};
 rail.innerHTML=OBRAS.map(function(o,i){
   var f=o.fotos[0];
-  return '<article class="slide'+(i===0?' on':'')+'" data-i="'+i+'" aria-label="'+o.n+' de 04: '+esc(o.titulo)+'">'+
+  return '<article class="slide'+(i===0?' on':'')+'" data-i="'+i+'" aria-label="'+(o.dash?'Herramienta propia: ':o.n+' de 03: ')+esc(o.titulo)+'">'+
    o.heroes.map(function(h,k){var ft=o.fotos.filter(function(x){return x[0]===h})[0]; return '<img class="bg'+(k===0?' sel':'')+'" src="photos/'+h+'.jpg" alt="'+esc(ft?ft[2]:o.titulo)+'" '+((i===0&&k===0)?'':'loading="lazy" ')+'decoding="async">'}).join('')+
    '<div class="veil"></div><div class="info">'+
-   '<div class="kick">'+ic(o.icono)+'<b class="num">'+o.n+' / 04</b> — '+esc(o.empresa||o.tipo)+'</div>'+(o.heroes.length>1?'<div class="pips" aria-hidden="true">'+o.heroes.map(function(h,k){return '<i'+(k===0?' class="on"':'')+'></i>'}).join('')+'</div>':'')+
+   '<div class="kick">'+ic(o.icono)+'<b class="num">'+(o.dash?'+':o.n+' / 03')+'</b> — '+(o.dash?'Herramienta propia · ':'')+esc(o.empresa||o.tipo)+'</div>'+(o.heroes.length>1?'<div class="pips" aria-hidden="true">'+o.heroes.map(function(h,k){return '<i'+(k===0?' class="on"':'')+'></i>'}).join('')+'</div>':'')+
    '<h2>'+esc(o.titulo)+'</h2>'+
    '<div class="ficha">'+o.cifras.map(function(c){return '<div><b class="num">'+c[0]+'</b><span class="kick">'+c[1]+'</span></div>'}).join('')+'</div>'+
    '<div class="meta">[ '+esc(o.meta)+' ]</div>'+
@@ -1170,7 +1192,8 @@ rail.innerHTML=OBRAS.map(function(o,i){
    (o.enlaces?'<div class="wbtns dos" role="group" aria-label="Recorrido y dashboard de '+esc(o.titulo)+'">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+
    '</div></article>';
 }).join('')+
-'<article class="slide contacto" data-i="'+N+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
+'<article class="slide sobre" data-i="'+N+'" aria-label="Sobre mí"><div class="kick"><b>Y</b> — Sobre mí</div><div class="cols"><div class="cuerpo"><h2>Arquitecto de obra y BIM.</h2><p>Más de 8 años liderando equipos en campo, desde gestor de estimaciones hasta residente proyectista. Trabajo donde el modelo BIM se encuentra con la obra: planos de taller, cuantificación, estructura metálica y coordinación en sitio.</p><dl class="dl"><dt>Hoy</dt><dd>Residente proyectista de estructuras metálicas · APYCSA</dd><dt>Formación</dt><dd>Arquitecto, UNICLA · 2014–2017</dd><dt>Software</dt><dd>Revit, AutoCAD, Dynamo, Blender</dd><dt>Idiomas</dt><dd>Español nativo · Inglés B1 hablado, B2 lectura</dd><dt>Ubicación</dt><dd>Morelia, Michoacán</dd></dl><div class="wbtns dos"><a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">'+ic('cv')+'Descargar CV</a><a class="btn" href="https://www.linkedin.com/in/carlos-espinoza-manzo-2b3a98271/" target="_blank" rel="noopener">'+ic('in')+'LinkedIn</a></div></div></div></article>'+
+'<article class="slide contacto" data-i="'+(N+1)+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
  '<div class="f"><span class="kick">'+ic('wa')+'WhatsApp</span><a class="v" id="wa" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">+52 351 202 5030</a><a class="btn solid" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp (se abre en otra pestaña)">Escribir</a></div>'+
  '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><a class="v" id="mail" href="mailto:arqcarlosem@gmail.com?subject=Contacto%20desde%20tu%20portafolio">arqcarlosem@gmail.com</a><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
  '<div class="f"><span class="kick">'+ic('tel')+'Teléfono</span><a class="v" id="tel" href="tel:+523512025030">+52 351 202 5030</a><button class="btn" type="button" data-copy="tel">Copiar</button></div>'+
@@ -1185,12 +1208,12 @@ function actual(){ var i=Math.round(rail.scrollLeft/Math.max(1,rail.clientWidth)
 function recSync(){ var fr=$('#recfr'); if(!fr) return; var k=+fr.closest('.slide').dataset.i; if(idx>=k-1&&!fr.getAttribute('src')) fr.setAttribute('src',fr.dataset.src); if(fr.contentWindow) try{ fr.contentWindow.postMessage({rec:(idx===k&&!estado.umbral&&!estado.lab)?'play':'pause'},'*'); }catch(e){} if(idx===k&&!estado.umbral) setTimeout(function(){ try{fr.focus({preventScroll:true})}catch(e){} },400); }
 addEventListener('message',function(e){ var m=e.data&&e.data.rec; if(!m) return; if(m==='listo') recSync(); else if(m==='next') ir(idx+1); else if(m==='prev') ir(idx-1); });
 function pinta(){
-  $('#prog').innerHTML=idx<N?'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 0'+N:'<b>Z</b> / Contacto';
+  $('#prog').innerHTML=idx<N?(OBRAS[idx].dash?'<b>+</b> Herramienta propia':'<b>'+('0'+(idx+1)).slice(-2)+'</b> / 03'):(idx===N?'<b>Y</b> / Sobre mí':'<b>Z</b> / Contacto');
   $('#barra').style.width=((idx+1)/total*100)+'%';
   flechas();
 }
 var avanzo=false;
-var NOM=OBRAS.map(function(o){return o.titulo}).concat(['Contacto']);
+var NOM=OBRAS.map(function(o){return o.titulo}).concat(['Sobre mí','Contacto']);
 $('#puntos').innerHTML=NOM.map(function(n,k){return '<button type="button" data-k="'+k+'" aria-label="Ir a '+esc(n)+'"></button>'}).join('');
 $('#puntos').addEventListener('click',function(e){var b=e.target.closest('button'); if(b) ir(+b.dataset.k)});
 function flechas(){ if(idx>0) avanzo=true; var pu=$('#puntos'); pu.hidden=estado.umbral||estado.visor||estado.lab; $$('button',pu).forEach(function(b,k){ if(k===idx) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); }); var b=estado.umbral||estado.visor||estado.lab, s=$('#sig'), a=$('#ant'); s.hidden=b||idx>=total-1; a.hidden=b||idx<=0; s.classList.toggle('corta',avanzo); s.querySelector('.t').textContent=innerWidth>900?'Siguiente':'Desliza'; }
@@ -1721,10 +1744,10 @@ function abreVisor(i,w){
   if(estado.visor&&slideAbierta===slides[i]){ if(!w||String(w)===panelActual){ cierraVisor(); } else { panel(w); } return; }
   if(estado.visor) cierraVisor();
   var o=OBRAS[i]; obraActual=i; visorPrev=document.activeElement; slideAbierta=slides[i]; slideAbierta.appendChild($('#visor')); slideAbierta.classList.add('abierta'); estado.visor=true; sincroniza();
-  $('#v-cod').textContent=o.n+' / 04'; $('#v-titulo').textContent=o.titulo;
+  $('#v-cod').textContent=o.dash?'Herramienta propia':o.n+' / 03'; $('#v-titulo').textContent=o.titulo;
   var modelo=MODELOS[o.modelo](); V.plan={o:o,modelo:modelo,ip:0}; V.act={}; sistemasDe(modelo).forEach(function(k){V.act[k]=true}); pintaChips(modelo); $('#v-ico').innerHTML=ic(o.icono); dashModo(o); if(!o.dash) pintaPlanos();
   var N3=o.fotos.length, fotoK=0, slot=0;
-  var info='<div class="txt"><span class="mono muted">'+esc(o.tipo)+' · '+esc(o.anio)+'</span><p>'+esc(o.texto)+'</p><dl class="dl"><dt>Rol</dt><dd>'+esc(o.rol)+'</dd>'+(o.empresa?'<dt>Empresa</dt><dd>'+esc(o.empresa)+'</dd>':'')+'<dt>Tipo</dt><dd>'+esc(o.tipo)+'</dd><dt>Año</dt><dd>'+esc(o.anio)+'</dd>'+o.cifras.map(function(c){return '<dt>'+esc(c[1])+'</dt><dd class="num">'+esc(c[0])+'</dd>'}).join('')+'</dl>'+(o.enlaces?'<div class="wbtns dos" style="margin-top:18px">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+'</div>';
+  var info='<div class="txt"><span class="mono muted">'+esc(o.tipo)+' · '+esc(o.anio)+'</span><p>'+esc(o.texto)+'</p>'+(o.caso?'<dl class="caso">'+o.caso.map(function(c){return '<dt>'+esc(c[0])+'</dt><dd>'+esc(c[1])+'</dd>'}).join('')+'</dl>':'')+'<dl class="dl"><dt>Rol</dt><dd>'+esc(o.rol)+'</dd>'+(o.empresa?'<dt>Empresa</dt><dd>'+esc(o.empresa)+'</dd>':'')+'<dt>Tipo</dt><dd>'+esc(o.tipo)+'</dd><dt>Año</dt><dd>'+esc(o.anio)+'</dd>'+o.cifras.map(function(c){return '<dt>'+esc(c[1])+'</dt><dd class="num">'+esc(c[0])+'</dd>'}).join('')+'</dl>'+(o.enlaces?'<div class="wbtns dos" style="margin-top:18px">'+o.enlaces.map(function(e){return '<a class="btn solid" href="'+e[2]+'">'+ic(e[1])+esc(e[0])+'</a>'}).join('')+'</div>':'')+'</div>';
   var stage='<div class="stg" id="stg" tabindex="0" role="group" aria-roledescription="carrusel" aria-label="Fotos de '+esc(o.titulo)+'">'+
     '<img class="fondo on" id="stg-f0" alt="" aria-hidden="true"><img class="fondo" id="stg-f1" alt="" aria-hidden="true">'+
     '<img class="fr on" id="stg-a0" alt="'+esc(o.fotos[0][2])+'" decoding="async"><img class="fr" id="stg-a1" alt="" decoding="async">'+

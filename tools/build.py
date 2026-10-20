@@ -27,12 +27,31 @@ if sobran:
     print("Aviso: fotos sin usar en photos/:", ", ".join(sobran))
 
 # ---- cabecera del documento (en el artifact la ponía la plataforma) ----
+# la foto de «Sobre mí» es opcional: si no existe photos/yo.jpg se omite (evita un 404 en consola)
+if not (raiz / "photos" / "yo.jpg").exists():
+    pagina = re.sub(r'<img class="yo"[^>]*>', "", pagina)
 titulo = re.search(r"<title>(.*?)</title>", pagina).group(1)
 pagina = re.sub(r"<title>.*?</title>\s*", "", pagina, count=1)
 desc = ("Portafolio de Carlos Francisco Espinoza Manzo, arquitecto en Morelia: estructuras metálicas, coordinación BIM, "
         "obra industrial y renders, con maquetas 3D, planos y una calculadora de instalaciones.")
 favicon = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E"
            "%3Crect width='64' height='64' fill='%230D0D0D'/%3E%3Cpath d='M14 50V14h12l12 22V14h12v36H38L26 28v22z' fill='%23fff'/%3E%3C/svg%3E")
+import json as _json
+ld = _json.dumps({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Carlos Francisco Espinoza Manzo",
+    "jobTitle": "Arquitecto · Estructuras metálicas y coordinación BIM",
+    "description": desc,
+    "url": base + "/",
+    "image": base + "/og.jpg",
+    "email": "mailto:arqcarlosem@gmail.com",
+    "telephone": "+52 351 202 5030",
+    "address": {"@type": "PostalAddress", "addressLocality": "Morelia", "addressRegion": "Michoacán", "addressCountry": "MX"},
+    "alumniOf": "Universidad Contemporánea de las Américas (UNICLA)",
+    "knowsAbout": ["BIM", "Revit", "Estructuras metálicas", "Cuantificación de obra", "Coordinación de modelos", "Supervisión de obra"],
+    "sameAs": ["https://www.linkedin.com/in/carlos-espinoza-manzo-2b3a98271/"],
+}, ensure_ascii=False)
 cabecera = f"""<!doctype html>
 <html lang="es">
 <head>
@@ -43,6 +62,7 @@ cabecera = f"""<!doctype html>
 <meta name="theme-color" content="#0D0D0D">
 <link rel="icon" href="{favicon}">
 <link rel="canonical" href="{base}/">
+<script type="application/ld+json">{ld}</script>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:title" content="{titulo}">

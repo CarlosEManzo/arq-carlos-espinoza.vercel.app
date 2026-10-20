@@ -18,23 +18,23 @@ Flujo de trabajo: se edita `src/pagina.html`, se ejecuta `python tools/build.py`
 - [x] 2.2 Gris secundario más claro (de `#888` a ≈`#A8A8A8`) y menos mayúsculas en frases largas.
 - [x] 2.3 Objetivos táctiles ≥ 44 px (menú, pestañas, "Probar", selectores de medidas).
 - [x] 2.4 Enlace "saltar al contenido" y `noscript` con nombre, rol y contacto.
-- [ ] 2.5 Un solo color de acento para acciones primarias (CTA), el resto neutro.
+- [x] 2.5 Un solo color de acento para acciones primarias (CTA), el resto neutro.
 
 ## Fase 3 — Prueba de que cumples (contenido)
-- [ ] 3.1 Plantilla de caso de estudio por obra: problema → rol → proceso → resultado → 2–3 cifras reales.
+- [x] 3.1 Plantilla de caso de estudio por obra: problema → rol → proceso → resultado → 2–3 cifras reales.
 - [ ] 3.2 Franja de confianza: años, empresas, formación/certificaciones, software (necesito tus datos reales).
 - [ ] 3.3 Testimonio o carta de recomendación (solo si tienes y puedes publicarla).
-- [ ] 3.4 Decidir el papel del Dashboard Metric.arq: demostración de habilidad, no producto en competencia con el contacto.
+- [x] 3.4 Decidir el papel del Dashboard Metric.arq: demostración de habilidad, no producto en competencia con el contacto.
 
 ## Fase 4 — Navegación y descubrimiento
-- [ ] 4.1 Menú persistente con nombres de las 4 obras + Contacto (sin depender solo del gesto horizontal).
+- [x] 4.1 Menú persistente con nombres de las 4 obras + Contacto (sin depender solo del gesto horizontal).
 - [ ] 4.2 Probar teclado (Tab, flechas) y orden de foco; anuncios al cambiar de pantalla.
 - [ ] 4.3 Revisión móvil real en teléfono (390 px) y ajustes.
 
 ## Fase 5 — SEO y compartir
-- [ ] 5.1 Favicon + `apple-touch-icon`.
-- [ ] 5.2 `robots.txt`, `sitemap.xml`, `canonical`.
-- [ ] 5.3 Datos estructurados (`Person` + `ProfessionalService`) con "arquitecto en Morelia".
+- [x] 5.1 Favicon + `apple-touch-icon`.
+- [x] 5.2 `robots.txt`, `sitemap.xml`, `canonical`.
+- [x] 5.3 Datos estructurados (`Person` + `ProfessionalService`) con "arquitecto en Morelia".
 - [ ] 5.4 Contenido esencial en HTML estático (indexable sin JavaScript).
 
 ## Fase 6 — Rendimiento y seguridad
