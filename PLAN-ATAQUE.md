@@ -7,10 +7,10 @@ Flujo de trabajo: se edita `src/pagina.html`, se ejecuta `python tools/build.py`
 **Métrica de éxito:** contacto encontrado en <10 s, contacto por WhatsApp/correo/teléfono a un toque, lectura cómoda en móvil, Lighthouse accesibilidad ≥ 95.
 
 ## Fase 1 — Conversión (contacto y mensaje) · prioridad máxima
-- [ ] 1.1 Contacto accionable: `mailto:`, `tel:`, WhatsApp y LinkedIn como enlaces reales; "Copiar" queda como secundario.
-- [ ] 1.2 Botón "Contactar" fijo en la cabecera, siempre visible, junto a "DEMOS / CÓDIGO".
-- [ ] 1.3 CV en PDF descargable (necesito tu PDF o los datos para generarlo).
-- [ ] 1.4 Frase de valor en la portada: qué resuelves y para quién (propongo 2–3 opciones y eliges).
+- [x] 1.1 Contacto accionable: `mailto:`, `tel:`, WhatsApp y LinkedIn como enlaces reales; "Copiar" queda como secundario.
+- [x] 1.2 Botón "Contactar" fijo en la cabecera, siempre visible, junto a "DEMOS / CÓDIGO".
+- [x] 1.3 CV en PDF descargable (necesito tu PDF o los datos para generarlo).
+- [x] 1.4 Frase de valor en la portada: qué resuelves y para quién (propongo 2–3 opciones y eliges).
 - [ ] 1.5 Verificar en el sitio local que todos los enlaces abren bien.
 
 ## Fase 2 — Legibilidad y accesibilidad básica
