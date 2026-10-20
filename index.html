@@ -69,6 +69,7 @@ h1,h2,h3,p{margin:0}
 .umbral .head{display:flex;justify-content:space-between;gap:12px;align-items:center;position:relative;z-index:1;padding-top:env(safe-area-inset-top,0px)}
 .umbral .mid{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:28px;padding-block:24px}
 .umbral .nombre{font-size:clamp(34px,7.2vw,104px);font-weight:800;letter-spacing:-.03em;line-height:.96;text-transform:uppercase;text-wrap:balance}
+.umbral .valor{position:relative;z-index:1;max-width:44ch;margin:0;font-size:clamp(16px,1.6vw,21px);line-height:1.45;color:var(--text-main);text-wrap:balance;text-shadow:0 0 12px #0D0D0D,0 0 4px #0D0D0D}
 .umbral .oficio{text-shadow:0 0 12px #0D0D0D,0 0 4px #0D0D0D;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
 .umbral blockquote{margin:0;max-width:26ch;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(24px,3.6vw,46px);line-height:1.15;color:var(--text-main);text-wrap:balance}
 .umbral cite{display:block;margin-top:10px;font-family:var(--mono);font-style:normal;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
@@ -504,6 +505,8 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5.5h18v13H3z M3 6.5l9 7 9-7"/></symbol>
 <symbol id="i-tel" viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4.5-2 1.5a11 11 0 0 0 6 6l1.5-2L21 14.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2z"/></symbol>
 <symbol id="i-wa" viewBox="0 0 24 24"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z M9 9c.2 2.2 2.8 4.8 5 5l1.2-1.2-1.8-1-.8.7c-.8-.3-1.6-1.1-1.9-1.9l.7-.8-1-1.8z"/></symbol>
+<symbol id="i-in" viewBox="0 0 24 24"><path d="M4 9h3.5v11H4z M5.7 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4z M10 9h3.4v1.6c.6-1 1.8-1.9 3.6-1.9 3.2 0 4 2.1 4 4.8V20h-3.5v-5.7c0-1.4-.3-2.5-1.8-2.5-1.6 0-2.2 1.1-2.2 2.6V20H10z"/></symbol>
+<symbol id="i-cv" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z M14 3v4h4 M9 12h6 M9 15h6 M9 18h4"/></symbol>
 <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol>
 </defs></svg>
 <header class="top" id="top">
@@ -525,6 +528,7 @@ body:has(.slide.abierta) .nav{display:none}
   <div class="mid">
     <div class="oficio">Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</div>
     <h1 class="nombre">Carlos Francisco<br>Espinoza Manzo</h1>
+    <p class="valor">Llevo el proyecto del modelo BIM a la obra: estructuras metálicas, planos de taller y control en sitio.</p>
   </div>
   <div class="foot"><p class="pista mono">Después, desliza hacia la derecha <b aria-hidden="true">→</b> para ver las 4 obras</p><button class="btn solid" type="button" id="iniciar">Iniciar recorrido espacial →</button><span class="mono muted">Desliza ↓ para iniciar</span></div>
 </section>
@@ -1162,6 +1166,8 @@ rail.innerHTML=OBRAS.map(function(o,i){
  '<div class="f"><span class="kick">'+ic('wa')+'WhatsApp</span><a class="v" id="wa" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">+52 351 202 5030</a><a class="btn solid" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp (se abre en otra pestaña)">Escribir</a></div>'+
  '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><a class="v" id="mail" href="mailto:arqcarlosem@gmail.com?subject=Contacto%20desde%20tu%20portafolio">arqcarlosem@gmail.com</a><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
  '<div class="f"><span class="kick">'+ic('tel')+'Teléfono</span><a class="v" id="tel" href="tel:+523512025030">+52 351 202 5030</a><button class="btn" type="button" data-copy="tel">Copiar</button></div>'+
+ '<div class="f"><span class="kick">'+ic('in')+'LinkedIn</span><a class="v" id="li" href="https://www.linkedin.com/in/carlos-espinoza-manzo-2b3a98271/" target="_blank" rel="noopener">carlos-espinoza-manzo</a><a class="btn" href="https://www.linkedin.com/in/carlos-espinoza-manzo-2b3a98271/" target="_blank" rel="noopener" aria-label="Abrir LinkedIn (se abre en otra pestaña)">Abrir</a></div>'+
+ '<div class="f"><span class="kick">'+ic('cv')+'Currículum</span><a class="v" id="cv" href="cv-carlos-espinoza.pdf" target="_blank" rel="noopener">CV en PDF</a><a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">Descargar</a></div>'+
  '<div class="f"><span class="kick">'+ic('pin')+'Ubicación</span><span class="v">Morelia, Michoacán, México</span><span></span></div></div></article>';
 var slides=$$('.slide',rail), total=slides.length;
 
