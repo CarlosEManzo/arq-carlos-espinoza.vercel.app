@@ -55,7 +55,7 @@ h1,h2,h3,p{margin:0}
 .top .prog{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted)}
 .top .prog b{color:var(--text-main);font-weight:700}
 .top .lab{justify-self:end;padding:8px 12px;min-height:40px;background:rgba(13,13,13,.6)}
-@media (max-width:560px){.top{grid-template-columns:1fr auto}.top .prog{display:none}.top .who{font-size:11px}}
+@media (max-width:560px){.top{grid-template-columns:1fr auto}.top .prog{display:none}.top .who{font-size:11px}.top .who .x{display:none}.top .acc .lab,.top .acc .contactar{padding:8px 10px}}
 
 /* umbral */
 .umbral{position:fixed;inset:0;z-index:60;background:var(--bg-dark);display:grid;grid-template-rows:1fr auto;padding:var(--gut);transition:transform 1.4s var(--ease),visibility 0s;overflow:hidden}
@@ -306,6 +306,13 @@ body:has(.slide.abierta) .nav{display:none}
 .ap summary .nm{display:flex;align-items:center;gap:12px}
 .ap summary .nm .ic{width:1em;height:1em;color:var(--text-muted)}
 .filas .kick{display:flex;align-items:center;gap:8px}
+.filas a.v{color:var(--text-main);text-decoration:underline;text-decoration-color:var(--border-color);text-underline-offset:6px;text-decoration-thickness:1px}
+.filas a.v:hover,.filas a.v:focus-visible{text-decoration-color:var(--text-main)}
+.top .contactar{justify-self:end;padding:8px 12px;min-height:44px;background:var(--text-main);color:var(--bg-dark);border-color:var(--text-main)}
+.top .contactar:hover{background:var(--accent)}
+.top .acc{justify-self:end;display:flex;gap:8px;align-items:center}
+.umbral .head .acc{display:flex;gap:8px;align-items:center}
+
 .demo .dtop .mono{display:inline-flex;align-items:center;gap:8px}
 .ctl span.lbl{justify-content:flex-start}
 .chips-s{display:flex;gap:6px;flex-wrap:wrap}
@@ -496,12 +503,13 @@ body:has(.slide.abierta) .nav{display:none}
 <symbol id="i-copo" viewBox="0 0 24 24"><path d="M12 3v18 M4.6 7.5l14.8 9 M19.4 7.5l-14.8 9 M9.5 4.5L12 6.5l2.5-2 M9.5 19.5L12 17.5l2.5 2"/></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5.5h18v13H3z M3 6.5l9 7 9-7"/></symbol>
 <symbol id="i-tel" viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4.5-2 1.5a11 11 0 0 0 6 6l1.5-2L21 14.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-wa" viewBox="0 0 24 24"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z M9 9c.2 2.2 2.8 4.8 5 5l1.2-1.2-1.8-1-.8.7c-.8-.3-1.6-1.1-1.9-1.9l.7-.8-1-1.8z"/></symbol>
 <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol>
 </defs></svg>
 <header class="top" id="top">
-  <span class="who">Arq. Carlos Francisco Espinoza Manzo</span>
+  <span class="who">Arq. <span class="x">Carlos Francisco </span>Espinoza<span class="x"> Manzo</span></span>
   <span class="prog num" id="prog" aria-live="polite"><b>01</b> / 04</span>
-  <button class="btn lab" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button>
+  <span class="acc"><button class="btn lab" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button><button class="btn contactar" type="button" data-contactar><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Contactar</button></span>
 </header>
 
 <main class="rail" id="rail" tabindex="0" aria-label="Recorrido por la obra. Flechas izquierda y derecha para avanzar."></main>
@@ -513,7 +521,7 @@ body:has(.slide.abierta) .nav{display:none}
 
 <section class="umbral" id="umbral" aria-label="Bienvenida">
   <canvas class="fx" id="fx" aria-hidden="true"></canvas>
-  <div class="head"><span class="mono muted">Portafolio de arquitectura · Rev. 2026</span><button class="btn lab-big" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button></div>
+  <div class="head"><span class="mono muted">Portafolio de arquitectura · Rev. 2026</span><span class="acc"><button class="btn lab-big" type="button" data-abrir="lab"><svg class="ic" aria-hidden="true"><use href="#i-lab"/></svg>DEMOS / CÓDIGO</button><button class="btn contactar" type="button" data-contactar><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>Contactar</button></span></div>
   <div class="mid">
     <div class="oficio">Arquitecto · Estructuras metálicas y coordinación BIM · Morelia, Michoacán</div>
     <h1 class="nombre">Carlos Francisco<br>Espinoza Manzo</h1>
@@ -1151,8 +1159,9 @@ rail.innerHTML=OBRAS.map(function(o,i){
    '</div></article>';
 }).join('')+
 '<article class="slide contacto" data-i="'+N+'" aria-label="Contacto"><div class="kick"><b>Z</b> — Cuadro de referencia</div><h2>Hablemos.</h2><div class="filas">'+
- '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><span class="v" id="mail">arqcarlosem@gmail.com</span><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
- '<div class="f"><span class="kick">'+ic('tel')+'Teléfono</span><span class="v" id="tel">+52 351 202 5030</span><button class="btn" type="button" data-copy="tel">Copiar</button></div>'+
+ '<div class="f"><span class="kick">'+ic('wa')+'WhatsApp</span><a class="v" id="wa" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">+52 351 202 5030</a><a class="btn solid" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp (se abre en otra pestaña)">Escribir</a></div>'+
+ '<div class="f"><span class="kick">'+ic('mail')+'Correo</span><a class="v" id="mail" href="mailto:arqcarlosem@gmail.com?subject=Contacto%20desde%20tu%20portafolio">arqcarlosem@gmail.com</a><button class="btn" type="button" data-copy="mail">Copiar</button></div>'+
+ '<div class="f"><span class="kick">'+ic('tel')+'Teléfono</span><a class="v" id="tel" href="tel:+523512025030">+52 351 202 5030</a><button class="btn" type="button" data-copy="tel">Copiar</button></div>'+
  '<div class="f"><span class="kick">'+ic('pin')+'Ubicación</span><span class="v">Morelia, Michoacán, México</span><span></span></div></div></article>';
 var slides=$$('.slide',rail), total=slides.length;
 
@@ -1247,6 +1256,8 @@ var labPrev=null;
 function abreLab(){ labPrev=document.activeElement; estado.lab=true; $('#lab').classList.add('on'); sincroniza(); pintaDemos(); setTimeout(function(){$('#lab-cerrar').focus()},50); }
 function cierraLab(){ estado.lab=false; $('#lab').classList.remove('on'); sincroniza(); if(labPrev&&labPrev.focus) try{labPrev.focus()}catch(e){} }
 $$('[data-abrir="lab"]').forEach(function(b){b.addEventListener('click',abreLab)});
+/* botón «Contactar»: cierra el laboratorio/portada si hace falta y va a la pantalla de contacto */
+$$('[data-contactar]').forEach(function(b){b.addEventListener('click',function(){ if(estado.lab) cierraLab(); if(estado.umbral) inicia(); setTimeout(function(){ ir(total-1,false); },estado.umbral?0:0); });});
 $('#lab-cerrar').addEventListener('click',cierraLab);
 $('#lab').addEventListener('keydown',function(e){trampa($('#lab'),e)});
 
