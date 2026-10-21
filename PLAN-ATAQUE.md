@@ -74,8 +74,8 @@ Fase 1 → 2 → 3 → 4 → 5 → 6 → 7. Las fases 1 y 2 no dependen de datos
 - [ ] 8.11 Revisar vistas no cubiertas (2D, 3D, 5D, 360°, renders, contacto) con teclado y lector de pantalla.
 
 ## Fase 9 — Reestructura del dashboard con objetivo claro
-- [ ] 9.1 Cuestionario de objetivo, público y mensaje (en curso).
-- [ ] 9.2 Definir jerarquía: qué se ve primero, qué es secundario, qué se oculta.
+- [x] 9.1 Cuestionario de objetivo, público y mensaje (en curso).
+- [x] 9.2 Definir jerarquía: qué se ve primero, qué es secundario, qué se oculta.
 - [ ] 9.3 Nueva portada/inicio con propuesta clara y una sola acción principal.
 - [ ] 9.4 Reordenar o fusionar secciones (2D/3D/4D/5D/360°/renders) según el objetivo.
 - [ ] 9.5 Pruebas en escritorio y móvil, correcciones de la Fase 8 integradas, publicación con tu visto bueno.
