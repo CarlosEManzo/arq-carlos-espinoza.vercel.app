@@ -121,7 +121,7 @@ var stage=$('#stage'), W=stage.clientWidth, Hh=stage.clientHeight, renderer;
 try{renderer=new T.WebGLRenderer({antialias:true});}catch(e){$('#cargando').hidden=true;$('#sin3d').hidden=false;return;}
 renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.92; var STORY=/[?&]story/.test(location.search),ESTUDIO=false;renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,STORY?1.5:2)); renderer.setSize(W,Hh); renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; renderer.localClippingEnabled=true;
 stage.insertBefore(renderer.domElement,stage.firstChild);
-var scene=new T.Scene(), persp=new T.PerspectiveCamera(40,W/Hh,0.1,400), ortho=new T.OrthographicCamera(-10,10,10,-10,0.1,200), cam=persp, dirty=true;
+var scene=new T.Scene(), persp=new T.PerspectiveCamera(40,W/Hh,0.1,/[?&]story/.test(location.search)?1600:400), ortho=new T.OrthographicCamera(-10,10,10,-10,0.1,200), cam=persp, dirty=true;
 
 /* ---------------- texturas procedurales ---------------- */
 function canvasTex(draw,sz){var c=document.createElement('canvas');c.width=c.height=sz||256;var g=c.getContext('2d');draw(g,c.width);var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=4;return t;}
@@ -1176,6 +1176,26 @@ var suelo=new T.Mesh(new T.PlaneGeometry(200,200),std('#4a4640',1));suelo.rotati
 /* entorno: cerros lejanos que se funden con la neblina del horizonte */
 var cerros=new T.Group();scene.add(cerros);var cerroMat=new T.MeshLambertMaterial({color:0x6b7a5e});
 (function(){for(var i=0;i<22;i++){var ang=i/22*Math.PI*2+((i*7)%5)*0.05,rad=105+((i*13)%7)*6,w=26+((i*11)%9)*5,h=9+((i*17)%8)*3.2;var m=new T.Mesh(new T.SphereGeometry(1,18,10,0,Math.PI*2,0,Math.PI/2),cerroMat);m.scale.set(w,h,w*0.8);m.position.set(3+Math.cos(ang)*rad,-0.3,-8+Math.sin(ang)*rad);m.rotation.y=ang;cerros.add(m);}})();
+
+/* base satelital (modo historia): la imagen se orienta con el frente de la casa (azimut_frente) y se desvanece hacia el fondo de estudio */
+var satMesh=null,SAT={px:652,py:556,m:0.5622};
+function satCarga(url,cb){var im=new Image();im.onload=function(){try{
+  var N=1536,SZ=720,cv=document.createElement('canvas');cv.width=cv.height=N;var g=cv.getContext('2d');
+  g.fillStyle='#0d0c0a';g.fillRect(0,0,N,N);
+  var k=(SAT.m/(SZ/N)),th=(D.azimut_frente)*Math.PI/180;
+  /* el este del mapa en el plano de la casa: x -> (azimut_frente-90), z -> azimut_frente */
+  var bx=(D.azimut_frente-90)*Math.PI/180,bz=D.azimut_frente*Math.PI/180;
+  var ex=[Math.sin(bx),Math.sin(bz)],nn=[Math.cos(bx),Math.cos(bz)];
+  /* lienzo (px,py)=(x,-z)*escala -> satélite (este,-norte) */
+  var a=ex[0],c=ex[1],b2=-nn[0],d2=-nn[1];
+  /* matriz inversa (satélite -> lienzo) */
+  var det=a*d2-c*b2,ia=d2/det,ic=-c/det,ib=-b2/det,id=a/det;
+  g.save();g.translate(N/2,N/2);g.transform(ia*k,ib*k,ic*k,id*k,0,0);g.drawImage(im,-SAT.px,-SAT.py);g.restore();
+  var gr=g.createRadialGradient(N/2,N/2,N*0.10,N/2,N/2,N*0.5);gr.addColorStop(0,'rgba(13,12,10,0)');gr.addColorStop(0.55,'rgba(13,12,10,.35)');gr.addColorStop(1,'rgba(13,12,10,1)');g.fillStyle=gr;g.fillRect(0,0,N,N);
+  g.fillStyle='rgba(30,20,8,.22)';g.fillRect(0,0,N,N);
+  var tx=new T.CanvasTexture(cv);tx.anisotropy=4;
+  satMesh=new T.Mesh(new T.PlaneGeometry(SZ,SZ),new T.MeshBasicMaterial({map:tx,transparent:true,opacity:1,toneMapped:false,depthWrite:false}));
+  satMesh.rotation.x=-Math.PI/2;satMesh.position.set(3,-0.18,-7.5);satMesh.renderOrder=-1;scene.add(satMesh);dirty=true;if(cb)cb();}catch(e){}};im.src=url;}
 /* cielo con degradado: se recalcula con la hora y el clima */
 var skyCv=document.createElement('canvas');skyCv.width=2;skyCv.height=256;var skyTx=new T.CanvasTexture(skyCv);
 function skyGrad(c,noche){var g=skyCv.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);var top=c.clone().multiplyScalar(noche?0.7:0.74),hor=c.clone().lerp(new T.Color(noche?'#1b2740':'#f2e4cf'),noche?0.45:0.62);gr.addColorStop(0,'#'+top.getHexString());gr.addColorStop(0.5,'#'+c.getHexString());gr.addColorStop(1,'#'+hor.getHexString());g.fillStyle=gr;g.fillRect(0,0,2,256);skyTx.needsUpdate=true;return {tex:skyTx,hor:hor};}
@@ -1410,6 +1430,7 @@ listaCuartos();fijaModo('ext');aplicaCielo();$('#cargando').hidden=true;
 window.__showroom={escena:scene,sol:sol,hemi:hemi,lluvia:lluvia,etiquetas:etiquetas,infraMeshes:infraMeshes,rebotes:rebotes,luces:luces,fijaModo:fijaModo,setHora:function(h){hora=h;$('#hora').value=h;aplicaCielo();},setClima:function(c){clima=c;aplicaCielo();},selecciona:function(id){selId=id;listaCuartos();resaltaSel();muestraFicha();colocaCam();},capas:function(a){capasAct=a;visibilidad();aplicaCielo();},cam:function(o){if(modo!=='ext')fijaModo('ext');if(o.az!=null)az=o.az;if(o.el!=null)el=o.el;if(o.dist!=null)dist=o.dist;if(o.tgt)tgt.set(o.tgt[0],o.tgt[1],o.tgt[2]);colocaCam();dirty=true;},sistemas:CAPAS.map(function(c){return {k:c[0],n:c[1],c:c[2]};}),setSistema:function(k,v){capasOn[k]=v;visibilidad();},fase:function(p){faseP=(p==null?null:p);capasAct=(p!=null&&p>=0.36&&p<0.58);visibilidad();aplicaCielo();return p==null?null:faseNombre(p);},fases:FASES,camaraActual:function(){return cam;},ventanal:function(t){if(window.__ventanal)window.__ventanal(t);},vista:function(o){DBG=o;colocaCam();},vistaOff:function(){DBG=null;colocaCam();}};
 window.__showroom.cenital=function(n,zoom,x,z){modo='plano';nivel=n;zoomO=zoom;panO.set(x,0,z);visibilidad();colocaCam();dirty=true;};
 window.__showroom.intensifica=function(cols,esc){infraMeshes.forEach(function(m){var g=m.userData.grupo,c=cols&&cols[g];if(!c)return;m.material.color.set(c);m.material.opacity=1;m.material.transparent=false;if(m.geometry.type==='CylinderGeometry')m.scale.set(esc,1,esc);else m.scale.setScalar(esc);});dirty=true;};
+window.__showroom.satCarga=satCarga;window.__showroom.sat=function(o){if(!satMesh)return;satMesh.material.opacity=o;satMesh.visible=o>0.005;dirty=true;};
 window.__showroom.estudio=function(on){ESTUDIO=!!on;aplicaCielo();dirty=true;};
 window.__showroom.axo=function(on){AXO=!!on;visibilidad();aplicaCielo();colocaCam();dirty=true;};
 window.__showroom.limpio=function(on){LIMPIO=!!on;window.__showroom.estilo(on?'.ov{display:none!important}':'');visibilidad();};
