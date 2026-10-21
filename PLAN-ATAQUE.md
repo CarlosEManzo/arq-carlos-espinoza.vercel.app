@@ -59,3 +59,23 @@ Flujo de trabajo: se edita `src/pagina.html`, se ejecuta `python tools/build.py`
 
 ## Orden de ejecución
 Fase 1 → 2 → 3 → 4 → 5 → 6 → 7. Las fases 1 y 2 no dependen de datos tuyos (salvo WhatsApp/LinkedIn), así que arrancan de inmediato.
+
+## Fase 8 — Correcciones del dashboard (de AUDITORIA-DASHBOARD.md)
+- [ ] 8.1 U1/L2: mostrar presupuesto ejercido y % en la vista 4D móvil; textos mínimos de 11–12 px y menos marcas de semana.
+- [ ] 8.2 P1: quitar la descarga duplicada de `pano-sala.jpg` (con y sin `?v=`).
+- [ ] 8.3 A1/A2: `<main>`, enlace "saltar al contenido" y `tabindex`/`role`/`aria-label` en `#v-home` y `#v-panel`.
+- [ ] 8.4 A3: objetivos táctiles ≥ 44 px (cerrar, Planta baja/Tapanco, modos 4D móvil, barra de avance).
+- [ ] 8.5 A4/U2: botón de ventanal con nombre fijo + `aria-pressed`, fuera del centro del modelo en móvil.
+- [ ] 8.6 U3: pista de manipulación del modelo (arrastrar/pellizcar).
+- [ ] 8.7 U4/U8/A5: splash legible (velo o entrada automática) y botón de pausa del hero.
+- [ ] 8.8 L1/L3/U5/U7: etiquetas ≥ 12 px, gris `#A8A8A8`, cifra de presupuesto con aire, aviso "datos de ejemplo" legible.
+- [ ] 8.9 T1/T2: favicon y SRI de Pannellum.
+- [ ] 8.10 P2/P3: panorámicas a WebP/AVIF y carga diferida; medir con Lighthouse antes y después.
+- [ ] 8.11 Revisar vistas no cubiertas (2D, 3D, 5D, 360°, renders, contacto) con teclado y lector de pantalla.
+
+## Fase 9 — Reestructura del dashboard con objetivo claro
+- [ ] 9.1 Cuestionario de objetivo, público y mensaje (en curso).
+- [ ] 9.2 Definir jerarquía: qué se ve primero, qué es secundario, qué se oculta.
+- [ ] 9.3 Nueva portada/inicio con propuesta clara y una sola acción principal.
+- [ ] 9.4 Reordenar o fusionar secciones (2D/3D/4D/5D/360°/renders) según el objetivo.
+- [ ] 9.5 Pruebas en escritorio y móvil, correcciones de la Fase 8 integradas, publicación con tu visto bueno.
