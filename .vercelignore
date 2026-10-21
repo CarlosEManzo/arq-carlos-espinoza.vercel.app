@@ -3,3 +3,5 @@ tools
 README.md
 .env*
 .vercel
+
+dashboard/*.anterior.html

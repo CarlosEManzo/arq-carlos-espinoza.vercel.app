@@ -119,7 +119,7 @@ D.recintos.forEach(function(r){
 function H(x,yh,z){return new T.Vector3(x,z,-(yh+OFF));}
 var stage=$('#stage'), W=stage.clientWidth, Hh=stage.clientHeight, renderer;
 try{renderer=new T.WebGLRenderer({antialias:true});}catch(e){$('#cargando').hidden=true;$('#sin3d').hidden=false;return;}
-renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.8; renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)); renderer.setSize(W,Hh); renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; renderer.localClippingEnabled=true;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.92; renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2)); renderer.setSize(W,Hh); renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap; renderer.localClippingEnabled=true;
 stage.insertBefore(renderer.domElement,stage.firstChild);
 var scene=new T.Scene(), persp=new T.PerspectiveCamera(40,W/Hh,0.1,400), ortho=new T.OrthographicCamera(-10,10,10,-10,0.1,200), cam=persp, dirty=true;
 
@@ -1173,6 +1173,12 @@ function cilEntre(id,a,b,r,mat,seg){var d=new T.Vector3().subVectors(b,a),L=d.le
 var hemi=new T.HemisphereLight(0xffffff,0x3a3328,0.8);scene.add(hemi);
 var sol=new T.DirectionalLight(0xffffff,1);sol.castShadow=true;sol.shadow.mapSize.set(2048,2048);sol.shadow.bias=-0.0005;sol.shadow.normalBias=0.03;var sc=sol.shadow.camera;sc.left=-18;sc.right=18;sc.top=18;sc.bottom=-18;sc.near=1;sc.far=90;scene.add(sol);scene.add(sol.target);sol.target.position.set(3,0,-8);
 var suelo=new T.Mesh(new T.PlaneGeometry(200,200),std('#4a4640',1));suelo.rotation.x=-Math.PI/2;suelo.position.y=-0.2;suelo.receiveShadow=true;scene.add(suelo);
+/* entorno: cerros lejanos que se funden con la neblina del horizonte */
+var cerros=new T.Group();scene.add(cerros);var cerroMat=new T.MeshLambertMaterial({color:0x6b7a5e});
+(function(){for(var i=0;i<22;i++){var ang=i/22*Math.PI*2+((i*7)%5)*0.05,rad=105+((i*13)%7)*6,w=26+((i*11)%9)*5,h=9+((i*17)%8)*3.2;var m=new T.Mesh(new T.SphereGeometry(1,18,10,0,Math.PI*2,0,Math.PI/2),cerroMat);m.scale.set(w,h,w*0.8);m.position.set(3+Math.cos(ang)*rad,-0.3,-8+Math.sin(ang)*rad);m.rotation.y=ang;cerros.add(m);}})();
+/* cielo con degradado: se recalcula con la hora y el clima */
+var skyCv=document.createElement('canvas');skyCv.width=2;skyCv.height=256;var skyTx=new T.CanvasTexture(skyCv);
+function skyGrad(c,noche){var g=skyCv.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);var top=c.clone().multiplyScalar(noche?0.7:0.74),hor=c.clone().lerp(new T.Color(noche?'#1b2740':'#f2e4cf'),noche?0.45:0.62);gr.addColorStop(0,'#'+top.getHexString());gr.addColorStop(0.5,'#'+c.getHexString());gr.addColorStop(1,'#'+hor.getHexString());g.fillStyle=gr;g.fillRect(0,0,2,256);skyTx.needsUpdate=true;return {tex:skyTx,hor:hor};}
 var luces=[];(D.luces||[]).forEach(function(l){var pl=new T.PointLight(0xffd9a0,0,9,1.6);pl.position.copy(H(l[0],l[1],l[2]-0.1));scene.add(pl);luces.push(pl);});
 /* cada luz nocturna nace de una lámpara real: lámpara de la mesa lateral, colgante del comedor, colgantes de la barra, veladores, lámpara del escritorio y aplique del muro este */
 [[2.55,3.75,0.98],[3.95,3.45,3.7],[1.7,4.95,1.6],[2.4,4.95,1.6],[0.3,4.35,3.4],[0.3,6.45,3.4],[0.98,7.15,3.7],[5.71,0.9,2.5]].forEach(function(l){var pl=new T.PointLight(0xffd9a0,0,7,1.6);pl.position.copy(H(l[0],l[1],l[2]));scene.add(pl);luces.push(pl);});
@@ -1190,11 +1196,11 @@ function aplicaCielo(){
   var nube=clima==='sol'?0:(clima==='nub'?0.7:0.9);
   var cDia=new T.Color(clima==='sol'?'#8fc4ee':(clima==='nub'?'#a6b0b8':'#7d8791')),cAt=new T.Color('#e89a6a'),cNoche=new T.Color('#0d1626');
   var tAt=Math.max(0,1-Math.abs(el)*5.5), sky=cNoche.clone().lerp(cDia,Math.min(1,dia*2.4+0.02));if(clima==='sol')sky.lerp(cAt,tAt*(dia>0.0?0.55:0.0)*(1-nube));
-  scene.background=(capasAct&&modo!=='plano')?new T.Color('#0e1318'):sky;scene.fog=(capasAct&&modo!=='plano')?null:new T.Fog(sky.getHex(),clima==='llu'?30:60,clima==='llu'?90:200);
+  var _inf=capasAct&&modo!=='plano',_sg=skyGrad(sky,dia<0.06);scene.background=_inf?new T.Color('#0e1318'):_sg.tex;scene.fog=_inf?null:new T.Fog(_sg.hor.getHex(),clima==='llu'?30:70,clima==='llu'?90:210);
   sol.intensity=(1-nube*0.88)*dia*1.05;sol.color.set(el<0.25?'#ffb27a':'#fff4e0');if(dia<0.06){sol.intensity=0.34*(1-nube*0.5);sol.color.set('#9fb8ff');sol.position.set(-6,34,-14);}
   hemi.intensity=Math.max(0.12+dia*(clima==='sol'?0.95:1.05),dia<0.06?0.36:0);hemi.color.copy(sky).lerp(new T.Color('#ffffff'),0.5);
   var noche=dia<0.06;luces.forEach(function(l){l.intensity=noche?0.5:(dia<0.2?0.4:0);});rebotes.forEach(function(l){l.intensity=noche?0.14:(0.28+0.5*dia*(1-nube*0.4));});LAMP.emissive.set(noche?'#ffcf8a':'#000000');LAMP.emissiveIntensity=noche?0.65:0;glows.forEach(function(g){g.visible=noche||dia<0.2;});lamparas.forEach(function(l){l.material.color.set(noche?0xffe2a0:0x777770);});renderer.toneMappingExposure=noche?1.15:0.85;
-  suelo.material.color.set(noche?'#15130f':'#4a4640');lluvia.visible=clima==='llu';
+  suelo.material.color.set(noche?'#14130e':(clima==='sol'?'#8a8566':'#7a7a64'));cerroMat.color.set(noche?'#0d130f':(clima==='sol'?'#6b7a5e':'#6c766a'));lluvia.visible=clima==='llu';
   $('#hora-t').textContent=('0'+Math.floor(hora)).slice(-2)+':'+('0'+Math.round((hora%1)*60)).slice(-2)+' · sol a '+Math.max(0,Math.round(el*180/Math.PI))+'°';
   $('#clima-t').textContent=climas.filter(function(c){return c[0]===clima})[0][1];
   if(AXO){scene.background=new T.Color('#ffffff');scene.fog=null;hemi.intensity=1.25;hemi.color.set('#ffffff');hemi.groundColor.set('#cfcfcd');sol.intensity=0.85;sol.color.set('#ffffff');sol.position.set(13,34,-1);suelo.material.color.set('#f4f4f2');renderer.toneMappingExposure=1.0;luces.forEach(function(l){l.intensity=0;});rebotes.forEach(function(l){l.intensity=0;});glows.forEach(function(g){g.visible=false;});lluvia.visible=false;}
@@ -1220,7 +1226,7 @@ function visibilidad(){
     if(modo==='plano'&&rol==='plafon')vis=false;
     m.visible=vis; var mt=m.material; if(rol==='muro'||rol==='piso'||rol==='plafon'){ if(!m.userData.base)m.userData.base=mt; if(ghost&&modo!=='hab'){ if(!m.userData.gh){var gm=mt.clone();gm.transparent=true;gm.opacity=.07;gm.depthWrite=false;m.userData.gh=gm;} m.material=m.userData.gh; m.castShadow=false;} else {m.material=m.userData.base;m.castShadow=(rol!=='piso');} } });
   infraMeshes.forEach(function(m){m.visible=capasOn[m.userData.grupo]!==false&&anyInfra()||false;});
-  var inf=capasAct&&modo!=='plano';site.visible=!inf;Object.keys(mobil).forEach(function(k){mobil[k].visible=!inf;});suelo.visible=!inf;bordes.forEach(function(b){b.visible=inf;});etiquetas.forEach(function(e,i){e.visible=inf&&!LIMPIO&&i<etiquetas.length-1;}); 
+  var inf=capasAct&&modo!=='plano';site.visible=!inf;Object.keys(mobil).forEach(function(k){mobil[k].visible=!inf;});suelo.visible=cerros.visible=!inf;bordes.forEach(function(b){b.visible=inf;});etiquetas.forEach(function(e,i){e.visible=inf&&!LIMPIO&&i<etiquetas.length-1;}); 
   setClip(modo==='plano'?(nivel===0?1.7:5.0):null);if(faseP!=null)aplicaFase();else{OBRA.visible=false;TIERRA.visible=false;root.children.forEach(function(c){if(c.type==='Group')c.visible=true;});}axoPost();dirty=true;}
 var faseP=null,LIMPIO=false,AXO=false;
 /* ---------------- estilo axonométrico blanco ---------------- */
@@ -1244,7 +1250,7 @@ function axoPost(){
   otros.forEach(function(pr){var m=pr[0];if(!axoSaved.has(m))axoSaved.set(m,m.material);m.material=axoM(pr[1]);});
   if(!axoBase){var bx=new T.Mesh(new T.BoxGeometry(6.05,0.2,15.1),new T.MeshStandardMaterial({color:'#f2f2f0',roughness:1}));bx.position.copy(H(3,3.0,-0.1));bx.receiveShadow=true;bx.castShadow=false;root.add(bx);axoBase=bx;
     var lb=new T.LineSegments(new T.EdgesGeometry(bx.geometry),new T.LineBasicMaterial({color:0x777777}));lb.userData.axo=1;lb.position.copy(bx.position);root.add(lb);axoBase.userData.ln=lb;}
-  axoBase.visible=true;axoBase.userData.ln.visible=true;suelo.visible=false;
+  axoBase.visible=true;axoBase.userData.ln.visible=true;suelo.visible=cerros.visible=false;
   site.children.forEach(function(c){if(c.userData.axoIn===undefined){var bb=new T.Box3().setFromObject(c),ct=bb.getCenter(new T.Vector3());c.userData.axoIn=(ct.x>-0.4&&ct.x<6.4&&ct.z<0.3&&ct.z>-15.3);}c.visible=!!c.userData.axoIn&&(!faseP||faseP>0.92);});
   if(!axoOl){axoOl=[];scene.traverse(function(o){if(o.isLineSegments&&o.userData.axo===undefined&&bordes.indexOf(o)<0)axoOl.push(o);});}
   axoOl.forEach(function(o){o.visible=false;});
