@@ -4,413 +4,383 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Metric.arq · Ve tu proyecto antes de construirlo</title>
-<meta name="description" content="Mira cómo un proyecto pasa de terreno a casa terminada, con su costo y su calendario, y recórrelo en 360°. Tablero de ejemplo de Metric.arq: Loft 6 × 15 en Morelia.">
-<meta name="theme-color" content="#000000">
+<meta name="description" content="Recorre un proyecto inmobiliario en 360° antes de construirlo y consulta su costo, calendario y retorno. Tablero de ejemplo de Metric.arq: Loft 6 × 15 en Morelia.">
+<meta name="theme-color" content="#050505">
 <link rel="canonical" href="https://arq-carlos-espinoza.vercel.app/dashboard/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D0D0D'/%3E%3Cpath d='M14 50V14h12l12 22V14h12v36H38L26 28v22z' fill='%23F2A900'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:title" content="Metric.arq · Ve tu proyecto antes de construirlo">
-<meta property="og:description" content="Un loft que se construye mientras bajas: costo, semanas y recorrido 360°.">
+<meta property="og:description" content="Recorrido 360°, costo, calendario y simulador de inversión de un proyecto de ejemplo.">
 <meta property="og:url" content="https://arq-carlos-espinoza.vercel.app/dashboard/">
 <meta property="og:image" content="https://arq-carlos-espinoza.vercel.app/dashboard/img/fachada.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap">
 <style>
-:root{color-scheme:dark;--bg:#050505;--card:#121212;--line:#2a2a2a;--text:#F2F1EE;--muted:#B4B4B0;--cta:#F2A900;--sans:'Inter','Helvetica Neue',Arial,sans-serif;--mono:'Space Mono',ui-monospace,Consolas,monospace;--gut:20px}
-@media (min-width:800px){:root{--gut:48px}}
+:root{color-scheme:dark;--bg:#050505;--glass:rgba(12,12,12,.58);--glass2:rgba(12,12,12,.82);--line:rgba(255,255,255,.14);--text:#F4F3F0;--muted:#B9B9B4;--cta:#F2A900;--sans:'Inter','Helvetica Neue',Arial,sans-serif;--mono:'Space Mono',ui-monospace,Consolas,monospace;--gut:14px}
+@media (min-width:800px){:root{--gut:28px}}
 *{box-sizing:border-box}
-html{background:#000}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 var(--sans);-webkit-text-size-adjust:100%}
+html,body{height:100%;margin:0;background:#000;overflow:hidden}
+body{color:var(--text);font:16px/1.5 var(--sans);-webkit-text-size-adjust:100%;overscroll-behavior:none}
 button,input{font:inherit;color:inherit}
 a{color:inherit}
-:focus-visible{outline:3px solid #fff;outline-offset:3px}
+:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.skip{position:fixed;left:8px;top:-60px;z-index:100;background:#fff;color:#000;padding:12px 16px;font:13px var(--mono);text-decoration:none}
+.skip{position:fixed;left:8px;top:-60px;z-index:300;background:#fff;color:#000;padding:12px 16px;font:13px var(--mono);text-decoration:none}
 .skip:focus{top:8px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 22px;border:1.5px solid #fff;background:rgba(0,0,0,.35);color:#fff;font:700 14px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:1.5px solid #fff;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn:hover{background:#fff;color:#000}
 .btn.cta{background:var(--cta);border-color:var(--cta);color:#000}
 .btn.cta:hover{background:#fff;border-color:#fff}
 .btn.sm{min-height:44px;padding:8px 16px;font-size:12px}
+.ej{display:inline-block;padding:3px 9px;border:1px solid var(--cta);color:var(--cta);font:700 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;border-radius:6px}
 
-/* barra */
-.bar{position:fixed;inset:0 0 auto 0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) var(--gut) 10px;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent);pointer-events:none}
-.bar>*{pointer-events:auto}
-.logo{font:800 20px var(--sans);letter-spacing:-.02em;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+#app{position:fixed;inset:0;background:#050505}
+#poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(2px) brightness(.8);transition:opacity .9s}
+#app.listo #poster{opacity:0;pointer-events:none}
+#pano{position:absolute;inset:0;opacity:0;transition:opacity 1s}
+#app.listo #pano{opacity:1}
+.pnlm-container{background:#050505!important}
+.pnlm-load-box,.pnlm-lbox{display:none!important}
+.veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 18%),linear-gradient(to top,rgba(0,0,0,.7),transparent 30%)}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .45s;z-index:30}
+#fade.on{opacity:.92}
+
+/* barra superior */
+.bar{position:absolute;inset:0 0 auto 0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(10px + env(safe-area-inset-top)) var(--gut) 10px}
+.logo{font:800 20px var(--sans);letter-spacing:-.02em;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 .logo i{color:var(--cta);font-style:normal}
+.bar .right{display:flex;gap:14px;align-items:center}
+.back{display:none;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#fff;min-height:44px;align-items:center;text-shadow:0 1px 10px #000}
+@media (min-width:700px){.back{display:inline-flex}}
 
-/* historia */
-.track{position:relative;height:540svh}
-.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#0a0a0a}
-.stage .bg{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 30%,#1c1710,#050505 70%)}
-.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s}
-#m3d{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity 1s;pointer-events:none;background:#0a0a0a}
-#m3d.on{opacity:1}
-.stage.listo .poster{opacity:0}
-.shots{position:absolute;inset:0;pointer-events:none;overflow:hidden}.shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity,transform}
-.shots img:nth-child(1){object-position:38% 50%}.shots img:nth-child(2){object-position:50% 50%}.shots img:nth-child(3){object-position:72% 50%}
-.veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(0,0,0,.92) 0,rgba(0,0,0,.55) 30%,rgba(0,0,0,0) 58%),linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0) 22%)}
-.hud{position:absolute;left:var(--gut);right:var(--gut);top:calc(66px + env(safe-area-inset-top));display:grid;gap:8px;pointer-events:none}
-.hud .row{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:baseline;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.hud b{color:var(--text);font-weight:700}
-.hud .money{font:800 clamp(26px,7vw,44px)/1 var(--sans);letter-spacing:-.03em;color:var(--text);text-transform:none}
-.hud .line{height:3px;background:rgba(255,255,255,.18)}
-.hud .line i{display:block;height:100%;width:0;background:var(--cta)}
-.hud .ej{display:inline-block;padding:2px 8px;border:1px solid var(--cta);color:var(--cta);font:700 12px var(--mono);letter-spacing:.08em}
-.caps{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(58px + env(safe-area-inset-bottom))}
-.cap{position:absolute;left:0;right:0;bottom:0;opacity:0;transform:translateY(16px);visibility:hidden;transition:opacity .5s,transform .5s,visibility 0s .5s}
-.cap.on{opacity:1;transform:none;visibility:visible;transition:opacity .5s,transform .5s,visibility 0s}
-.cap .k{margin:0 0 10px;font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cta)}
-.cap h2{margin:0;font-size:clamp(38px,11vw,84px);line-height:.98;letter-spacing:-.035em;font-weight:800;max-width:11ch;text-wrap:balance}
-.cap p{margin:14px 0 0;font-size:clamp(16px,4.2vw,19px);color:#e2e1dd;max-width:30ch}
-.cap .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-@media (min-width:800px){.cap h2{max-width:14ch}.cap p{max-width:44ch}}
-.atrib{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(8px + env(safe-area-inset-bottom));margin:0;font:11px var(--mono);letter-spacing:.04em;color:#8f8f8b;transition:opacity .5s;pointer-events:none}
-.cue{position:absolute;right:var(--gut);bottom:calc(58px + env(safe-area-inset-bottom));font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .5s;pointer-events:none}
-.cue i{display:block;width:2px;height:34px;background:linear-gradient(to bottom,transparent,var(--cta));animation:cue 1.6s infinite}
-@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media (prefers-reduced-motion:reduce){.cue i{animation:none}.cap,.cap.on{transition:none}}
+/* titulo inicial */
+.intro{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(172px + env(safe-area-inset-bottom));z-index:20;pointer-events:none;transition:opacity .8s,transform .8s}
+.intro::before{content:"";position:absolute;left:calc(-1*var(--gut));right:calc(-1*var(--gut));top:-140px;bottom:-190px;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.88) 35%,rgba(0,0,0,0));pointer-events:none}
+.intro.off{opacity:0;transform:translateY(12px)}
+.intro .k{margin:0 0 8px;font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cta)}
+.intro h1{margin:0;font-size:clamp(34px,9vw,76px);line-height:.98;letter-spacing:-.035em;font-weight:800;max-width:11ch;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.55)}
+.intro p{margin:12px 0 0;font-size:clamp(15px,3.8vw,18px);color:#e8e8e4;max-width:32ch;text-shadow:0 1px 16px rgba(0,0,0,.7)}
+@media (min-width:800px){.intro{bottom:calc(200px + env(safe-area-inset-bottom))}.intro h1{max-width:14ch}.intro p{max-width:44ch}}
 
-/* numeros */
-#final{position:relative;padding:72px var(--gut) 48px;background:var(--bg)}
-.wrap{max-width:1040px;margin:0 auto}
-#final .k{margin:0 0 10px;font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cta)}
-#final h2{margin:0;font-size:clamp(34px,8vw,64px);line-height:1;letter-spacing:-.035em;font-weight:800;max-width:14ch}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin:28px 0}
-.kpis div{background:var(--card);padding:18px 16px}
-.kpis b{display:block;font:800 clamp(26px,6.5vw,44px)/1 var(--sans);letter-spacing:-.03em}
-.kpis span{display:block;margin-top:6px;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-@media (min-width:800px){.kpis{grid-template-columns:repeat(4,1fr)}}
-.ej{display:inline-block;padding:3px 9px;border:1px solid var(--cta);color:var(--cta);font:700 12px var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.sim{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:0 0 20px}
-.sim h3{margin:0 0 4px;font-size:20px;letter-spacing:-.02em}
-.sim .sub{margin:0 0 16px;color:var(--muted);font-size:14px}
-.fld{margin:0 0 6px}
-.fld .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+/* etiqueta del espacio */
+.room{position:absolute;left:var(--gut);top:calc(64px + env(safe-area-inset-top));z-index:25;max-width:calc(100% - 2*var(--gut));padding:10px 14px;border-radius:16px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);transition:opacity .4s}
+.room b{display:block;font-size:16px;letter-spacing:-.01em}
+.room span{display:block;font-size:13px;color:var(--muted);max-width:34ch}
+.room.hide{opacity:0}
+
+/* pistas */
+.hint{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);z-index:22;padding:12px 18px;border-radius:999px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.35);font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;pointer-events:none;transition:opacity .7s;white-space:nowrap}
+.hint.off{opacity:0}
+
+/* minimapa (escritorio) */
+.mini{display:none;position:absolute;left:var(--gut);bottom:calc(150px + env(safe-area-inset-bottom));z-index:25;width:132px;border-radius:16px;overflow:hidden;background:var(--glass2);border:1px solid var(--line);padding:6px}
+@media (min-width:900px){.mini{display:block}}
+.plan{position:relative;width:100%;aspect-ratio:8.788/16.6;background:#e9e6df center/100% 100% no-repeat;border-radius:10px;overflow:hidden}
+.pin{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:2px solid #fff;background:#0d0d0d;padding:0;cursor:pointer;display:grid;place-items:center}
+.pin::after{content:"";width:8px;height:8px;border-radius:50%;background:#bbb}
+.pin[aria-current=true]{background:var(--cta);border-color:#fff;box-shadow:0 0 0 4px rgba(242,169,0,.35)}
+.pin[aria-current=true]::after{background:#000}
+.planbig .pin{width:44px;height:44px;margin:-22px 0 0 -22px}.planbig .pin::after{width:12px;height:12px}
+.cono{position:absolute;width:0;height:0;pointer-events:none;opacity:0}
+.cono svg{position:absolute;left:-80px;top:-80px;width:160px;height:160px;overflow:visible}
+
+/* dock */
+.dock{position:absolute;left:var(--gut);right:var(--gut);bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;display:flex;gap:6px;align-items:stretch;padding:8px;border-radius:24px;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line)}
+@media (min-width:900px){.dock{left:50%;right:auto;transform:translateX(-50%);max-width:min(92vw,980px)}}
+.rooms,.tools{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.rooms::-webkit-scrollbar,.tools::-webkit-scrollbar{display:none}
+.rooms{flex:1 1 auto}
+.tools{flex:0 0 auto;max-width:48%;padding-left:6px;border-left:1px solid var(--line)}
+@media (min-width:900px){.tools{max-width:none}}
+.dk{flex:0 0 auto;width:74px;display:grid;justify-items:center;gap:4px;padding:5px 4px 6px;border:1.5px solid transparent;border-radius:16px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;color:var(--text)}
+.dk img{width:62px;height:42px;object-fit:cover;border-radius:10px;display:block}
+.dk span{font:700 11px/1.15 var(--mono);letter-spacing:.02em;text-align:center;color:#d9d9d4}
+.dk[aria-current=true]{border-color:var(--cta);background:rgba(242,169,0,.12)}
+.dk:hover{background:rgba(255,255,255,.1)}
+.tl{flex:0 0 auto;min-width:64px;display:grid;justify-items:center;align-content:center;gap:4px;padding:6px 8px;border:1.5px solid transparent;border-radius:16px;background:transparent;cursor:pointer;color:var(--text)}
+.tl svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tl span{font:700 11px/1.1 var(--mono);letter-spacing:.02em}
+.tl:hover{background:rgba(255,255,255,.1)}
+
+/* hotspots */
+.pnlm-hotspot-base.hs{width:0!important;height:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+.hs .b{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 22px rgba(0,0,0,.5);animation:pulso 2.2s infinite}
+.hs .b:hover{background:var(--cta);border-color:var(--cta);color:#000}
+.hs .b svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hs .t{position:absolute;left:0;top:42px;transform:translateX(-50%);white-space:nowrap;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.65);font:700 12px var(--mono);letter-spacing:.04em;color:#fff;pointer-events:none}
+@keyframes pulso{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5),0 4px 22px rgba(0,0,0,.5)}70%{box-shadow:0 0 0 18px rgba(255,255,255,0),0 4px 22px rgba(0,0,0,.5)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0),0 4px 22px rgba(0,0,0,.5)}}
+@media (prefers-reduced-motion:reduce){.hs .b{animation:none}*{transition-duration:0s!important}}
+
+/* paneles */
+dialog#sheet{margin:auto 0 0 0;width:100%;max-width:none;max-height:88vh;max-height:88dvh;padding:0;border:0;border-radius:26px 26px 0 0;background:var(--glass2);color:var(--text);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);overflow:hidden;box-shadow:0 -20px 80px rgba(0,0,0,.6);animation:sube .35s cubic-bezier(.16,1,.3,1)}
+dialog#sheet::backdrop{background:rgba(0,0,0,.45)}
+@media (min-width:900px){dialog#sheet{margin:0 0 0 auto;width:min(480px,92vw);height:100vh;height:100dvh;max-height:none;border-radius:0;animation:entra .35s cubic-bezier(.16,1,.3,1)}}
+@keyframes sube{from{transform:translateY(40px);opacity:0}}
+@keyframes entra{from{transform:translateX(40px);opacity:0}}
+.sh-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 8px;position:sticky;top:0;background:linear-gradient(to bottom,rgba(12,12,12,.96),rgba(12,12,12,.7));z-index:2}
+.sh-head h2{margin:0;font-size:22px;letter-spacing:-.02em}
+.x{width:48px;height:48px;border-radius:50%;border:1.5px solid #fff;background:rgba(0,0,0,.4);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.x:hover{background:#fff;color:#000}
+.sh-body{padding:4px 18px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;max-height:calc(88dvh - 80px)}
+@media (min-width:900px){.sh-body{max-height:calc(100dvh - 80px)}}
+.big{font:800 clamp(40px,11vw,60px)/1 var(--sans);letter-spacing:-.04em;margin:6px 0 2px}
+.sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+.caps{list-style:none;margin:16px 0;padding:0;display:grid;gap:14px}
+.caps li{display:grid;grid-template-columns:1fr auto;gap:5px 14px}
+.caps .v{font:13px var(--mono)}
+.caps .bar2{grid-column:1/-1;height:9px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden}
+.caps .bar2 i{display:block;height:100%;background:var(--cta);border-radius:6px}
+details{margin-top:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+summary{cursor:pointer;min-height:48px;display:flex;align-items:center;padding:0 14px;font:700 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;font-size:18px}
+details[open] summary::after{content:"–"}
+details .in{padding:2px 14px 14px;overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:420px}
+.tbl th,.tbl td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+.tbl th{font:12px var(--mono);color:var(--muted);font-weight:400}
+.tbl .r{text-align:right}
+.range{width:100%;height:44px;accent-color:var(--cta);background:transparent;cursor:pointer}
+.fld .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .fld label{font-size:15px}
 .fld output{font:700 14px var(--mono);color:var(--cta)}
-.range{width:100%;height:44px;accent-color:var(--cta);background:transparent;cursor:pointer}
-.res{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-.res div{background:#0b0b0b;border:1px solid var(--line);border-radius:12px;padding:14px}
-.res small{display:block;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.res b{display:block;margin-top:4px;font:800 clamp(22px,5.4vw,30px)/1.05 var(--sans);letter-spacing:-.02em}
-.res .full{grid-column:1/-1}
+.kp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 14px}
+.kp div{padding:12px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.kp small{display:block;font:12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kp b{display:block;margin-top:4px;font:800 clamp(20px,5vw,26px)/1.1 var(--sans);letter-spacing:-.02em}
+.kp .w{grid-column:1/-1}
 .pos{color:#8fd19e}.neg{color:#ff8f7a}
-.nota{margin:14px 0 0;font-size:13px;color:var(--muted)}
-details{margin-top:10px}
-summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-details p{margin:0 0 8px;font-size:14px;color:#cfcfcb}
-.pide{margin-top:36px;padding:28px 20px;border-radius:22px;background:linear-gradient(135deg,#1d1608,#0d0b06);border:1px solid #3a2c0a}
-.pide h2{font-size:clamp(30px,7vw,52px);max-width:14ch}
-.pide p{margin:14px 0 22px;color:#e2e1dd;max-width:44ch}
-.links{display:flex;gap:4px 22px;flex-wrap:wrap;margin-top:18px}
-.links a{min-height:44px;display:inline-flex;align-items:center;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-footer{padding:28px var(--gut) calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
-
-/* visor a pantalla completa */
-dialog#tour{padding:0;border:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;background:#000;color:#fff;overflow:hidden}
-dialog#tour::backdrop{background:#000}
-.tbar{position:absolute;inset:0 0 auto 0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;background:linear-gradient(to bottom,rgba(0,0,0,.8),transparent)}
-.tabs{display:flex;gap:4px;background:rgba(20,20,20,.85);border:1px solid #444;border-radius:999px;padding:4px}
-.tabs button{min-height:44px;padding:0 18px;border:0;border-radius:999px;background:transparent;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.tabs button[aria-selected=true]{background:#fff;color:#000}
-.x{width:52px;height:52px;border-radius:50%;border:1.5px solid #fff;background:rgba(0,0,0,.6);font-size:22px;cursor:pointer;display:grid;place-items:center}
-.x:hover{background:#fff;color:#000}
-.pane{position:absolute;inset:0}
-.pane[hidden]{display:none}
-#pano{position:absolute;inset:0;background:#0a0a0a}
-.pnlm-load-box{background:rgba(0,0,0,.85)!important}
-.bot{position:absolute;left:0;right:0;bottom:0;z-index:20;padding:40px 12px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.9),transparent);display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
-.bot .name{font:700 13px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:center}
-.bot .name small{display:block;margin-top:2px;font:400 14px var(--sans);letter-spacing:0;text-transform:none;color:#d8d8d4}
-.rooms{display:flex;align-items:center;gap:8px;min-width:0}
-.arrow{flex:0 0 auto;width:56px;height:56px;border-radius:50%;border:2px solid var(--cta);background:rgba(0,0,0,.75);color:var(--cta);font-size:28px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 14px rgba(0,0,0,.6)}
-.arrow:hover{background:var(--cta);color:#000}
-.chips{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;flex:1;min-width:0;padding:2px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;min-height:48px;padding:0 16px;border:1.5px solid #666;border-radius:999px;background:rgba(0,0,0,.6);font:700 13px var(--mono);letter-spacing:.04em;cursor:pointer;scroll-snap-align:center;white-space:nowrap}
+.gantt{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.gantt li{display:grid;gap:5px}
+.gantt .t{position:relative;height:14px;border-radius:7px;background:rgba(255,255,255,.08)}
+.gantt .b{position:absolute;top:0;bottom:0;border-radius:7px;border:1px solid rgba(255,255,255,.5);overflow:hidden}
+.gantt .b i{display:block;height:100%;width:0;background:var(--cta);transition:width .35s}
+.gantt .top{display:flex;justify-content:space-between;gap:10px;font-size:13px}
+.gantt .top span:last-child{font:12px var(--mono);color:var(--muted);white-space:nowrap}
+.nota{margin:12px 0 0;padding:12px 14px;border:1px solid var(--cta);border-radius:12px;background:rgba(242,169,0,.07);font-size:13px}
+.planbig{position:relative;max-width:300px;margin:6px auto 12px}
+.lv{display:flex;gap:6px;justify-content:center;margin:0 0 10px}
+.chip{min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:999px;background:transparent;font:700 12px var(--mono);letter-spacing:.04em;cursor:pointer}
 .chip[aria-pressed=true]{background:#fff;color:#000;border-color:#fff}
-.hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:15;padding:12px 18px;background:rgba(0,0,0,.7);border:1px solid #888;border-radius:999px;font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;pointer-events:none;transition:opacity .6s}
-.car{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -18px}
 .car::-webkit-scrollbar{display:none}
-.car figure{position:relative;flex:0 0 100%;height:100%;margin:0;scroll-snap-align:center;background:#000}
-.car img{width:100%;height:100%;object-fit:cover}
-.car figcaption{position:absolute;left:0;right:0;bottom:0;padding:120px 20px calc(96px + env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.9),transparent)}
-.car figcaption b{display:block;font-size:clamp(24px,6vw,36px);letter-spacing:-.02em}
-.car figcaption span{display:block;margin-top:4px;color:#d8d8d4;font-size:15px;max-width:44ch}
-.car-nav{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;display:flex;justify-content:space-between;align-items:center;padding:0 14px}
-.car-nav .n{font:700 13px var(--mono);letter-spacing:.08em}
+.car figure{flex:0 0 100%;margin:0;scroll-snap-align:center;padding:0 18px}
+.car img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:16px;display:block;background:#111}
+.car figcaption{padding:10px 2px 0}
+.car figcaption b{display:block;font-size:18px}
+.car figcaption span{color:var(--muted);font-size:14px}
+.cnav{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.arrow{width:52px;height:52px;border-radius:50%;border:2px solid var(--cta);background:rgba(0,0,0,.5);color:var(--cta);font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.arrow:hover{background:var(--cta);color:#000}
+.cnav .n{font:700 13px var(--mono)}
+.ask{margin-top:18px;display:grid;gap:10px}
 </style>
 </head>
 <body>
-<a class="skip" href="#final">Saltar a los números</a>
-<noscript><div style="padding:96px 20px;text-align:center"><h1>Metric.arq · Loft 6 × 15</h1><p>Este tablero necesita JavaScript. Escríbenos: <a href="https://wa.me/523512025030">WhatsApp +52 351 202 5030</a> · <a href="mailto:arqcarlosem@gmail.com">arqcarlosem@gmail.com</a></p></div></noscript>
+<a class="skip" href="#dock">Saltar al menú</a>
+<noscript><div style="position:fixed;inset:0;z-index:999;background:#000;padding:96px 20px;text-align:center"><h1>Metric.arq · Loft 6 × 15</h1><p>Este tablero necesita JavaScript. Escríbenos: <a href="https://wa.me/523512025030">WhatsApp +52 351 202 5030</a> · <a href="mailto:arqcarlosem@gmail.com">arqcarlosem@gmail.com</a></p></div></noscript>
 
-<header class="bar">
-  <a class="logo" href="#" aria-label="Metric.arq">Metric<i>.</i>arq</a>
-  <a class="btn cta sm" href="#pide">Pedir tablero</a>
-</header>
+<div id="app">
+  <img id="poster" src="img/w/sala.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+  <div id="pano" role="application" aria-label="Recorrido 360° del loft. Arrastra para mirar; usa las flechas del teclado para girar."></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div id="fade" aria-hidden="true"></div>
 
-<main>
-<div class="track" id="track">
-  <div class="stage" id="stage">
-    <div class="bg" aria-hidden="true"></div>
-    <img class="poster" id="poster" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
-    <iframe id="m3d" title="Maqueta 3D del loft, que se construye al avanzar" tabindex="-1" aria-hidden="true"></iframe>
-    <div class="shots" id="shots" aria-hidden="true"><img data-src="img/w/sala.webp" alt=""><img data-src="img/w/cafe.webp" alt=""><img data-src="img/w/fachada.webp" alt=""></div>
-    <div class="veil" aria-hidden="true"></div>
+  <header class="bar">
+    <a class="logo" href="#" aria-label="Metric.arq">Metric<i>.</i>arq</a>
+    <div class="right"><a class="back" href="../">← Portafolio</a><a class="btn cta sm" id="wa" target="_blank" rel="noopener" href="#">Pedir tablero</a></div>
+  </header>
 
-    <div class="hud" id="hud" aria-hidden="true">
-      <div class="row"><span>Semana <b id="h-sem">0</b>/<span id="h-tot">26</span></span><span id="h-fase">Terreno</span><span class="ej">Ejemplo</span></div>
-      <div class="money" id="h-money">$0</div>
-      <div class="line"><i id="h-line"></i></div>
-    </div>
-
-    <div class="caps" id="caps">
-      <div class="cap on" data-i="0">
-        <p class="k">Loft 6 × 15 · Morelia</p>
-        <h2>Esto hoy es un terreno.</h2>
-        <p>Un baldío de ejemplo junto al Acueducto, en Morelia. Baja y mira cómo se convierte en casa.</p>
-      </div>
-      <div class="cap" data-i="1">
-        <p class="k">01 · Se construye</p>
-        <h2>Cimientos y muros, semana a semana.</h2>
-        <p>El modelo BIM fija cada muro y cada medida antes de colocar un block.</p>
-      </div>
-      <div class="cap" data-i="2">
-        <p class="k">02 · Por dentro</p>
-        <h2>Con todas sus instalaciones.</h2>
-        <p>Agua, gas, drenaje, electricidad y aire: 6 redes medidas desde el modelo.</p>
-      </div>
-      <div class="cap" data-i="3">
-        <p class="k">03 · Se viste</p>
-        <h2>Acabados, carpintería y mobiliario.</h2>
-        <p>Cada partida con su costo, sacado del mismo modelo.</p>
-      </div>
-      <div class="cap" data-i="4">
-        <p class="k">04 · Listo</p>
-        <h2>Así se ve terminado.</h2>
-        <p>Entra y recórrelo por dentro, en 360°.</p>
-        <div class="acts"><button class="btn cta" type="button" data-open="t360">Entrar al loft →</button><button class="btn" type="button" data-open="trend">Ver renders</button></div>
-      </div>
-    </div>
-    <p class="atrib" id="atrib">Imagen satelital © Esri, Maxar, Earthstar Geographics · Ubicación ilustrativa</p>
-    <div class="cue" id="cue" aria-hidden="true"><span>Baja</span><i></i></div>
+  <div class="intro" id="intro">
+    <p class="k">Loft 6 × 15 · Morelia · ejemplo</p>
+    <h1>Ve tu proyecto antes de construirlo.</h1>
+    <p>Arrastra para mirar alrededor y toca las flechas para caminar.</p>
   </div>
+
+  <div class="room hide" id="room" aria-live="polite"><b id="r-n"></b><span id="r-d"></span></div>
+  <div class="hint" id="hint">Arrastra para mirar</div>
+
+  <aside class="mini" id="mini" aria-label="Plano del proyecto"></aside>
+
+  <nav class="dock" id="dock" aria-label="Espacios y datos del proyecto">
+    <div class="rooms" id="rooms" role="group" aria-label="Elegir espacio"></div>
+    <div class="tools" role="group" aria-label="Datos del proyecto">
+      <button class="tl" type="button" data-s="plano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z M4 12h9 M13 4v16 M13 14h7"/></svg><span>Plano</span></button>
+      <button class="tl" type="button" data-s="renders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3z M3 16l5-5 4 4 3-3 6 6"/></svg><span>Renders</span></button>
+      <button class="tl" type="button" data-s="costo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18 M16 7.5c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 2.5 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3"/></svg><span>Costo</span></button>
+      <button class="tl" type="button" data-s="calendario"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v14H4z M4 10h16 M8 3v5 M16 3v5"/></svg><span>Calendario</span></button>
+      <button class="tl" type="button" data-s="inversion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l5-6 4 3 7-9 M15 6h5v5"/></svg><span>Inversión</span></button>
+    </div>
+  </nav>
+
+  <dialog id="sheet" aria-labelledby="sh-t">
+    <div class="sh-head"><h2 id="sh-t"></h2><button class="x" id="sx" type="button" aria-label="Cerrar">✕</button></div>
+    <div class="sh-body" id="sb"></div>
+  </dialog>
 </div>
 
-<div class="sr">
-  <h1>Metric.arq: ve tu proyecto antes de construirlo</h1>
-  <p>Ejemplo: Loft 6 × 15 en Morelia, 52 metros cuadrados. Una animación muestra el terreno, la cimentación y los muros, las instalaciones, los acabados y el mobiliario, hasta la casa terminada. Presupuesto de ejemplo: 506,707 pesos mexicanos en 26 semanas.</p>
-</div>
-
-<section id="final" aria-labelledby="h-final">
-  <div class="wrap">
-    <p class="k">Los números</p>
-    <h2 id="h-final">Lo que cuesta y lo que deja.</h2>
-    <div class="kpis" id="kpis"></div>
-
-    <div class="sim">
-      <h3>Haz tus números</h3>
-      <p class="sub">Mueve tres supuestos y mira venta y renta. <span class="ej">Supuestos de ejemplo</span></p>
-      <div class="fld"><div class="row"><label for="i-pm2">Precio de venta por m²</label><output id="o-pm2"></output></div><input class="range" id="i-pm2" type="range" min="8000" max="45000" step="500" value="22000"></div>
-      <div class="fld"><div class="row"><label for="i-ren">Renta mensual</label><output id="o-ren"></output></div><input class="range" id="i-ren" type="range" min="3000" max="30000" step="250" value="9500"></div>
-      <div class="fld"><div class="row"><label for="i-ter">Terreno</label><output id="o-ter"></output></div><input class="range" id="i-ter" type="range" min="0" max="1500000" step="10000" value="300000"></div>
-      <div class="res" aria-live="polite">
-        <div class="full"><small>Si lo vendes</small><b id="r-venta"></b></div>
-        <div><small>Utilidad</small><b id="r-ut"></b></div>
-        <div><small>Retorno</small><b id="r-roi"></b></div>
-        <div><small>Renta neta al año</small><b id="r-rn"></b></div>
-        <div><small>Rendimiento anual</small><b id="r-cap"></b></div>
-      </div>
-      <details><summary>Cómo se calcula</summary><p>Inversión = terreno + obra. Venta = m² × precio. Utilidad = venta − inversión. Retorno = utilidad ÷ inversión. Renta neta = renta × 12 × 90 % de ocupación × 85 % (15 % de gastos). Rendimiento = renta neta ÷ inversión. Sin impuestos, financiamiento ni inflación.</p></details>
-      <p class="nota">Terreno, precio y renta son valores ilustrativos, no una cotización ni una proyección financiera. En tu tablero se usan los datos reales de tu proyecto.</p>
-    </div>
-
-    <div class="pide" id="pide">
-      <p class="k">Tu proyecto</p>
-      <h2>Te armo un tablero como este.</h2>
-      <p>Renders, recorrido 360°, maqueta que se construye, costo, calendario y simulador de inversión, con los datos de tu proyecto inmobiliario.</p>
-      <a class="btn cta" id="wa" target="_blank" rel="noopener" href="#">Pedir cotización por WhatsApp</a>
-      <div class="links"><a href="../">Portafolio de obras</a><a href="../cv-carlos-espinoza.pdf" download>CV</a><a href="mailto:arqcarlosem@gmail.com?subject=Tablero%20Metric.arq">Correo</a></div>
-    </div>
-  </div>
-</section>
-</main>
-
-<footer><div class="wrap">Metric.arq · Arq. Carlos Francisco Espinoza Manzo · Morelia, Michoacán. Loft 6 × 15 es un proyecto de ejemplo; las cifras económicas y el calendario son ilustrativos.</div></footer>
-
-<dialog id="tour" aria-label="Recorre el loft">
-  <div class="tbar">
-    <div class="tabs" role="tablist" aria-label="Tipo de recorrido">
-      <button role="tab" id="tb-360" aria-selected="true" aria-controls="t360">360°</button>
-      <button role="tab" id="tb-ren" aria-selected="false" aria-controls="trend">Renders</button>
-    </div>
-    <button class="x" id="tx" type="button" aria-label="Cerrar el recorrido">✕</button>
-  </div>
-  <div class="pane" id="t360" role="tabpanel" aria-labelledby="tb-360">
-    <div id="pano" aria-label="Recorrido 360°"></div>
-    <div class="hint" id="hint">Arrastra para mirar</div>
-    <div class="bot">
-      <div class="name" id="pname" aria-live="polite"></div>
-      <div class="rooms">
-        <button class="arrow" id="pprev" type="button" aria-label="Espacio anterior">‹</button>
-        <div class="chips" id="chips" role="group" aria-label="Elegir espacio"></div>
-        <button class="arrow" id="pnext" type="button" aria-label="Espacio siguiente">›</button>
-      </div>
-    </div>
-  </div>
-  <div class="pane" id="trend" role="tabpanel" aria-labelledby="tb-ren" hidden>
-    <div class="car" id="car" tabindex="0" aria-label="Renders del proyecto. Desliza para ver más."></div>
-    <div class="car-nav"><button class="arrow" id="rprev" type="button" aria-label="Render anterior">‹</button><span class="n" id="rn" aria-live="polite"></span><button class="arrow" id="rnext" type="button" aria-label="Render siguiente">›</button></div>
-  </div>
-</dialog>
+<div class="sr"><h1>Metric.arq: ve tu proyecto antes de construirlo</h1><p>Recorrido 360° del Loft 6 por 15 en Morelia, 52 metros cuadrados. Presupuesto de ejemplo: 506,707 pesos mexicanos en 26 semanas.</p></div>
 
 <script src="datos.js"></script>
 <script>
 (function(){'use strict';
 var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-var D=window.DATOS||{inst:[],partidas:[],fases:[],semanas:26,m2:52,lote:90};
+var D=window.DATOS||{inst:[],partidas:[],fases:[],semanas:26,hoy:17,m2:52,lote:90};
 var MXN=new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}), N1=new Intl.NumberFormat('es-MX',{maximumFractionDigits:1});
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-var esMovil=function(){return innerWidth<=820};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-
-/* ---------- datos ---------- */
-var TOT=D.partidas.reduce(function(a,p){return a+p.imp},0)||D.total, SEM=D.semanas||26, F=D.fases;
-var CAPS=[];D.partidas.forEach(function(p){var c=CAPS.filter(function(x){return x.n===p.cap})[0];if(!c){c={n:p.cap,t:0,fase:p.fase};CAPS.push(c);}c.t+=p.imp;});
-var capFase=F.map(function(f,i){return CAPS.filter(function(c){return c.fase===i}).reduce(function(a,c){return a+c.t},0)});
-function prog(i,w){var f=F[i];return Math.max(0,Math.min(1,(w-f.s0+1)/(f.s1-f.s0+1)))}
-function gastado(w){var s=0;F.forEach(function(f,i){s+=capFase[i]*prog(i,w)});return s}
-/* nombres según el modelo 3D (umbrales de fase), para que el contador coincida con lo que se ve */
-var FN=[[.01,'Terreno'],[.14,'Cimentación y losas'],[.36,'Muros y estructura'],[.58,'Instalaciones'],[.78,'Acabados y carpintería'],[.94,'Mobiliario y equipamiento'],[1.01,'Entrega']];
-function faseDe(p){for(var i=0;i<FN.length;i++)if(p<FN[i][0])return FN[i][1];return 'Entrega'}
+var esMovil=function(){return innerWidth<=820};
 
 /* ---------- WhatsApp ---------- */
 $('#wa').href='https://wa.me/523512025030?text='+encodeURIComponent('Hola Carlos, vi el tablero Metric.arq del Loft 6×15 y quiero uno para mi proyecto.\nTipo de proyecto: \nUbicación: \nm² aproximados: ');
 
-/* ---------- poster y 3D ---------- */
-var poster=$('#poster'),stage=$('#stage'),ifr=$('#m3d'),S=null,iniciado=false;
-poster.src=esMovil()?'img/w/poster-m.webp':'img/w/poster-d.webp';
-poster.onerror=function(){poster.remove()};
-function carga3D(){
-  if(iniciado)return;iniciado=true;
-  ifr.src='modelo.html?embed=1&story=1';
-  var t0=Date.now(),iv=setInterval(function(){
-    try{var w=ifr.contentWindow;if(w&&w.__showroom&&w.__showroom.fase){clearInterval(iv);S=w.__showroom;S.limpio(true);S.setClima('sol');S.estudio&&S.estudio(true);S.satCarga&&S.satCarga('img/w/sat-lote.webp','img/w/sat-lote-hd.webp');forzado=true;stage.classList.add('listo');ifr.classList.add('on');return;}}catch(e){}
-    if(Date.now()-t0>30000){clearInterval(iv);}
-  },150);
-}
-if(document.readyState==='complete')setTimeout(carga3D,250);else addEventListener('load',function(){setTimeout(carga3D,250)});
+/* ---------- espacios del recorrido ---------- */
+/* x,y: posición en el plano (m); yaw0: rumbo del 0° de la panorámica; nivel 0 planta baja, 1 tapanco */
+var PANOS={
+ sala:{n:'Sala y doble altura',d:'TV, comedor y vitrina de plantas bajo la escalera, a la luz del día',x:3.40,y:2.60,yaw0:-90,nivel:0},
+ cocina:{n:'Cocina',d:'Isla con barra, cocina corrida y alacenas de madera',x:2.10,y:3.90,yaw0:0,nivel:0},
+ jardin:{n:'Patio y asador',d:'Comedor exterior, asador y guirnalda de luces',x:3.00,y:9.10,yaw0:180,nivel:0},
+ cochera:{n:'Cochera',d:'Acceso, arco de entrada, portón y vista hacia la doble altura',x:3.00,y:-2.40,yaw0:0,nivel:0},
+ tapanco:{n:'Tapanco',d:'Recámara y escritorio, abiertos a la doble altura',x:2.55,y:5.35,yaw0:90,nivel:1}};
+var ORDEN=['sala','cocina','jardin','cochera','tapanco'];
+function corto(n){return n.replace(' y doble altura','').replace('Patio y asador','Patio')}
+function bear(a,b){return Math.atan2(b.x-a.x,b.y-a.y)*180/Math.PI}
+function norm(a){return ((a+180)%360+360)%360-180}
+var IC={chev:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>',up:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l7-7 7 7 M12 5v14"/></svg>'};
 
-/* ---------- recorrido por scroll ---------- */
-/* t, fase 3D, azimut, elevación, distancia, altura del foco, hora, profundidad del foco, avance del contador (el 3D llega a instalaciones; luego entran los renders reales) */
-var KF=[[0,0,0,1.5,150,0,14.5,-7.5,0],[.14,0,.3,1.0,30,0,14.5,-7.5,0],[.34,.36,.85,.52,18,1.3,14.5,-7.5,.36],[.58,.575,1.35,.5,18,1.5,14.5,-7.5,.575],[.8,.575,1.35,.5,18,1.5,14.5,-7.5,.94],[1,.575,1.35,.5,18,1.5,14.5,-7.5,1]];
-function sm(x){return x*x*(3-2*x)}
-function kf(t){var i=0;while(i<KF.length-2&&t>KF[i+1][0])i++;var a=KF[i],b=KF[i+1],u=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0]))),e=sm(u);return a.map(function(v,k){return k?v+(b[k]-v)*e:t})}
-var cur=null,aplicado={p:-1,h:-1},forzado=false,activa=0,track=$('#track');
-var atrib=$('#atrib'),caps=$$('.cap'),hSem=$('#h-sem'),hFase=$('#h-fase'),hMoney=$('#h-money'),hLine=$('#h-line'),cue=$('#cue');
-function tScroll(){var r=track.getBoundingClientRect(),max=track.offsetHeight-innerHeight;return Math.max(0,Math.min(1,-r.top/Math.max(1,max)))}
-function capActiva(t){return t<.12?0:(t<.34?1:(t<.58?2:(t<.8?3:4)))}
-function frame(){
-  var t=tScroll(),k=kf(t);
-  if(!cur)cur=k.slice();else{var f=reduce?1:.14;for(var i=1;i<k.length;i++)cur[i]+=(k[i]-cur[i])*f;}
-  var asp=innerWidth/innerHeight,esc2=asp>1.2?.85:(asp<.8?1+.34*Math.max(0,Math.min(1,(t-.08)/.22)):1);
-  if(S){try{
-    if(forzado||Math.abs(cur[1]-aplicado.p)>.002){S.fase(cur[1]);aplicado.p=cur[1];}
-    if(forzado||Math.abs(cur[6]-aplicado.h)>.03){S.setHora(cur[6]);aplicado.h=cur[6];}
-    if(S.sat)S.sat(satOp(t),Math.max(0,Math.min(1,1-(t-.03)/.06)));
-    S.cam({az:cur[2],el:cur[3],dist:cur[4]*esc2,tgt:[3,cur[5],cur[7]]});forzado=false;
-  }catch(e){}}
-  var ph=cur[8],w=Math.round(ph*SEM);
-  hSem.textContent=w;hFase.textContent=faseDe(ph);hMoney.textContent=MXN.format(gastado(ph*SEM));hLine.style.width=(ph*100)+'%';
-  pintaShots(t);
-  var a=capActiva(t);if(a!==activa){activa=a;caps.forEach(function(c,i){c.classList.toggle('on',i===a);c.setAttribute('aria-hidden',i===a?'false':'true')});}
-  cue.style.opacity=t<.03?1:0;atrib.style.opacity=t<.3?1:0;
-}
-/* renders reales para acabados y casa terminada (el 3D llega hasta instalaciones) */
-var shots=$$('#shots img'),SH=[[.58,.64,.72,.78],[.72,.78,.84,.9],[.84,.9,2,3]],shotsCargados=false;
-function ramp(t,a,b){return Math.max(0,Math.min(1,(t-a)/(b-a)))}
-function pintaShots(t){
-  if(!shotsCargados&&t>.4){shotsCargados=true;shots.forEach(function(im){im.src=im.dataset.src});}
-  shots.forEach(function(im,i){var d=SH[i],o=ramp(t,d[0],d[1])*(1-ramp(t,d[2],d[3]));im.style.opacity=o.toFixed(3);im.style.transform='scale('+(1+.07*ramp(t,d[0],Math.min(1,d[3])))+')';});
-}
-function satOp(t){return t<.16?1:Math.max(0,1-(t-.16)/.16)}
-var corre=false,visible=true;
-function bucle(){if(!visible||document.hidden){corre=false;return;}frame();requestAnimationFrame(bucle);}
-function arranca(){if(!corre){corre=true;requestAnimationFrame(bucle);}}
-if('IntersectionObserver' in window){new IntersectionObserver(function(e){visible=e[0].isIntersecting;if(visible)arranca();},{rootMargin:'200px'}).observe(track);}
-document.addEventListener('visibilitychange',function(){if(!document.hidden)arranca();});
-caps.forEach(function(c,i){if(i)c.setAttribute('aria-hidden','true')});
-arranca();
+var viewer=null,escena='sala',cargado=false,iniciado=false;
 
-/* ---------- números y simulador ---------- */
-var m2=D.m2||52;
-$('#kpis').innerHTML=[[m2+' m²','construidos'],[SEM+' semanas','de obra'],[MXN.format(TOT),'presupuesto de obra'],[MXN.format(TOT/m2),'por m² construido']].map(function(k){return '<div><b>'+esc(k[0])+'</b><span>'+esc(k[1])+'</span></div>'}).join('');
-var I={pm2:$('#i-pm2'),ren:$('#i-ren'),ter:$('#i-ter')};
-function pct(x){return (x<0?'−':'')+N1.format(Math.abs(x))+' %'}
-function calc(){
-  var pm2=+I.pm2.value,ren=+I.ren.value,ter=+I.ter.value,inv=ter+TOT,venta=m2*pm2,ut=venta-inv,roi=inv?ut/inv*100:0,rn=ren*12*.9*.85,cap=inv?rn/inv*100:0;
-  $('#o-pm2').textContent=MXN.format(pm2)+' / m²';$('#o-ren').textContent=MXN.format(ren)+' / mes';$('#o-ter').textContent=MXN.format(ter);
-  $('#r-venta').textContent=MXN.format(venta);
-  var u=$('#r-ut');u.textContent=MXN.format(ut);u.className=ut>=0?'pos':'neg';
-  var r=$('#r-roi');r.textContent=pct(roi);r.className=roi>=0?'pos':'neg';
-  $('#r-rn').textContent=MXN.format(rn);$('#r-cap').textContent=pct(cap);
-}
-Object.keys(I).forEach(function(k){I[k].addEventListener('input',calc)});calc();
+/* ---------- barra de espacios ---------- */
+$('#rooms').innerHTML=ORDEN.map(function(id,i){var P=PANOS[id];return '<button class="dk" type="button" data-id="'+id+'" aria-current="'+(i===0)+'" aria-label="Ir a '+esc(P.n)+'"><img src="img/t-pano-'+id+'.jpg" alt="" width="62" height="42" loading="lazy"><span>'+esc(corto(P.n))+'</span></button>'}).join('');
 
-/* ---------- visor a pantalla completa ---------- */
-var dlg=$('#tour'),viewer=null,cargandoPano=false,sceneIdx=0,abierto=false;
-var PANOS=[['sala','Sala y doble altura','TV, comedor y vitrina de plantas bajo la escalera',-90],['cocina','Cocina','Isla con barra, cocina corrida y alacenas de madera',0],['jardin','Patio y asador','Comedor exterior y guirnalda de luces',180],['cochera','Cochera','Acceso, arco de entrada y portón',0],['tapanco','Tapanco','Recámara y escritorio abiertos a la doble altura',90]];
-var R=[['fachada','Fachada de noche','La casa sobre la calle, con la sala iluminada tras el ventanal en arco'],['sala','Sala y cocina','Doble altura, tapanco, comedor y cocina de madera'],['altura','Doble altura desde el tapanco','Sala, comedor y cocina vistos desde arriba'],['comedor','Sala hacia el patio','Comedor de madera, escalera volada y ventanal al jardín'],['tapanco','Tapanco','Recámara con escritorio y clósets'],['tv','Muro de TV','Arte, luz de arbotante y pantalla Metric.arq'],['vitrina','Vitrina bajo la escalera','Plantas y libros con luz lineal'],['cafe','Estación de café','Azulejo de patrón, cubierta de mármol y alacenas de madera'],['bano','Medio baño','Lavabo de vessel, espejo con luz y muro de piedra']];
-$('#chips').innerHTML=PANOS.map(function(p,i){return '<button class="chip" type="button" data-i="'+i+'" aria-pressed="'+(i===0)+'">'+esc(p[1])+'</button>'}).join('');
-$('#car').innerHTML=R.map(function(r,i){return '<figure aria-label="Render '+(i+1)+' de '+R.length+'"><img data-src="img/w/'+r[0]+'.webp" alt="'+esc(r[1]+'. '+r[2])+'" decoding="async"><figcaption><b>'+esc(r[1])+'</b><span>'+esc(r[2])+'</span></figcaption></figure>'}).join('');
+/* ---------- visor ---------- */
 function srcPano(id){return 'img/w/pano-'+id+((esMovil()||(navigator.connection&&navigator.connection.saveData))?'-m':'')+'.webp'}
-function hfovFor(){var el=$('#pano'),a=el.clientWidth/Math.max(1,el.clientHeight),v=72*Math.PI/180,h=2*Math.atan(Math.tan(v/2)*a)*180/Math.PI;return Math.max(60,Math.min(105,Math.round(h)))}
+function hfovFor(){var el=$('#pano'),a=el.clientWidth/Math.max(1,el.clientHeight),v=74*Math.PI/180,h=2*Math.atan(Math.tan(v/2)*a)*180/Math.PI;return Math.max(58,Math.min(106,Math.round(h)))}
+function hsNav(from,to){
+  var A=PANOS[from],B=PANOS[to],r=bear(A,B),y=norm(r-A.yaw0),sube=(to==='tapanco'||from==='tapanco');
+  return {pitch:-14,yaw:y,type:'custom',cssClass:'hs',createTooltipFunc:function(el){
+    el.innerHTML='<div class="b" role="button" tabindex="0" aria-label="Ir a '+esc(B.n)+'">'+(sube?IC.up:IC.chev)+'</div><div class="t">'+esc(corto(B.n))+'</div>';
+    var b=el.firstChild;
+    b.onclick=function(e){e.stopPropagation();camina(from,to,y,r)};b.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();camina(from,to,y,r)}};}};
+}
+function escenas(){var sc={},h=hfovFor();ORDEN.forEach(function(id){var hs=[];ORDEN.forEach(function(o){if(o!==id)hs.push(hsNav(id,o))});sc[id]={type:'equirectangular',panorama:srcPano(id),pitch:-2,yaw:0,hfov:h,minHfov:Math.round(h*.55),maxHfov:Math.min(120,Math.round(h*1.3)),hotSpots:hs}});return sc}
+function camina(from,to,yawHs,rumbo){
+  if(!viewer)return;var B=PANOS[to];$('#fade').classList.add('on');ocultaIntro();
+  viewer.lookAt(-8,yawHs,Math.round(hfovFor()*.5),reduce?0:800,function(){
+    var cerca=(B.x<0.9||B.x>5.4)&&Math.abs(Math.sin(rumbo*Math.PI/180))>0.5,rr=cerca?bear(B,{x:3,y:B.y+1.5}):rumbo;
+    viewer.loadScene(to,-2,norm(rr-B.yaw0),hfovFor());
+  });
+}
+function ponEscena(id){escena=id;var P=PANOS[id];$('#r-n').textContent=P.n;$('#r-d').textContent=P.d;if(!introOn)$('#room').classList.remove('hide');
+  $$('.dk').forEach(function(b){var on=b.dataset.id===id;b.setAttribute('aria-current',on);if(on)b.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'})});
+  pintaPins();}
 function cargaPannellum(cb){
-  if(window.pannellum){cb();return;}
-  if(cargandoPano)return;cargandoPano=true;
   var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css';l.integrity='sha384-02yn80EH0cF+s23taAmuhEZ04p3CTbQvV0QZMr2reUxajpfvcLNKlzsPkZwx14mf';l.crossOrigin='anonymous';document.head.appendChild(l);
-  var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js';s.integrity='sha384-S5+w/JlcNAOymqXGNrvzn2F++XsaHTJdex6KE5VbKryfFgqJiRUJOgOkUqaiOZTf';s.crossOrigin='anonymous';
-  s.onload=cb;s.onerror=function(){cargandoPano=false;$('#pano').innerHTML='<p style="padding:96px 24px;text-align:center">No se pudo cargar el recorrido 360°. Revisa tu conexión e inténtalo otra vez.</p>';};
-  document.body.appendChild(s);
+  var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js';s.integrity='sha384-S5+w/JlcNAOymqXGNrvzn2F++XsaHTJdex6KE5VbKryfFgqJiRUJOgOkUqaiOZTf';s.crossOrigin='anonymous';s.onload=cb;
+  s.onerror=function(){$('#hint').textContent='No se pudo cargar el visor. Abre «Renders».';};document.body.appendChild(s);
 }
-function nombrePano(){var p=PANOS[sceneIdx];$('#pname').innerHTML=esc(p[1])+'<small>'+esc(p[2])+'</small>';$$('#chips .chip').forEach(function(c,i){c.setAttribute('aria-pressed',i===sceneIdx);if(i===sceneIdx)c.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'});});}
-function iniciaPano(){
-  if(viewer){viewer.resize&&viewer.resize();viewer.setHfov(hfovFor(),false);return;}
-  var h=hfovFor(),sc={};PANOS.forEach(function(p){sc[p[0]]={type:'equirectangular',panorama:srcPano(p[0]),pitch:-2,yaw:p[3],hfov:h,minHfov:Math.round(h*.55),maxHfov:Math.min(120,Math.round(h*1.35))};});
-  viewer=pannellum.viewer('pano',{default:{firstScene:PANOS[0][0],sceneFadeDuration:700,autoLoad:true,showControls:false,compass:false,friction:.12,strings:{loadingLabel:'Cargando…'}},scenes:sc});
-  var ocultaHint=function(){$('#hint').style.opacity=0};viewer.on('mousedown',ocultaHint);viewer.on('touchstart',ocultaHint);
-  viewer.on('load',function(){var n=PANOS[(sceneIdx+1)%PANOS.length][0];var im=new Image();im.src=srcPano(n);setTimeout(ocultaHint,3500);});
+function arranca(){
+  if(iniciado)return;iniciado=true;
+  cargaPannellum(function(){
+    viewer=pannellum.viewer('pano',{default:{firstScene:'sala',sceneFadeDuration:900,autoLoad:true,showControls:false,compass:false,friction:.13,autoRotate:reduce?0:-2,autoRotateInactivityDelay:5000,strings:{loadingLabel:''}},scenes:escenas()});window.__viewer=viewer;
+    viewer.on('load',function(){
+      if(!cargado){cargado=true;$('#app').classList.add('listo');setTimeout(ocultaIntro,5200);setTimeout(function(){$('#hint').classList.add('off')},7000);}
+      $('#fade').classList.remove('on');
+      ponEscena(viewer.getScene());
+      var sig=ORDEN[(ORDEN.indexOf(viewer.getScene())+1)%ORDEN.length],im=new Image();im.src=srcPano(sig);
+    });
+    viewer.on('mousedown',function(){ocultaIntro();$('#hint').classList.add('off')});viewer.on('touchstart',function(){ocultaIntro();$('#hint').classList.add('off')});
+    viewer.on('error',function(){$('#hint').textContent='Tu navegador no pudo mostrar el 360°. Abre «Renders».';$('#hint').classList.remove('off');});
+  });
 }
-function irPano(i){sceneIdx=(i+PANOS.length)%PANOS.length;nombrePano();if(viewer)viewer.loadScene(PANOS[sceneIdx][0],undefined,undefined,hfovFor());}
-$('#chips').addEventListener('click',function(e){var b=e.target.closest('.chip');if(b)irPano(+b.dataset.i)});
-$('#pprev').onclick=function(){irPano(sceneIdx-1)};$('#pnext').onclick=function(){irPano(sceneIdx+1)};
+var introOn=true;
+function ocultaIntro(){introOn=false;$('#intro').classList.add('off');if(cargado)$('#room').classList.remove('hide')}
+function irA(id){if(!viewer||id===escena)return;ocultaIntro();$('#fade').classList.add('on');viewer.loadScene(id,-2,0,hfovFor());}
+$('#rooms').addEventListener('click',function(e){var b=e.target.closest('.dk');if(b)irA(b.dataset.id)});
+addEventListener('resize',function(){if(viewer){try{viewer.setHfov(hfovFor(),false)}catch(e){}}});
+if(document.readyState==='complete')setTimeout(arranca,0);else addEventListener('load',function(){setTimeout(arranca,0)});
+/* precarga de la primera panorámica */
+(function(){var l=document.createElement('link');l.rel='preload';l.as='image';l.crossOrigin='anonymous';l.href=srcPano('sala');document.head.appendChild(l);})();
 
-var rIdx=0,car=$('#car');
-function cargaImgs(){$$('img[data-src]',car).forEach(function(im){im.src=im.dataset.src;im.removeAttribute('data-src')})}
-function irRender(i){rIdx=(i+R.length)%R.length;car.scrollTo({left:rIdx*car.clientWidth,behavior:reduce?'auto':'smooth'});$('#rn').textContent=(rIdx+1)+' / '+R.length;}
-$('#rprev').onclick=function(){irRender(rIdx-1)};$('#rnext').onclick=function(){irRender(rIdx+1)};
-car.addEventListener('scroll',function(){var i=Math.round(car.scrollLeft/Math.max(1,car.clientWidth));if(i!==rIdx){rIdx=i;$('#rn').textContent=(i+1)+' / '+R.length;}},{passive:true});
-car.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){irRender(rIdx+1);e.preventDefault();}else if(e.key==='ArrowLeft'){irRender(rIdx-1);e.preventDefault();}});
+/* ---------- plano y minimapa ---------- */
+var planes=[];
+function planDom(){
+  var wrap=document.createElement('div');wrap.className='plan';var pins=[];
+  ORDEN.forEach(function(id){var I=PANOS[id],b=document.createElement('button');b.className='pin';b.dataset.id=id;b.style.left=((I.x+1.395)/8.788*100)+'%';b.style.top=Math.min(96,(11.3-I.y)/16.6*100)+'%';b.setAttribute('aria-label','Ir a '+I.n);b.setAttribute('aria-current','false');b.onclick=function(){irA(id)};wrap.appendChild(b);pins.push(b);});
+  var c=document.createElement('div');c.className='cono';c.innerHTML='<svg viewBox="-80 -80 160 160" aria-hidden="true"><defs><radialGradient id="cg'+planes.length+'" cx="0" cy="0" r="80" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F2A900" stop-opacity=".85"/><stop offset="1" stop-color="#F2A900" stop-opacity=".05"/></radialGradient></defs><g class="cog"><path class="cop" d="" fill="url(#cg'+planes.length+')"/></g></svg>';wrap.appendChild(c);
+  var o={wrap:wrap,pins:pins,cono:c,nivel:0};planes.push(o);return o;
+}
+function planFondo(o,n){o.nivel=n;o.wrap.style.backgroundImage='url(img/w/plano-'+(n===0?'baja':'tapanco')+'.webp)'}
+function pintaPins(){planes.forEach(function(o){o.pins.forEach(function(b){var I=PANOS[b.dataset.id];b.style.display=((I.nivel||0)===o.nivel)?'':'none';b.setAttribute('aria-current',b.dataset.id===escena)});});}
+function conos(){if(!viewer||!cargado)return;var I=PANOS[escena];if(!I)return;
+  var rumbo=I.yaw0+viewer.getYaw(),hf=viewer.getHfov(),h=hf/2*Math.PI/180,r=74;
+  planes.forEach(function(o){if(o.wrap.offsetParent===null)return;
+    if((I.nivel||0)!==o.nivel){o.cono.style.opacity=0;return;}
+    o.cono.style.opacity=1;o.cono.style.left=((I.x+1.395)/8.788*100)+'%';o.cono.style.top=Math.min(96,(11.3-I.y)/16.6*100)+'%';
+    $('.cop',o.cono).setAttribute('d','M0 0L'+(-r*Math.sin(h)).toFixed(1)+' '+(-r*Math.cos(h)).toFixed(1)+'A'+r+' '+r+' 0 0 1 '+(r*Math.sin(h)).toFixed(1)+' '+(-r*Math.cos(h)).toFixed(1)+'Z');
+    $('.cog',o.cono).setAttribute('transform','rotate('+rumbo.toFixed(1)+')');});
+}
+setInterval(conos,110);
+(function(){var m=planDom();planFondo(m,0);$('#mini').appendChild(m.wrap);pintaPins();})();
+/* el minimapa cambia de nivel con el espacio */
+setInterval(function(){var I=PANOS[escena];if(!I)return;var o=planes[0],n=I.nivel||0;if(o.nivel!==n){planFondo(o,n);pintaPins();}},300);
 
-function pestana(id){
-  var es360=id==='t360';
-  $('#t360').hidden=!es360;$('#trend').hidden=es360;
-  $('#tb-360').setAttribute('aria-selected',es360);$('#tb-ren').setAttribute('aria-selected',!es360);
-  if(es360){cargaPannellum(function(){iniciaPano();nombrePano();});}else{cargaImgs();irRender(rIdx);$('#rn').textContent=(rIdx+1)+' / '+R.length;}
+/* ---------- paneles ---------- */
+var sheet=$('#sheet'),sb=$('#sb'),sT=$('#sh-t');
+var TOT=D.partidas.reduce(function(a,p){return a+p.imp},0)||D.total, SEM=D.semanas||26, F=D.fases, m2=D.m2||52;
+var CAPS=[];D.partidas.forEach(function(p){var c=CAPS.filter(function(x){return x.n===p.cap})[0];if(!c){c={n:p.cap,t:0,fase:p.fase};CAPS.push(c);}c.t+=p.imp;});
+var capFase=F.map(function(f,i){return CAPS.filter(function(c){return c.fase===i}).reduce(function(a,c){return a+c.t},0)});
+function prog(i,w){var f=F[i];return Math.max(0,Math.min(1,(w-f.s0+1)/(f.s1-f.s0+1)))}
+function vCosto(){
+  return '<p class="big">'+MXN.format(TOT)+'</p><p class="sub">MXN · '+MXN.format(TOT/m2)+' por m² construido · '+m2+' m² <span class="ej">Cifras de ejemplo</span></p>'+
+  '<ul class="caps" aria-label="Presupuesto por capítulo">'+CAPS.map(function(c){var pc=c.t/TOT*100;return '<li><span>'+esc(c.n)+'</span><span class="v">'+MXN.format(c.t)+' · '+N1.format(pc)+' %</span><span class="bar2" aria-hidden="true"><i style="width:'+pc.toFixed(1)+'%"></i></span></li>'}).join('')+'</ul>'+
+  '<p class="sub">El presupuesto sale de las cantidades del modelo BIM.</p>'+
+  '<details><summary>Ver las partidas</summary><div class="in"><table class="tbl"><caption class="sr">Partidas del presupuesto de ejemplo</caption><thead><tr><th scope="col">Concepto</th><th scope="col" class="r">Cant.</th><th scope="col" class="r">Importe</th></tr></thead><tbody>'+D.partidas.map(function(p){return '<tr><td>'+esc(p.con)+'</td><td class="r">'+N1.format(p.q)+' '+esc(p.u)+'</td><td class="r">'+MXN.format(p.imp)+'</td></tr>'}).join('')+'</tbody></table></div></details>';
 }
-function abre(id){
-  if(typeof dlg.showModal!=='function'){return;}
-  abierto=true;document.documentElement.style.overflow='hidden';dlg.showModal();pestana(id);
+function vCalendario(){
+  return '<p class="sub">Mueve la semana y mira qué fase está en obra y cuánto se ha invertido. <span class="ej">Calendario de ejemplo</span></p>'+
+  '<label class="sub" for="sem" style="display:block;margin:0">Semana de obra</label><input class="range" id="sem" type="range" min="1" max="'+SEM+'" step="1" value="'+Math.min(D.hoy||17,SEM)+'">'+
+  '<div class="kp" id="semkp" aria-live="polite"></div>'+
+  '<ol class="gantt">'+F.map(function(f,i){return '<li data-i="'+i+'"><div class="top"><span>'+esc(f.n)+'</span><span>Sem. '+f.s0+'–'+f.s1+' · '+MXN.format(capFase[i])+'</span></div><div class="t"><span class="b" style="left:'+((f.s0-1)/SEM*100).toFixed(2)+'%;width:'+((f.s1-f.s0+1)/SEM*100).toFixed(2)+'%"><i></i></span></div></li>'}).join('')+'</ol>';
 }
-dlg.addEventListener('close',function(){abierto=false;document.documentElement.style.overflow='';});
-$('#tx').onclick=function(){dlg.close()};
-$('#tb-360').onclick=function(){pestana('t360')};$('#tb-ren').onclick=function(){pestana('trend')};
-$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){abre(b.dataset.open)})});
-addEventListener('resize',function(){if(abierto&&viewer&&!$('#t360').hidden){viewer.setHfov(hfovFor(),false);}});
-dlg.addEventListener('keydown',function(e){if($('#t360').hidden)return;if(e.key==='ArrowRight'&&e.target.tagName!=='INPUT'){irPano(sceneIdx+1);}else if(e.key==='ArrowLeft'&&e.target.tagName!=='INPUT'){irPano(sceneIdx-1);}});
+function pintaSem(w){var ej=0;F.forEach(function(f,i){ej+=capFase[i]*prog(i,w)});
+  $$('.gantt li').forEach(function(li,i){$('.b i',li).style.width=(prog(i,w)*100)+'%'});
+  var act=F.filter(function(f){return w>=f.s0&&w<=f.s1}).map(function(f){return f.n});
+  $('#semkp').innerHTML='<div><small>Semana</small><b>'+w+' / '+SEM+'</b></div><div><small>Invertido</small><b>'+MXN.format(ej)+'</b></div><div class="w"><small>En obra</small><b style="font-size:18px">'+esc(act.join(' · ')||(w>F[F.length-1].s1?'Obra terminada':'Por iniciar'))+'</b></div>';}
+function vInversion(){
+  return '<p class="sub">Cambia los supuestos y mira venta, utilidad, retorno y renta. <span class="ej">Supuestos de ejemplo</span></p>'+
+  [['pm2','Precio de venta por m²',8000,45000,500,22000],['ren','Renta mensual',3000,30000,250,9500],['ter','Terreno',0,1500000,10000,300000]].map(function(f){return '<div class="fld"><div class="row"><label for="i-'+f[0]+'">'+f[1]+'</label><output id="o-'+f[0]+'"></output></div><input class="range" id="i-'+f[0]+'" type="range" min="'+f[2]+'" max="'+f[3]+'" step="'+f[4]+'" value="'+f[5]+'"></div>'}).join('')+
+  '<div class="kp"><div class="w"><small>Si lo vendes</small><b id="r-venta"></b></div><div><small>Utilidad</small><b id="r-ut"></b></div><div><small>Retorno</small><b id="r-roi"></b></div><div><small>Renta neta / año</small><b id="r-rn"></b></div><div><small>Rendimiento</small><b id="r-cap"></b></div></div>'+
+  '<details><summary>Cómo se calcula</summary><div class="in"><p style="margin:0;font-size:14px">Inversión = terreno + obra ('+MXN.format(TOT)+'). Venta = '+m2+' m² × precio. Utilidad = venta − inversión. Retorno = utilidad ÷ inversión. Renta neta = renta × 12 × 90 % de ocupación × 85 % (15 % de gastos). Rendimiento = renta neta ÷ inversión. Sin impuestos, financiamiento ni inflación.</p></div></details>'+
+  '<p class="nota"><strong>Valores ilustrativos.</strong> Terreno, precio y renta no son una cotización ni una proyección financiera. En tu tablero se usan los datos reales de tu proyecto.</p>';
+}
+function pct(x){return (x<0?'−':'')+N1.format(Math.abs(x))+' %'}
+function calcInv(){var pm2=+$('#i-pm2').value,ren=+$('#i-ren').value,ter=+$('#i-ter').value,inv=ter+TOT,venta=m2*pm2,ut=venta-inv,roi=inv?ut/inv*100:0,rn=ren*12*.9*.85,cap=inv?rn/inv*100:0;
+  $('#o-pm2').textContent=MXN.format(pm2)+' / m²';$('#o-ren').textContent=MXN.format(ren)+' / mes';$('#o-ter').textContent=MXN.format(ter);
+  $('#r-venta').textContent=MXN.format(venta);var u=$('#r-ut');u.textContent=MXN.format(ut);u.className=ut>=0?'pos':'neg';var r=$('#r-roi');r.textContent=pct(roi);r.className=roi>=0?'pos':'neg';$('#r-rn').textContent=MXN.format(rn);$('#r-cap').textContent=pct(cap);}
+function vPlano(){return '<div class="lv" role="group" aria-label="Nivel"><button class="chip" type="button" data-n="0" aria-pressed="true">Planta baja</button><button class="chip" type="button" data-n="1" aria-pressed="false">Tapanco</button></div><div class="planbig" id="pb"></div><p class="sub" style="text-align:center">Toca un punto para ir a ese espacio. El cono muestra hacia dónde miras.</p>'}
+var R=[['fachada','Fachada de noche','La casa sobre la calle, con la sala iluminada tras el ventanal en arco'],['sala','Sala y cocina','Doble altura, tapanco, comedor y cocina de madera'],['altura','Doble altura desde el tapanco','Sala, comedor y cocina vistos desde arriba'],['comedor','Sala hacia el patio','Comedor de madera, escalera volada y ventanal al jardín'],['tapanco','Tapanco','Recámara con escritorio y clósets'],['tv','Muro de TV','Arte, luz de arbotante y pantalla Metric.arq'],['vitrina','Vitrina bajo la escalera','Plantas y libros con luz lineal'],['cafe','Estación de café','Azulejo de patrón, cubierta de mármol y alacenas de madera'],['bano','Medio baño','Lavabo de vessel, espejo con luz y muro de piedra']];
+function vRenders(){return '<div class="car" id="car" tabindex="0" aria-label="Renders. Desliza para ver más.">'+R.map(function(r,i){return '<figure aria-label="Render '+(i+1)+' de '+R.length+'"><img src="img/w/'+r[0]+'.webp" alt="'+esc(r[1]+'. '+r[2])+'" loading="'+(i<2?'eager':'lazy')+'" decoding="async"><figcaption><b>'+esc(r[1])+'</b><span>'+esc(r[2])+'</span></figcaption></figure>'}).join('')+'</div><div class="cnav"><button class="arrow" id="rp" type="button" aria-label="Render anterior">‹</button><span class="n" id="rn" aria-live="polite"></span><button class="arrow" id="rx" type="button" aria-label="Render siguiente">›</button></div>'}
+var ri=0;
+function abre(k){
+  var T={costo:['Cuánto cuesta',vCosto],calendario:['Cuánto tarda',vCalendario],inversion:['Vender o rentar',vInversion],plano:['Plano del proyecto',vPlano],renders:['Renders',vRenders]}[k];
+  sT.textContent=T[0];sb.innerHTML=T[1]()+'<div class="ask"><a class="btn cta" target="_blank" rel="noopener" href="'+$('#wa').href+'">Pedir mi tablero</a></div>';sb.scrollTop=0;
+  if(k==='calendario'){var s=$('#sem');s.oninput=function(){pintaSem(+s.value)};pintaSem(+s.value);}
+  if(k==='inversion'){['pm2','ren','ter'].forEach(function(x){$('#i-'+x).addEventListener('input',calcInv)});calcInv();}
+  if(k==='plano'){var o=planes[1]||planDom();planFondo(o,PANOS[escena].nivel||0);$('#pb').appendChild(o.wrap);pintaPins();$$('.lv .chip').forEach(function(c){c.setAttribute('aria-pressed',+c.dataset.n===o.nivel);c.onclick=function(){planFondo(o,+c.dataset.n);$$('.lv .chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});pintaPins();}});}
+  if(k==='renders'){ri=0;var car=$('#car');var upd=function(){$('#rn').textContent=(ri+1)+' / '+R.length};upd();
+    var go=function(i){ri=(i+R.length)%R.length;car.scrollTo({left:ri*car.clientWidth,behavior:reduce?'auto':'smooth'});upd()};
+    $('#rp').onclick=function(){go(ri-1)};$('#rx').onclick=function(){go(ri+1)};
+    car.addEventListener('scroll',function(){var i=Math.round(car.scrollLeft/Math.max(1,car.clientWidth));if(i!==ri){ri=i;upd()}},{passive:true});
+    car.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(ri+1);e.preventDefault()}else if(e.key==='ArrowLeft'){go(ri-1);e.preventDefault()}});}
+  ocultaIntro();if(typeof sheet.showModal==='function')sheet.showModal();else sheet.setAttribute('open','');
+}
+$$('.tl').forEach(function(b){b.addEventListener('click',function(){abre(b.dataset.s)})});
+$('#sx').onclick=function(){sheet.close()};
+sheet.addEventListener('close',function(){if(planes[1]&&planes[1].wrap.parentNode)planes[1].wrap.remove()});
+sheet.addEventListener('click',function(e){if(e.target===sheet)sheet.close()});
 })();
 </script>
 </body>
