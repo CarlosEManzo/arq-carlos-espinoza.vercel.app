@@ -320,7 +320,7 @@ function frame(){
   if(S){try{
     if(forzado||Math.abs(cur[1]-aplicado.p)>.002){S.fase(cur[1]);aplicado.p=cur[1];}
     if(forzado||Math.abs(cur[6]-aplicado.h)>.03){S.setHora(cur[6]);aplicado.h=cur[6];}
-    if(S.sat)S.sat(satOp(t));
+    if(S.sat)S.sat(satOp(t),Math.max(0,Math.min(1,1-(t-.03)/.06)));
     S.cam({az:cur[2],el:cur[3],dist:cur[4]*esc2,tgt:[3,cur[5],cur[7]]});forzado=false;
   }catch(e){}}
   var ph=cur[8],w=Math.round(ph*SEM);

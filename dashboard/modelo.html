@@ -1178,12 +1178,12 @@ var cerros=new T.Group();scene.add(cerros);var cerroMat=new T.MeshLambertMateria
 (function(){for(var i=0;i<22;i++){var ang=i/22*Math.PI*2+((i*7)%5)*0.05,rad=105+((i*13)%7)*6,w=26+((i*11)%9)*5,h=9+((i*17)%8)*3.2;var m=new T.Mesh(new T.SphereGeometry(1,18,10,0,Math.PI*2,0,Math.PI/2),cerroMat);m.scale.set(w,h,w*0.8);m.position.set(3+Math.cos(ang)*rad,-0.3,-8+Math.sin(ang)*rad);m.rotation.y=ang;cerros.add(m);}})();
 
 /* base satelital (modo historia): la imagen se orienta con el frente de la casa (azimut_frente) y se desvanece hacia el fondo de estudio */
-var satMesh=[],satMarca=null,SATS=[{px:652.3,py:556,m:0.5622,sz:720,n:1536,y:-0.18,dark:true},{px:536.3,py:599.8,m:0.2811,sz:360,n:1536,y:-0.17,dark:false}];
+var satMesh=[],satMarca=null,SATAZ=106,SATS=[{px:676.8,py:561,m:0.5622,sz:720,n:1536,y:-0.18,dark:true},{px:585,py:610,m:0.2811,sz:360,n:1536,y:-0.17,dark:false}];
 function satCapa(im,C){
   var N=C.n,cv=document.createElement('canvas');cv.width=cv.height=N;var g=cv.getContext('2d');
   var k=C.m/(C.sz/N);
   /* el este del mapa en el plano de la casa: x -> (azimut_frente-90), z -> azimut_frente */
-  var bx=(D.azimut_frente-90)*Math.PI/180,bz=D.azimut_frente*Math.PI/180;
+  var bx=(SATAZ-90)*Math.PI/180,bz=SATAZ*Math.PI/180;
   var ex=[Math.sin(bx),Math.sin(bz)],nn=[Math.cos(bx),Math.cos(bz)];
   /* satélite (este,-norte) = M (x,z); el lienzo usa la inversa */
   var a=ex[0],c=ex[1],b2=-nn[0],d2=-nn[1],det=a*d2-c*b2,ia=d2/det,ic=-c/det,ib=-b2/det,id=a/det;
@@ -1439,7 +1439,7 @@ listaCuartos();fijaModo('ext');aplicaCielo();$('#cargando').hidden=true;
 window.__showroom={escena:scene,sol:sol,hemi:hemi,lluvia:lluvia,etiquetas:etiquetas,infraMeshes:infraMeshes,rebotes:rebotes,luces:luces,fijaModo:fijaModo,setHora:function(h){hora=h;$('#hora').value=h;aplicaCielo();},setClima:function(c){clima=c;aplicaCielo();},selecciona:function(id){selId=id;listaCuartos();resaltaSel();muestraFicha();colocaCam();},capas:function(a){capasAct=a;visibilidad();aplicaCielo();},cam:function(o){if(modo!=='ext')fijaModo('ext');if(o.az!=null)az=o.az;if(o.el!=null)el=o.el;if(o.dist!=null)dist=o.dist;if(o.tgt)tgt.set(o.tgt[0],o.tgt[1],o.tgt[2]);colocaCam();dirty=true;},sistemas:CAPAS.map(function(c){return {k:c[0],n:c[1],c:c[2]};}),setSistema:function(k,v){capasOn[k]=v;visibilidad();},fase:function(p){faseP=(p==null?null:p);capasAct=(p!=null&&p>=0.36&&p<0.58);visibilidad();aplicaCielo();return p==null?null:faseNombre(p);},fases:FASES,camaraActual:function(){return cam;},ventanal:function(t){if(window.__ventanal)window.__ventanal(t);},vista:function(o){DBG=o;colocaCam();},vistaOff:function(){DBG=null;colocaCam();}};
 window.__showroom.cenital=function(n,zoom,x,z){modo='plano';nivel=n;zoomO=zoom;panO.set(x,0,z);visibilidad();colocaCam();dirty=true;};
 window.__showroom.intensifica=function(cols,esc){infraMeshes.forEach(function(m){var g=m.userData.grupo,c=cols&&cols[g];if(!c)return;m.material.color.set(c);m.material.opacity=1;m.material.transparent=false;if(m.geometry.type==='CylinderGeometry')m.scale.set(esc,1,esc);else m.scale.setScalar(esc);});dirty=true;};
-window.__showroom.satCarga=satCarga;window.__showroom.sat=function(o){satMesh.forEach(function(m){m.material.opacity=o;m.visible=o>0.005;});if(satMarca){satMarca.visible=o>0.02;satMarca.userData.mat.opacity=o*(0.6+0.4*Math.sin(Date.now()/320));}dirty=true;};
+window.__showroom.satCarga=satCarga;window.__showroom.sat=function(o,mo){var tm=TIERRA.children[0]&&TIERRA.children[0].material;if(tm){tm.transparent=true;tm.opacity=1-0.82*o;tm.depthWrite=o<0.3;tm.needsUpdate=true;}satMesh.forEach(function(m){m.material.opacity=o;m.visible=o>0.005;});if(satMarca){var q=(mo==null?o:mo);satMarca.visible=q>0.02;satMarca.userData.mat.opacity=q*(0.6+0.4*Math.sin(Date.now()/320));}dirty=true;};
 window.__showroom.estudio=function(on){ESTUDIO=!!on;aplicaCielo();dirty=true;};
 window.__showroom.axo=function(on){AXO=!!on;visibilidad();aplicaCielo();colocaCam();dirty=true;};
 window.__showroom.limpio=function(on){LIMPIO=!!on;window.__showroom.estilo(on?'.ov{display:none!important}':'');visibilidad();};
