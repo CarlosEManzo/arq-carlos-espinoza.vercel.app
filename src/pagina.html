@@ -1912,5 +1912,8 @@ $$('[data-copy]').forEach(function(b){ b.addEventListener('click',function(){ va
   try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copiado'},sel)}catch(e){sel()} setTimeout(function(){b.textContent='Copiar'},1800); }); });
 
 sincroniza(); pinta();
+/* enlace directo desde el portafolio: lab#obra=0&w=1 abre esa obra y ventana (info 3, maqueta 1, planos 2) */
+(function(){ var m=/obra=(\d)&w=(\d)/.exec(location.hash); if(!m) return; var i=+m[1];
+  inicia(); rail.scrollLeft=i*rail.clientWidth; setTimeout(function(){ abreVisor(i,m[2]); },350); })();
 })();
 </script>

@@ -21,115 +21,142 @@
 <meta name="twitter:title" content="Carlos Espinoza · Arquitecto Revit/BIM y estructuras metálicas · Morelia">
 <meta name="twitter:description" content="8+ años en obra: estructuras metálicas, BIM en Revit, planos de taller y cuantificación.">
 <meta name="twitter:image" content="{{BASE}}/og.jpg">
+<link rel="preload" as="image" href="photos/e/hero.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap">
 <style>
-:root{color-scheme:dark;--bg:#0D0D0D;--card:#161616;--line:#2A2A2A;--muted:#A8A8A8;--text:#E6E6E6;--cta:#F2A900;--sans:'Inter','Helvetica Neue',Arial,sans-serif;--mono:'Space Mono',ui-monospace,Consolas,monospace;--gut:20px}
-@media(min-width:760px){:root{--gut:40px}}
+:root{color-scheme:dark;--bg:#0D0D0D;--card:#161616;--line:#2A2A2A;--muted:#B0B0B0;--text:#EDEDED;--cta:#F2A900;--sans:'Inter','Helvetica Neue',Arial,sans-serif;--mono:'Space Mono',ui-monospace,Consolas,monospace;--gut:20px;--ease:cubic-bezier(.16,1,.3,1)}
+@media(min-width:760px){:root{--gut:48px}}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 var(--gut)}
-.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.skip{position:absolute;left:-999px;top:8px;background:var(--cta);color:#000;padding:8px 14px;z-index:50}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--cta);color:#000;padding:8px 14px;z-index:60}
 .skip:focus{left:8px}
 :focus-visible{outline:2px solid var(--cta);outline-offset:3px}
 /* barra */
-.bar{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
-.bar b{font-weight:700;font-size:15px;letter-spacing:.01em}
-.bar nav{display:flex;gap:6px;align-items:center}
-.bar nav a.l{display:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:10px 10px}
-.bar nav a.l:hover{color:var(--text)}
+.bar{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.bar.fija{background:rgba(13,13,13,.92);backdrop-filter:blur(8px);border-color:var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:62px}
+.bar b{font-weight:700;font-size:15px}
+.bar nav{display:flex;gap:4px;align-items:center}
+.bar nav a.l{display:none;font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--text);padding:10px;opacity:.8;transition:opacity .2s}
+.bar nav a.l:hover{opacity:1}
 @media(min-width:760px){.bar nav a.l{display:inline-block}}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid var(--text);border-radius:6px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--text);background:transparent;cursor:pointer}
-.btn:hover{background:#1f1f1f}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border:1px solid rgba(237,237,237,.7);border-radius:6px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--text);background:rgba(13,13,13,.35);cursor:pointer;transition:transform .25s var(--ease),background .2s,border-color .2s}
+.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
 .btn.solid{background:var(--cta);border-color:var(--cta);color:#0D0D0D}
 .btn.solid:hover{background:#ffbd1f}
 /* hero */
-.hero{padding:clamp(56px,10vw,120px) 0 clamp(48px,8vw,90px)}
-.hero h1{margin:14px 0 18px;font-weight:800;font-size:clamp(40px,8vw,88px);line-height:.98;letter-spacing:-.025em}
-.hero .rol{font:700 clamp(18px,2.4vw,24px)/1.35 var(--sans);margin:0 0 14px;max-width:38ch;text-wrap:balance}
-.hero p.d{max-width:58ch;color:var(--muted);margin:0 0 28px}
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero .bg{position:absolute;inset:-6% 0;z-index:-2;will-change:transform}
+.hero .bg img{width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(13,13,13,.55) 0,rgba(13,13,13,.25) 30%,rgba(13,13,13,.8) 72%,#0D0D0D 100%)}
+.hero .wrap{width:100%;padding-top:100px;padding-bottom:clamp(28px,5vw,56px)}
+.hero h1{margin:12px 0 14px;font-weight:800;font-size:clamp(42px,8.4vw,104px);line-height:.96;letter-spacing:-.03em}
+.hero .rol{font:700 clamp(18px,2.3vw,24px)/1.35 var(--sans);margin:0 0 8px;max-width:40ch;text-wrap:balance}
+.hero p.d{max-width:56ch;color:var(--muted);margin:0 0 22px;font-size:16px}
 .hero .acc{display:flex;flex-wrap:wrap;gap:10px}
-.datos{display:flex;flex-wrap:wrap;gap:0;margin-top:44px;border-top:1px solid var(--line)}
-.datos div{flex:1 1 150px;padding:18px 18px 4px 0}
-.datos b{display:block;font:800 clamp(28px,4vw,40px)/1 var(--sans);letter-spacing:-.02em}
-.datos span{font-size:13px;color:var(--muted)}
+.datos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 20px;margin-top:30px;padding-top:20px;border-top:1px solid rgba(237,237,237,.25)}
+@media(min-width:760px){.datos{grid-template-columns:repeat(4,1fr)}}
+.datos b{display:block;font:800 clamp(26px,3.6vw,42px)/1 var(--sans);letter-spacing:-.02em}
+.datos span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+@media(max-width:759px){.hero p.d{display:none}.hero .wrap{padding-top:84px}}
 /* secciones */
-section.s{padding:clamp(48px,7vw,88px) 0;border-top:1px solid var(--line)}
-section.s h2{margin:0 0 28px;font:800 clamp(26px,4vw,40px)/1.1 var(--sans);letter-spacing:-.02em}
-.kick{margin:0 0 10px}
+section.s{padding:clamp(56px,8vw,104px) 0}
+section.s h2{margin:6px 0 34px;font:800 clamp(28px,4.4vw,46px)/1.08 var(--sans);letter-spacing:-.025em;max-width:22ch}
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+.rv.on{opacity:1;transform:none}
 /* experiencia */
-.exp{list-style:none;margin:0;padding:0}
-.exp li{display:grid;gap:4px 28px;padding:22px 0;border-top:1px solid var(--line)}
-.exp li:first-child{border-top:0;padding-top:0}
-@media(min-width:760px){.exp li{grid-template-columns:150px 1fr}}
-.exp .a{font:400 13px var(--mono);color:var(--cta);letter-spacing:.04em}
-.exp h3{margin:0;font-size:19px;font-weight:700;line-height:1.3}
-.exp .e{color:var(--muted);font-size:15px}
-.exp p{margin:6px 0 0;font-size:16px;max-width:64ch}
-/* obras */
-.obras{display:grid;gap:36px}
-.obra{display:grid;gap:18px}
-@media(min-width:860px){.obra{grid-template-columns:1.15fr 1fr;gap:36px;align-items:center}.obra:nth-child(even) .fig{order:2}}
-.obra .fig{margin:0;background:var(--card);aspect-ratio:4/3;overflow:hidden;border-radius:4px}
-.obra img{width:100%;height:100%;object-fit:cover}
-.obra h3{margin:0 0 4px;font:800 26px/1.15 var(--sans);letter-spacing:-.01em}
-.obra p{margin:10px 0 0;color:var(--text);font-size:16px}
-.cifras{display:flex;gap:26px;margin-top:14px}
-.cifras b{display:block;font:800 26px/1 var(--sans)}
-.cifras span{font-size:12px;color:var(--muted)}
-.mas{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
-.mas a.t{font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--cta);text-decoration:none;border-bottom:1px solid var(--cta);padding:12px 0 2px}
+.exp{list-style:none;margin:0;padding:0;counter-reset:x}
+.exp li{display:grid;gap:6px 36px;padding:28px 0;border-top:1px solid var(--line)}
+@media(min-width:760px){.exp li{grid-template-columns:190px 1fr}}
+.exp .a{font:800 clamp(20px,2.4vw,28px)/1.1 var(--sans);color:var(--cta);letter-spacing:-.01em;white-space:nowrap}
+.exp li:first-child .h{border-left:3px solid var(--cta);padding-left:18px}
+.exp h3{margin:0;font-size:clamp(20px,2.4vw,26px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.exp .e{color:var(--muted);font-size:15px;margin-top:2px}
+.exp p{margin:10px 0 0;font-size:16px;max-width:66ch}
+.exp .cf{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.exp .cf span{font:700 12px var(--mono);letter-spacing:.04em;padding:6px 10px;border:1px solid var(--line);border-radius:4px;color:var(--text);background:var(--card)}
+.exp li.menor h3{font-size:18px}.exp li.menor .a{font-size:17px;color:var(--muted)}
+/* obras inmersivas */
+.obras{display:grid}
+.obra{position:relative;min-height:min(86svh,760px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;border-top:1px solid var(--line)}
+.obra .bg{position:absolute;inset:-8% 0;z-index:-2;will-change:transform}
+.obra .bg img{width:100%;height:100%;object-fit:cover}
+.obra::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(13,13,13,.94) 0,rgba(13,13,13,.55) 45%,rgba(13,13,13,.15) 100%)}
+@media(min-width:900px){.obra::after{background:linear-gradient(90deg,rgba(13,13,13,.92) 0,rgba(13,13,13,.5) 50%,rgba(13,13,13,.05) 100%)}.obra .wrap{padding-bottom:64px}}
+.obra .wrap{width:100%;padding-top:80px;padding-bottom:36px}
+.obra .num{font:800 clamp(64px,12vw,150px)/.8 var(--sans);color:transparent;-webkit-text-stroke:1px rgba(237,237,237,.45);letter-spacing:-.04em;display:block;margin-bottom:14px}
+.obra h3{margin:6px 0 0;font:800 clamp(32px,5.4vw,64px)/1 var(--sans);letter-spacing:-.03em}
+.obra p{margin:14px 0 0;max-width:50ch;font-size:17px}
+.cifras{display:flex;flex-wrap:wrap;gap:8px 34px;margin:20px 0 4px}
+.cifras b{display:block;font:800 clamp(30px,4vw,46px)/1 var(--sans);letter-spacing:-.02em;color:var(--cta)}
+.cifras span{font-size:13px;color:var(--muted)}
+.obra .acc{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pie-obras{padding:26px 0 0}
+.pie-obras p{margin:0;color:var(--muted);max-width:70ch;font-size:15px}
 /* competencias */
-.comp{display:grid;gap:26px}
-@media(min-width:760px){.comp{grid-template-columns:repeat(3,1fr)}}
-.comp h3{margin:0 0 8px}
+.comp{display:grid;gap:30px}
+@media(min-width:760px){.comp{grid-template-columns:repeat(3,1fr);gap:48px}}
+.comp h3{margin:0 0 10px}
 .comp ul{margin:0;padding:0;list-style:none}
-.comp li{padding:6px 0;border-top:1px solid var(--line);font-size:16px}
+.comp li{padding:9px 0;border-top:1px solid var(--line);font-size:17px;transition:padding-left .25s var(--ease),color .2s}
+.comp li:hover{padding-left:8px;color:var(--cta)}
 /* sobre / contacto */
-.sobre{display:grid;gap:28px}
-@media(min-width:760px){.sobre{grid-template-columns:240px 1fr;gap:44px;align-items:start}}
-.sobre img{width:100%;max-width:240px;border-radius:4px;background:var(--card)}
+.sobre{display:grid;gap:30px}
+@media(min-width:760px){.sobre{grid-template-columns:260px 1fr;gap:56px;align-items:start}}
+.sobre img{width:100%;max-width:260px;border-radius:4px;background:var(--card)}
 .sobre p{margin:0 0 14px;max-width:62ch}
-.cont{display:grid;gap:12px}
-.cont .acc{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.cont p{margin:0;max-width:56ch;color:var(--muted)}
-.cont dl{margin:18px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 20px}
-.cont dt{font:400 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.cont h2{max-width:20ch}
+.cont p{margin:0 0 20px;max-width:56ch;color:var(--muted)}
+.cont .acc{display:flex;flex-wrap:wrap;gap:10px}
+.cont .btn{background:transparent}
+.cont .btn.solid{background:var(--cta)}
+.cont dl{margin:26px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 20px}
+.cont dt{font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:4px}
 .cont dd{margin:0}
 footer{border-top:1px solid var(--line);padding:26px 0 40px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between;color:var(--muted);font-size:14px}
-footer a{color:var(--muted)}
-footer a:hover{color:var(--text)}
+footer a{color:var(--muted)}footer a:hover{color:var(--text)}
+/* visor (maqueta 3D, planos): se carga al pulsar */
+dialog.vz{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:0;border:0;background:#0D0D0D;color:var(--text)}
+dialog.vz::backdrop{background:#000}
+dialog.vz iframe{position:absolute;left:0;right:0;bottom:0;top:52px;width:100%;height:calc(100% - 52px);border:0;background:#0D0D0D}
+dialog.vz .top{position:absolute;left:0;right:0;top:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--line);background:#0D0D0D}
+dialog.vz .top span{font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+dialog.vz .x{min-height:40px;padding:0 16px;border-radius:6px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn,.comp li{transition:none}.hero .bg,.obra .bg{transform:none!important}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
-<header class="bar">
+<header class="bar" id="bar">
   <div class="wrap">
     <b>Carlos Espinoza</b>
     <nav aria-label="Principal">
       <a class="l" href="#experiencia">Experiencia</a>
       <a class="l" href="#obras">Obras</a>
       <a class="l" href="#contacto">Contacto</a>
-      <a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf" data-evento="cv-barra">CV (PDF)</a>
+      <a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf" data-evento="cv-barra" style="min-height:40px;padding:0 14px">CV (PDF)</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-<section class="hero">
+<section class="hero" aria-label="Presentación">
+  <div class="bg" data-px="0.12"><img src="photos/e/hero.jpg" width="1920" height="1440" alt="Estructura de acero de una estación del Teleférico de Morelia con grúa torre" fetchpriority="high" decoding="async"></div>
   <div class="wrap">
-    <span class="mono">Arquitecto · Estructuras metálicas · Coordinación BIM</span>
+    <span class="mono" style="color:var(--text)">Arquitecto · Estructuras metálicas · Coordinación BIM</span>
     <h1>Carlos Francisco<br>Espinoza Manzo</h1>
     <p class="rol">Arquitecto de obra con 8+ años de experiencia. Llevo el modelo BIM a la obra.</p>
-    <p class="d">Residente proyectista de estructuras metálicas en el Teleférico de Morelia. Trabajo con modelos de Revit para extraer planos de taller, cuantificar y controlar cambios en sitio. Morelia, Michoacán, y disponible para nuevas oportunidades.</p>
+    <p class="d">Residente proyectista de estructuras metálicas en el Teleférico de Morelia. Extraigo planos de taller, cuantifico y controlo cambios desde modelos de Revit. Morelia, Michoacán.</p>
     <div class="acc">
       <a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf" data-evento="cv-hero">Descargar CV</a>
       <a class="btn" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener" data-evento="whatsapp-hero">WhatsApp</a>
@@ -144,62 +171,80 @@ footer a:hover{color:var(--text)}
   </div>
 </section>
 
+<section class="s" id="obras" aria-labelledby="t-obras" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="mono">Obras</p>
+    <h2 id="t-obras" class="rv">Tres obras, tres escalas.</h2>
+  </div>
+  <div class="obras">
+    <article class="obra">
+      <div class="bg" data-px="0.1"><img src="photos/e/tel.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Estructura de acero y concreto de una estación del teleférico"></div>
+      <div class="wrap rv">
+        <span class="num" aria-hidden="true">01</span>
+        <span class="mono" style="color:var(--text)">2025 — hoy · APYCSA</span>
+        <h3>Teleférico de Morelia</h3>
+        <p>Control de superestructura metálica en la línea completa, con modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p>
+        <div class="cifras"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div>
+        <div class="acc"><button class="btn solid" type="button" data-obra="0" data-w="3">Información</button><button class="btn" type="button" data-obra="0" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="0" data-w="2">Planos</button></div>
+      </div>
+    </article>
+    <article class="obra">
+      <div class="bg" data-px="0.1"><img src="photos/e/naves.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Obra de nave industrial en construcción"></div>
+      <div class="wrap rv">
+        <span class="num" aria-hidden="true">02</span>
+        <span class="mono" style="color:var(--text)">2023 · Grupo Ortiz</span>
+        <h3>Naves industriales</h3>
+        <p>Dos naves completas en sitio con la infraestructura de vialidades y servicios que las conecta. Administración de materiales y mano de obra, y supervisión de maquinaria pesada.</p>
+        <div class="cifras"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div>
+        <div class="acc"><button class="btn solid" type="button" data-obra="1" data-w="3">Información</button><button class="btn" type="button" data-obra="1" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="1" data-w="2">Planos</button></div>
+      </div>
+    </article>
+    <article class="obra">
+      <div class="bg" data-px="0.1"><img src="photos/e/casa.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Casa habitación en obra"></div>
+      <div class="wrap rv">
+        <span class="num" aria-hidden="true">03</span>
+        <span class="mono" style="color:var(--text)">2021 — 2022</span>
+        <h3>Casa habitación</h3>
+        <p>Vivienda unifamiliar en terreno de 1,000 m² con presupuesto de $5 M MXN. Diseño interior y exterior, acabados y control de materiales y avance de principio a fin.</p>
+        <div class="cifras"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div>
+        <div class="acc"><button class="btn solid" type="button" data-obra="2" data-w="3">Información</button><button class="btn" type="button" data-obra="2" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="2" data-w="2">Planos</button></div>
+      </div>
+    </article>
+  </div>
+</section>
+
 <section class="s" id="experiencia" aria-labelledby="t-exp">
   <div class="wrap">
-    <p class="mono kick">Experiencia</p>
-    <h2 id="t-exp">Del estimador al residente proyectista.</h2>
+    <p class="mono">Experiencia</p>
+    <h2 id="t-exp" class="rv">Del estimador al residente proyectista.</h2>
     <ol class="exp">
-      <li><span class="a">2025 — hoy</span><div><h3>Residente Proyectista de Estructuras Metálicas</h3><div class="e">APYCSA · Morelia</div>
-        <p>Teleférico de Morelia: control de superestructura en 7 estaciones y 40 postes trabajados en simultáneo. Supervisión de suministro, montaje, soldadura y terminado. Coordinación de modelos BIM en Revit para planos de taller, tablas de cuantificación y boletines de cambio.</p></div></li>
-      <li><span class="a">2024 — 2025</span><div><h3>Arquitecto Freelance</h3><div class="e">Métrica Estudio (hoy Metric.arq) · Morelia</div>
-        <p>5 proyectos BIM en Revit para 3 clientes distintos, residenciales y comerciales. Renders y recorridos virtuales como apoyo a la venta y validación de proyecto.</p></div></li>
-      <li><span class="a">2023</span><div><h3>Residente de Obra, Área de Proyectos</h3><div class="e">Grupo Ortiz · Morelia</div>
-        <p>Dos naves industriales de 50 × 120 m (12,000 m² construidos) con vialidades y servicios. Programación de suministros, asignación de cuadrillas entre ambos frentes y supervisión de maquinaria pesada.</p></div></li>
-      <li><span class="a">2022 — 2023</span><div><h3>Desarrollador Jr.</h3><div class="e">Open Developer · Remoto</div>
+      <li class="rv"><span class="a">2025 — hoy</span><div class="h"><h3>Residente Proyectista de Estructuras Metálicas</h3><div class="e">APYCSA · Morelia</div>
+        <p>Teleférico de Morelia: supervisión de suministro, montaje, soldadura y terminado de estructura metálica en los frentes activos. Coordinación de modelos BIM en Revit para planos de taller, tablas de cuantificación y boletines de cambio.</p>
+        <div class="cf"><span>7 estaciones</span><span>40 postes en simultáneo</span></div></div></li>
+      <li class="rv"><span class="a">2024 — 2025</span><div><h3>Arquitecto Freelance</h3><div class="e">Métrica Estudio (hoy Metric.arq) · Morelia</div>
+        <p>Proyectos BIM en Revit, residenciales y comerciales. Renders y recorridos virtuales como apoyo a la venta y validación de proyecto.</p>
+        <div class="cf"><span>5 proyectos BIM</span><span>3 clientes</span></div></div></li>
+      <li class="rv"><span class="a">2023</span><div><h3>Residente de Obra, Área de Proyectos</h3><div class="e">Grupo Ortiz · Morelia</div>
+        <p>Programación de suministros, asignación de cuadrillas entre dos frentes y supervisión de maquinaria pesada, con vialidades y servicios.</p>
+        <div class="cf"><span>2 naves de 50 × 120 m</span><span>12,000 m²</span></div></div></li>
+      <li class="rv"><span class="a">2022 — 2023</span><div><h3>Desarrollador Jr.</h3><div class="e">Open Developer · Remoto</div>
         <p>Mantenimiento de código en producción, pruebas y colaboración con diseño en interfaces.</p></div></li>
-      <li><span class="a">2021 — 2022</span><div><h3>Administrador de Obra</h3><div class="e">Casa habitación · Morelia</div>
-        <p>Casa en terreno de 25 × 40 m con presupuesto total de $5 M MXN. Diseño interior y exterior, acabados y control de presupuesto, nómina y avance frente a programa.</p></div></li>
-      <li><span class="a">2018 — 2020</span><div><h3>Diseñador de Muebles</h3><div class="e">Madera y Ambiente · Morelia</div>
+      <li class="rv"><span class="a">2021 — 2022</span><div><h3>Administrador de Obra</h3><div class="e">Casa habitación · Morelia</div>
+        <p>Diseño interior y exterior, acabados y control de presupuesto, nómina y avance frente a programa.</p>
+        <div class="cf"><span>$5 M MXN</span><span>1,000 m² de terreno</span></div></div></li>
+      <li class="rv menor"><span class="a">2018 — 2020</span><div><h3>Diseñador de Muebles</h3><div class="e">Madera y Ambiente · Morelia</div>
         <p>Carpintería con modelado 2D/3D y despiece para corte automatizado (CNC).</p></div></li>
-      <li><span class="a">2016 — 2017</span><div><h3>Residente de Obra</h3><div class="e">Lugose Construcciones · Morelia</div>
+      <li class="rv menor"><span class="a">2016 — 2017</span><div><h3>Residente de Obra</h3><div class="e">Lugose Construcciones · Morelia</div>
         <p>Estimaciones y números generadores mensuales.</p></div></li>
     </ol>
   </div>
 </section>
 
-<section class="s" id="obras" aria-labelledby="t-obras">
+<section class="s" id="competencias" aria-labelledby="t-comp" style="background:var(--card)">
   <div class="wrap">
-    <p class="mono kick">Obras</p>
-    <h2 id="t-obras">Tres obras, tres escalas.</h2>
-    <div class="obras">
-      <article class="obra">
-        <figure class="fig"><img src="photos/e/tel.jpg" width="1000" height="750" loading="lazy" decoding="async" alt="Estructura de acero y concreto de una estación del teleférico con grúa torre"></figure>
-        <div><span class="mono">2025 — hoy · APYCSA</span><h3>Teleférico de Morelia</h3>
-          <p>Control de superestructura metálica en la línea completa, con modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p>
-          <div class="cifras"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div></div>
-      </article>
-      <article class="obra">
-        <figure class="fig"><img src="photos/e/naves.jpg" width="1000" height="750" loading="lazy" decoding="async" alt="Obra de nave industrial en construcción"></figure>
-        <div><span class="mono">2023 · Grupo Ortiz</span><h3>Naves industriales</h3>
-          <p>Dos naves completas en sitio con la infraestructura de vialidades y servicios que las conecta. Administración de materiales y mano de obra, y supervisión de maquinaria pesada.</p>
-          <div class="cifras"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div></div>
-      </article>
-      <article class="obra">
-        <figure class="fig"><img src="photos/e/casa.jpg" width="1000" height="750" loading="lazy" decoding="async" alt="Casa habitación en obra"></figure>
-        <div><span class="mono">2021 — 2022</span><h3>Casa habitación</h3>
-          <p>Vivienda unifamiliar en terreno de 1,000 m² con presupuesto de $5 M MXN. Diseño interior y exterior, acabados y control de materiales y avance de principio a fin.</p>
-          <div class="cifras"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div></div>
-      </article>
-    </div>
-    <div class="mas"><a class="t" href="lab" data-evento="ver-recorrido-3d">Ver maquetas 3D y planos interactivos →</a></div>
-  </div>
-</section>
-
-<section class="s" id="competencias" aria-labelledby="t-comp">
-  <div class="wrap">
-    <p class="mono kick">Competencias</p>
-    <h2 id="t-comp">Herramientas.</h2>
-    <div class="comp">
+    <p class="mono">Competencias</p>
+    <h2 id="t-comp" class="rv">Arquitecto que también modela y programa.</h2>
+    <div class="comp rv">
       <div><h3 class="mono">Arquitectura y BIM</h3><ul><li>Revit / BIM</li><li>AutoCAD</li><li>Dynamo</li><li>Planos de taller y cuantificación</li></ul></div>
       <div><h3 class="mono">Diseño y visualización</h3><ul><li>Blender</li><li>Photoshop</li><li>Illustrator</li><li>Renders y recorridos virtuales</li></ul></div>
       <div><h3 class="mono">Código e idiomas</h3><ul><li>JavaScript / TypeScript / React / Node</li><li>Python</li><li>Inglés B1 hablado, B2 lectura</li><li>Español nativo</li></ul></div>
@@ -208,20 +253,20 @@ footer a:hover{color:var(--text)}
 </section>
 
 <section class="s" aria-labelledby="t-sobre">
-  <div class="wrap sobre">
+  <div class="wrap sobre rv">
     <img src="photos/e/yo.jpg" width="480" height="600" loading="lazy" decoding="async" alt="Retrato de Carlos Francisco Espinoza Manzo" onerror="this.remove()">
     <div>
-      <p class="mono kick">Sobre mí</p>
-      <h2 id="t-sobre">Arquitecto de obra y BIM.</h2>
+      <p class="mono">Sobre mí</p>
+      <h2 id="t-sobre" style="margin-bottom:20px">Arquitecto de obra y BIM.</h2>
       <p>Más de 8 años liderando equipos en campo, desde gestor de estimaciones hasta residente proyectista. Trabajo donde el modelo BIM se encuentra con la obra: planos de taller, cuantificación, estructura metálica y coordinación en sitio.</p>
       <p>Arquitecto por la UNICLA (2014–2017). También programo, y eso me permite automatizar la cuantificación y el control de cambios a partir del modelo de Revit.</p>
     </div>
   </div>
 </section>
 
-<section class="s" id="contacto" aria-labelledby="t-cont">
-  <div class="wrap cont">
-    <p class="mono kick">Contacto</p>
+<section class="s" id="contacto" aria-labelledby="t-cont" style="border-top:1px solid var(--line)">
+  <div class="wrap cont rv">
+    <p class="mono">Contacto</p>
     <h2 id="t-cont">Si buscas un arquitecto para obra o BIM, hablemos.</h2>
     <p>Respondo por WhatsApp o correo. El CV tiene el detalle de cada cargo.</p>
     <div class="acc">
@@ -238,16 +283,41 @@ footer a:hover{color:var(--text)}
 <footer>
   <div class="wrap">
     <span>© 2026 Carlos Francisco Espinoza Manzo</span>
-    <a href="https://arq-carlos-servicios.vercel.app" target="_blank" rel="noopener" data-evento="metric-arq">Mi estudio: Metric.arq</a>
+    <span><a href="lab" data-evento="lab">Recorrido interactivo completo</a> · <a href="https://arq-carlos-servicios.vercel.app" target="_blank" rel="noopener" data-evento="metric-arq">Mi estudio: Metric.arq</a></span>
   </div>
 </footer>
 
+<dialog class="vz" id="vz" aria-label="Visor de la obra"><div class="top"><span>Maqueta y planos interactivos</span><button class="x" type="button" id="vz-x">← Volver al portafolio</button></div></dialog>
+
 <script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* analítica: clics a CV, WhatsApp, correo */
 window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};
-document.addEventListener('click',function(e){
-  var a=e.target.closest&&e.target.closest('[data-evento]');
-  if(a){try{window.va('event',{name:a.getAttribute('data-evento')})}catch(_){}}
-});
+function ev(n){try{window.va('event',{name:n})}catch(_){}}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-evento]');if(a)ev(a.getAttribute('data-evento'))});
+/* barra fija al bajar */
+var bar=document.getElementById('bar');
+/* entrada al hacer scroll */
+var rv=[].slice.call(document.querySelectorAll('.rv'));
+if('IntersectionObserver' in window&&!reduce){
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  rv.forEach(function(el,i){el.style.setProperty('--d',((i%3)*.08)+'s');io.observe(el)});
+}else rv.forEach(function(el){el.classList.add('on')});
+/* parallax suave en fotos */
+var px=[].slice.call(document.querySelectorAll('[data-px]')),tick=false;
+function par(){tick=false;bar.classList.toggle('fija',scrollY>40);if(reduce)return;var h=innerHeight;px.forEach(function(el){var r=el.parentNode.getBoundingClientRect();if(r.bottom<-100||r.top>h+100)return;var c=(r.top+r.height/2-h/2);el.style.transform='translate3d(0,'+(c*-parseFloat(el.dataset.px)).toFixed(1)+'px,0)'})}
+addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(par)}},{passive:true});addEventListener('resize',par);par();
+/* visor: maqueta 3D y planos del recorrido, solo al pulsar */
+var vz=document.getElementById('vz'),fr=null,ult=null;
+function cierra(){if(fr){fr.remove();fr=null}if(vz.open)vz.close()}
+document.querySelectorAll('[data-obra]').forEach(function(b){b.addEventListener('click',function(){
+  ult=b;ev('visor-'+b.dataset.obra+'-'+b.dataset.w);
+  fr=document.createElement('iframe');fr.title='Visor de la obra';fr.src='lab.html#obra='+b.dataset.obra+'&w='+b.dataset.w;
+  vz.appendChild(fr);vz.showModal();})});
+document.getElementById('vz-x').addEventListener('click',cierra);
+vz.addEventListener('close',function(){if(fr){fr.remove();fr=null}if(ult)ult.focus()});
+})();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
