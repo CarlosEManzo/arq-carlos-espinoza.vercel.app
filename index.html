@@ -121,6 +121,11 @@ footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44
 .hero.sin3d{background:#0A0C0F url(photos/e/p-naves.jpg) center/cover}
 .hero.sin3d #c{display:none}.hero.sin3d .hint{display:none}
 .hero.sin3d::after{background:linear-gradient(0deg,rgba(10,12,15,.92) 0,rgba(10,12,15,.45) 60%,rgba(10,12,15,.3) 100%)}
+.btn.attn{min-height:50px;padding:0 24px;font-size:14px;animation:atencion 3.8s ease-out 1.6s infinite}
+.btn.attn svg{animation:guino 3.8s var(--ease) 1.6s infinite}
+.btn.attn:hover,.btn.attn:focus-visible{animation:none}
+@keyframes atencion{0%{box-shadow:0 0 0 0 rgba(242,169,0,.6)}55%,100%{box-shadow:0 0 0 18px rgba(242,169,0,0)}}
+@keyframes guino{0%,70%,100%{transform:none}78%{transform:rotate(-14deg) scale(1.12)}88%{transform:rotate(10deg)}}
 .mbar{display:none}
 @media(max-width:759px){
   .mbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));gap:8px;z-index:35;transform:translateY(160%);transition:transform .5s var(--ease)}
@@ -129,7 +134,7 @@ footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44
   .mbar .btn.solid{background:var(--cta)}
   footer{padding-bottom:90px}
 }
-@media(prefers-reduced-motion:reduce){.mbar{transition:none}}
+@media(prefers-reduced-motion:reduce){.mbar{transition:none}.btn.attn,.btn.attn svg{animation:none}}
 /* reveal */
 .rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.on{opacity:1;transform:none}
@@ -181,7 +186,7 @@ dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-
   <a class="sig" href="#o2">Siguiente obra ↓</a>
 </article>
 <article class="ob" id="o2">
-  <img class="f" data-px loading="lazy" decoding="async" src="photos/e/casa-1600.webp" srcset="photos/e/casa-900.webp 900w, photos/e/casa-1600.webp 1600w, photos/e/casa-2400.webp 2400w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Casa habitación en obra">
+  <img class="f" data-px style="object-position:26% 50%" loading="lazy" decoding="async" src="photos/e/casa-1600.webp" srcset="photos/e/casa-900.webp 900w, photos/e/casa-1600.webp 1600w, photos/e/casa-2000.webp 2000w" sizes="(max-width:900px) 490vw, 100vw" width="2000" height="1125" alt="Fachada terminada de la casa habitación con un coche blanco al frente">
   <div class="tx">
     <span class="n">02 · 2021 — 2022</span>
     <h2 class="rv">Casa <em>habitación</em></h2>
@@ -204,13 +209,13 @@ dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-
   <div class="p">
     <img loading="lazy" src="photos/e/maqueta-naves.webp" width="860" height="580" alt="Maqueta 3D de dos naves industriales">
     <div class="tx"><span class="mono">Maqueta 3D · Naves</span><h3>Gira, corta <em>y despieza.</em></h3><p>Sirve para revisar cómo corren las instalaciones y la estructura, y detectar interferencias entre ellas antes de construir.</p>
-      <button class="btn" type="button" data-src="lab.html#obra=1&w=1" data-t="Maqueta 3D · Naves industriales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Abrir la maqueta</button>
+      <button class="btn solid attn" type="button" data-src="lab.html#obra=1&w=1" data-t="Maqueta 3D · Naves industriales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Abrir la maqueta</button>
       <small>Maqueta esquemática ilustrativa; no es el modelo del proyecto</small></div>
   </div>
   <div class="p">
-    <img loading="lazy" src="photos/e/loft360.webp" width="1600" height="900" alt="Recorrido 360 del loft: sala con doble altura, minimapa y menú de espacios">
+    <img loading="lazy" decoding="async" src="photos/e/loft360-1600.webp" srcset="photos/e/loft360-900.webp 900w, photos/e/loft360-1600.webp 1600w, photos/e/loft360-2400.webp 2400w" sizes="(max-width:900px) 270vw, 110vw" width="2400" height="1350" alt="Acceso y cochera del loft con la vista hacia el interior a través del cristal">
     <div class="tx"><span class="mono">Recorrido 360 · Loft 6 × 15 m</span><h3>Camina <em>el proyecto.</em></h3><p>Sirve de escaparate: el cliente recorre el proyecto antes de que se construya, por cinco espacios con minimapa, plano y renders.</p>
-      <button class="btn" type="button" data-src="dashboard/" data-t="Recorrido 360 · Loft 6 × 15 m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Entrar al recorrido</button>
+      <button class="btn solid attn" type="button" data-src="dashboard/" data-t="Recorrido 360 · Loft 6 × 15 m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Entrar al recorrido</button>
       <small>Proyecto de ejemplo de mi estudio, Metric.arq · no es obra de cliente</small></div>
   </div>
 </section>
