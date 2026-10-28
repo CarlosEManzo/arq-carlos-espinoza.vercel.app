@@ -1367,8 +1367,8 @@ var MODELOS={
      P.push(box('cubierta',half+.3,.1,L+.5,cx-W/4,.4+H+rise/2+.1,0,'ligero',0,[0,0,ang])); P.push(box('cubierta',half+.3,.1,L+.5,cx+W/4,.4+H+rise/2+.1,0,'ligero',0,[0,0,-ang]));
      P.push(box('cubierta',W*.3,.06,L*.5,cx-W/4,.4+H+rise/2+.2,0,'vidrio',0,[0,0,ang]));
      P.push(box('muros',4,3.2,.15,cx,.4,L/2+.1,'ligero'));
-     /* eléctrica: tablero, charola en la cumbrera y bajada */
-     E.push(eqp('ELE',.15,1.1,.7,cx-W/2+.7,.4,-L/2+2)); T.push(tub('ELE',[[cx-W/2+.7,1.5,-L/2+2],[cx-W/2+.7,7.0,-L/2+2],[cx,7.0,-L/2+2],[cx,7.0,L/2-2]]));
+     /* eléctrica: tablero, subida por el muro y charola bajo la cubierta (sin cruzar el techo) */
+     E.push(eqp('ELE',.15,1.1,.7,cx-W/2+.7,.4,-L/2+2)); T.push(tub('ELE',[[cx-W/2+.7,1.5,-L/2+2],[cx-W/2+.7,5.6,-L/2+2],[cx-W/2+.7,5.6,L/2-2]]));
      T.push(tub('TIC',[[cx+.6,6.85,-L/2+2],[cx+.6,6.85,0],[cx+.6,6.85,L/2-3]]));
      for(var k=0;k<4;k++) E.push(eqp('ELE',1.2,.15,.3,cx,6.6,-L/2+5+k*7));
      /* pluvial: canalón del alero exterior y bajadas */
