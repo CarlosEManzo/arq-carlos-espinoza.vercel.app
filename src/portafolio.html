@@ -34,7 +34,8 @@ img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 .mono{font:400 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
 em{font-style:normal}
-:focus-visible{outline:2px solid var(--cta);outline-offset:3px}
+:focus-visible{outline:2px solid var(--cta);outline-offset:3px;border-radius:4px}
+.btn:focus-visible{outline-offset:4px;border-radius:40px}
 .bar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:14px var(--gut) 34px;background:linear-gradient(180deg,rgba(10,12,15,.9) 0,rgba(10,12,15,.55) 55%,rgba(10,12,15,0) 100%);transition:padding .3s}
 .bar b,.bar nav a{text-shadow:0 1px 12px rgba(0,0,0,.8)}
 .bar.fija{padding-bottom:14px;background:rgba(10,12,15,.9);backdrop-filter:blur(10px)}
@@ -77,7 +78,8 @@ em{font-style:normal}
 .ob .cf{display:flex;gap:30px}
 .ob .cf b{font:800 clamp(30px,4vw,52px)/1 var(--sans);letter-spacing:-.02em;display:block}
 .ob .cf span{font-size:13px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
-.ob .sig{position:absolute;right:var(--gut);top:90px;writing-mode:vertical-rl;font:400 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;opacity:.85}
+.ob .sig{position:absolute;right:var(--gut);top:90px;writing-mode:vertical-rl;font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:10px 6px;text-shadow:0 1px 12px rgba(0,0,0,.8);transition:color .2s,transform .3s var(--ease)}
+.ob .sig:hover{transform:translateY(6px)}
 .ob .sig:hover{color:var(--cta)}
 /* ANTES DE CONSTRUIR */
 .dip{display:grid;min-height:100svh}
@@ -101,8 +103,8 @@ em{font-style:normal}
 .sb p{max-width:56ch;margin:0 0 14px}
 .sb .tags{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 26px}
 .sb .tags span{font:400 12px var(--mono);letter-spacing:.06em;padding:7px 12px;border:1px solid #333;border-radius:40px}
-footer{padding:0 var(--gut) 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;color:var(--muted);font-size:14px}
-footer a{color:var(--muted)}
+footer{padding:0 var(--gut) 40px;align-items:center;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;color:var(--muted);font-size:14px}
+footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44px;padding:0 4px}footer a:hover{color:var(--text)}
 
 .prog{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--cta);transform-origin:left;transform:scaleX(0);z-index:60}
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
@@ -119,6 +121,15 @@ footer a{color:var(--muted)}
 .hero.sin3d{background:#0A0C0F url(photos/e/p-naves.jpg) center/cover}
 .hero.sin3d #c{display:none}.hero.sin3d .hint{display:none}
 .hero.sin3d::after{background:linear-gradient(0deg,rgba(10,12,15,.92) 0,rgba(10,12,15,.45) 60%,rgba(10,12,15,.3) 100%)}
+.mbar{display:none}
+@media(max-width:759px){
+  .mbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));gap:8px;z-index:35;transform:translateY(160%);transition:transform .5s var(--ease)}
+  .mbar.on{transform:none}
+  .mbar .btn{flex:1;min-height:48px;padding:0 10px;background:rgba(10,12,15,.92);backdrop-filter:blur(8px)}
+  .mbar .btn.solid{background:var(--cta)}
+  footer{padding-bottom:90px}
+}
+@media(prefers-reduced-motion:reduce){.mbar{transition:none}}
 /* reveal */
 .rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.on{opacity:1;transform:none}
@@ -129,7 +140,9 @@ dialog.vz[open]{animation:vzin .6s var(--ease)}
 @keyframes vzin{from{clip-path:circle(0 at var(--ox,50%) var(--oy,50%))}to{clip-path:circle(160vmax at var(--ox,50%) var(--oy,50%))}}
 dialog.vz iframe{position:absolute;left:0;right:0;bottom:0;top:52px;width:100%;height:calc(100% - 52px);border:0}
 dialog.vz .top{position:absolute;inset:0 0 auto 0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #222;background:#0A0C0F}
-dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);cursor:pointer}
+dialog.vz .top span{flex:1;min-width:0;margin-right:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-radius:40px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);cursor:pointer}
+@media(max-width:759px){.ob .tx{padding-bottom:96px}.dip .tx{padding-bottom:96px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn::before,.dip .p img{transition:none}dialog.vz[open]{animation:none}.ob img.f{transform:none!important}}
 </style>
 </head>
@@ -159,7 +172,7 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
 
 <div id="obras">
 <article class="ob">
-  <img class="f" data-px src="photos/e/naves.jpg" width="1600" height="1200" alt="Obra de nave industrial en construcción">
+  <img class="f" data-px fetchpriority="low" decoding="async" src="photos/e/naves-1600.webp" srcset="photos/e/naves-900.webp 900w, photos/e/naves-1600.webp 1600w, photos/e/naves-2400.webp 2400w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Obra de nave industrial en construcción">
   <div class="tx">
     <span class="n">01 · Grupo Ortiz · 2023</span>
     <h2 class="rv">Naves <em>industriales</em></h2>
@@ -168,7 +181,7 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
   <a class="sig" href="#o2">Siguiente obra ↓</a>
 </article>
 <article class="ob" id="o2">
-  <img class="f" data-px loading="lazy" src="photos/e/casa.jpg" width="1600" height="1200" alt="Casa habitación en obra">
+  <img class="f" data-px loading="lazy" decoding="async" src="photos/e/casa-1600.webp" srcset="photos/e/casa-900.webp 900w, photos/e/casa-1600.webp 1600w, photos/e/casa-2400.webp 2400w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Casa habitación en obra">
   <div class="tx">
     <span class="n">02 · 2021 — 2022</span>
     <h2 class="rv">Casa <em>habitación</em></h2>
@@ -177,7 +190,7 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
   <a class="sig" href="#o3">Siguiente obra ↓</a>
 </article>
 <article class="ob" id="o3">
-  <img class="f" data-px loading="lazy" src="photos/e/tel.jpg" width="1600" height="1200" alt="Estructura de acero y concreto de una estación del teleférico">
+  <img class="f" data-px loading="lazy" decoding="async" src="photos/e/tel-1600.webp" srcset="photos/e/tel-900.webp 900w, photos/e/tel-1600.webp 1600w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Estructura de acero y concreto de una estación del teleférico">
   <div class="tx">
     <span class="n">03 · APYCSA · 2025 — hoy</span>
     <h2 class="rv">Estructura <em>metálica</em></h2>
@@ -189,13 +202,13 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
 
 <section class="dip" id="antes" aria-label="Antes de construir">
   <div class="p">
-    <img loading="lazy" src="photos/e/maqueta-naves.jpg" width="860" height="580" alt="Maqueta 3D de dos naves industriales">
+    <img loading="lazy" src="photos/e/maqueta-naves.webp" width="860" height="580" alt="Maqueta 3D de dos naves industriales">
     <div class="tx"><span class="mono">Maqueta 3D · Naves</span><h3>Gira, corta <em>y despieza.</em></h3><p>Sirve para revisar cómo corren las instalaciones y la estructura, y detectar interferencias entre ellas antes de construir.</p>
       <button class="btn" type="button" data-src="lab.html#obra=1&w=1" data-t="Maqueta 3D · Naves industriales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Abrir la maqueta</button>
       <small>Maqueta esquemática ilustrativa; no es el modelo del proyecto</small></div>
   </div>
   <div class="p">
-    <img loading="lazy" src="photos/e/loft360.jpg" width="1600" height="900" alt="Recorrido 360 del loft: sala con doble altura, minimapa y menú de espacios">
+    <img loading="lazy" src="photos/e/loft360.webp" width="1600" height="900" alt="Recorrido 360 del loft: sala con doble altura, minimapa y menú de espacios">
     <div class="tx"><span class="mono">Recorrido 360 · Loft 6 × 15 m</span><h3>Camina <em>el proyecto.</em></h3><p>Sirve de escaparate: el cliente recorre el proyecto antes de que se construya, por cinco espacios con minimapa, plano y renders.</p>
       <button class="btn" type="button" data-src="dashboard/" data-t="Recorrido 360 · Loft 6 × 15 m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Entrar al recorrido</button>
       <small>Proyecto de ejemplo de mi estudio, Metric.arq · no es obra de cliente</small></div>
@@ -215,6 +228,7 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
 </main>
 <footer><span>© 2026 Carlos Francisco Espinoza Manzo · Morelia, Michoacán</span><a data-evento="metric-arq" href="https://arq-carlos-servicios.vercel.app" target="_blank" rel="noopener">Mi estudio: Metric.arq</a></footer>
 
+<nav class="mbar" id="mbar" aria-label="Acciones rápidas"><a class="btn solid" data-evento="cv-movil" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">Descargar CV</a><a class="btn" data-evento="whatsapp-movil" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">WhatsApp</a></nav>
 <dialog class="vz" id="vz"><div class="top"><span class="mono" id="vt"></span><button class="x" type="button" id="vx">← Volver</button></div></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onerror="document.getElementById('hero').classList.add('sin3d')"></script>
@@ -291,7 +305,7 @@ var bar=document.getElementById('bar'),prog=document.getElementById('prog'),cur=
     var x=0,y=0,tx=0,ty=0;addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY});
     (function l(){x+=(tx-x)*.2;y+=(ty-y)*.2;cur.style.transform='translate('+x+'px,'+y+'px)';requestAnimationFrame(l)})();
     document.addEventListener('pointerover',function(e){var on=!!e.target.closest('#c');cur.classList.toggle('big',on);cur.textContent=on?'Girar':''})}
-  addEventListener('scroll',function(){var h=document.documentElement,p=scrollY/(h.scrollHeight-innerHeight);prog.style.transform='scaleX('+p.toFixed(4)+')';bar.classList.toggle('fija',scrollY>40)},{passive:true});
+  addEventListener('scroll',function(){var h=document.documentElement,p=scrollY/(h.scrollHeight-innerHeight);prog.style.transform='scaleX('+p.toFixed(4)+')';bar.classList.toggle('fija',scrollY>40);var mb=document.getElementById('mbar');if(mb)mb.classList.toggle('on',scrollY>innerHeight*.7)},{passive:true});
 })();
 /* ---------- visor ---------- */
 var vz=document.getElementById('vz'),fr=null,ult=null;
@@ -299,6 +313,7 @@ var vz=document.getElementById('vz'),fr=null,ult=null;
   ult=b;ev('visor-'+(b.dataset.t||'').split(' ')[0].toLowerCase());var r=b.getBoundingClientRect();vz.style.setProperty('--ox',(r.left+r.width/2)+'px');vz.style.setProperty('--oy',(r.top+r.height/2)+'px');
   document.getElementById('vt').textContent=b.dataset.t;fr=document.createElement('iframe');fr.title=b.dataset.t;fr.src=b.dataset.src;vz.appendChild(fr);vz.showModal()})});
 document.getElementById('vx').addEventListener('click',function(){vz.close()});
+addEventListener('message',function(e){if(e.origin===location.origin&&e.data==='cerrar-visor'&&vz.open)vz.close()});
 vz.addEventListener('close',function(){if(fr){fr.remove();fr=null}if(ult)ult.focus()});
 })();
 </script>
