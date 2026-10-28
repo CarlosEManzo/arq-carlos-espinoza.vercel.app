@@ -21,7 +21,6 @@
 <meta name="twitter:title" content="Carlos Espinoza · Arquitecto Revit/BIM y estructuras metálicas · Morelia">
 <meta name="twitter:description" content="8+ años en obra: estructuras metálicas, BIM en Revit, planos de taller y cuantificación.">
 <meta name="twitter:image" content="https://arq-carlos-espinoza.vercel.app/og.jpg">
-<link rel="preload" as="image" href="photos/e/hero.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap">
@@ -54,10 +53,22 @@ a{color:inherit}
 .btn.solid:hover{background:#ffbd1f}
 /* hero */
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
-.hero .bg{position:absolute;inset:-6% 0;z-index:-2;will-change:transform}
-.hero .bg img{width:100%;height:100%;object-fit:cover;object-position:60% 50%}
-.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(13,13,13,.55) 0,rgba(13,13,13,.25) 30%,rgba(13,13,13,.8) 72%,#0D0D0D 100%)}
-.hero .wrap{width:100%;padding-top:100px;padding-bottom:clamp(28px,5vw,56px)}
+.hero .wrap{pointer-events:none}.hero .wrap a,.hero .wrap button{pointer-events:auto}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(0deg,#0D0D0D 0,rgba(13,13,13,.78) 42%,rgba(13,13,13,.3) 100%)}
+.hbg{position:absolute;inset:0;z-index:-2}
+.hero--a .hb,.hero--b .ha{display:none}
+.hpan{display:flex;flex-direction:column;height:100%}
+@media(min-width:900px){.hpan{flex-direction:row}}
+.hpan figure{flex:1;margin:0;position:relative;overflow:hidden;transition:flex .8s var(--ease)}
+.hpan figure+figure{border-top:1px solid rgba(13,13,13,.8)}
+@media(min-width:900px){.hpan figure+figure{border-top:0;border-left:1px solid rgba(13,13,13,.8)}.hpan figure:hover{flex:1.9}}
+.hpan img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(.9);transition:filter .6s,transform 1.2s var(--ease);transform:scale(1.04)}
+.hpan figure:hover img{filter:brightness(.95) saturate(1);transform:scale(1.09)}
+.hpan figcaption{position:absolute;top:76px;left:14px;font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text);padding:6px 10px;background:rgba(13,13,13,.6);border-radius:3px}
+@media(max-width:899px){.hpan figcaption{top:8px;left:auto;right:12px}.hpan figure:first-child figcaption{top:70px}}
+.hbg.ha{bottom:auto;height:100%}@media(max-width:899px){.hbg.ha{height:56%}}
+.hbg canvas{width:100%;height:100%;display:block}
+.hbg.hb{background:radial-gradient(ellipse at 70% 40%,#16202e 0,#0D0D0D 70%)}
 .hero h1{margin:12px 0 14px;font-weight:800;font-size:clamp(42px,8.4vw,104px);line-height:.96;letter-spacing:-.03em}
 .hero .rol{font:700 clamp(18px,2.3vw,24px)/1.35 var(--sans);margin:0 0 8px;max-width:40ch;text-wrap:balance}
 .hero p.d{max-width:56ch;color:var(--muted);margin:0 0 22px;font-size:16px}
@@ -100,6 +111,17 @@ section.s h2{margin:6px 0 34px;font:800 clamp(28px,4.4vw,46px)/1.08 var(--sans);
 .cifras b{display:block;font:800 clamp(30px,4vw,46px)/1 var(--sans);letter-spacing:-.02em;color:var(--cta)}
 .cifras span{font-size:13px;color:var(--muted)}
 .obra .acc{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.go{position:relative;isolation:isolate;overflow:hidden;background:rgba(13,13,13,.5)}
+.go::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--cta);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.go:hover,.go:focus-visible{color:#0D0D0D;border-color:var(--cta);background:rgba(13,13,13,.5)}
+.go:hover::before,.go:focus-visible::before{transform:scaleX(1)}
+.go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--ease)}
+.go.i:hover svg{transform:scale(1.2) rotate(-12deg)}
+.go.c:hover svg{transform:rotateY(180deg) rotate(30deg)}
+.go.p:hover svg{transform:translate(2px,-2px) scale(1.1)}
+.go:active{transform:scale(.96)}
+.go.carga::before{transform:scaleX(1);animation:pulso .8s ease-in-out infinite alternate}
+@keyframes pulso{to{opacity:.55}}
 .pie-obras{padding:26px 0 0}
 .pie-obras p{margin:0;color:var(--muted);max-width:70ch;font-size:15px}
 /* competencias */
@@ -128,11 +150,13 @@ footer a{color:var(--muted)}footer a:hover{color:var(--text)}
 /* visor (maqueta 3D, planos): se carga al pulsar */
 dialog.vz{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:0;border:0;background:#0D0D0D;color:var(--text)}
 dialog.vz::backdrop{background:#000}
+dialog.vz[open]{animation:vzin .6s var(--ease)}
+@keyframes vzin{from{clip-path:circle(0 at var(--ox,50%) var(--oy,50%))}to{clip-path:circle(160vmax at var(--ox,50%) var(--oy,50%))}}
 dialog.vz iframe{position:absolute;left:0;right:0;bottom:0;top:52px;width:100%;height:calc(100% - 52px);border:0;background:#0D0D0D}
 dialog.vz .top{position:absolute;left:0;right:0;top:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--line);background:#0D0D0D}
 dialog.vz .top span{font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 dialog.vz .x{min-height:40px;padding:0 16px;border-radius:6px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn,.comp li{transition:none}.hero .bg,.obra .bg{transform:none!important}}
+@media(prefers-reduced-motion:reduce){dialog.vz[open]{animation:none}.go::before,.go svg,.hpan figure,.hpan img{transition:none}.go.carga::before{animation:none}html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn,.comp li{transition:none}.obra .bg{transform:none!important}}
 </style>
 </head>
 <body>
@@ -150,13 +174,18 @@ dialog.vz .x{min-height:40px;padding:0 16px;border-radius:6px;border:1px solid v
 </header>
 
 <main id="main">
-<section class="hero" aria-label="Presentación">
-  <div class="bg" data-px="0.12"><img src="photos/e/hero.jpg" width="1920" height="1440" alt="Estructura de acero de una estación del Teleférico de Morelia con grúa torre" fetchpriority="high" decoding="async"></div>
+<section class="hero hero--a" id="hero" aria-label="Presentación">
+  <div class="hbg ha" aria-hidden="true"><div class="hpan">
+    <figure><img src="photos/e/p-naves.jpg" width="1000" height="750" alt="" fetchpriority="high"><figcaption>Obra industrial</figcaption></figure>
+    <figure><img src="photos/e/p-casa.jpg" width="1000" height="750" alt=""><figcaption>Residencial</figcaption></figure>
+    <figure><img src="photos/e/p-metal.jpg" width="1000" height="750" alt=""><figcaption>Estructura metálica</figcaption></figure>
+  </div></div>
+  <div class="hbg hb" aria-hidden="true"><canvas id="bim"></canvas></div>
   <div class="wrap">
-    <span class="mono" style="color:var(--text)">Arquitecto · Estructuras metálicas · Coordinación BIM</span>
+    <span class="mono" style="color:var(--text)">Arquitecto · Obra civil · Estructuras metálicas · BIM</span>
     <h1>Carlos Francisco<br>Espinoza Manzo</h1>
-    <p class="rol">Arquitecto de obra con 8+ años de experiencia. Llevo el modelo BIM a la obra.</p>
-    <p class="d">Residente proyectista de estructuras metálicas en el Teleférico de Morelia. Extraigo planos de taller, cuantifico y controlo cambios desde modelos de Revit. Morelia, Michoacán.</p>
+    <p class="rol">Arquitecto con 8+ años en obra civil, estructuras metálicas y BIM.</p>
+    <p class="d">Obra industrial y residencial, estructura metálica, modelos en Revit, mobiliario en CNC y desarrollo de software. Morelia, Michoacán.</p>
     <div class="acc">
       <a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf" data-evento="cv-hero">Descargar CV</a>
       <a class="btn" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener" data-evento="whatsapp-hero">WhatsApp</a>
@@ -164,8 +193,8 @@ dialog.vz .x{min-height:40px;padding:0 16px;border-radius:6px;border:1px solid v
     </div>
     <div class="datos">
       <div><b>8+</b><span>años en obra y campo</span></div>
-      <div><b>7</b><span>estaciones del Teleférico de Morelia</span></div>
       <div><b>12,000 m²</b><span>en dos naves industriales</span></div>
+      <div><b>$5 M</b><span>MXN de casa habitación administrada</span></div>
       <div><b>5</b><span>proyectos BIM en Revit para 3 clientes</span></div>
     </div>
   </div>
@@ -177,37 +206,37 @@ dialog.vz .x{min-height:40px;padding:0 16px;border-radius:6px;border:1px solid v
     <h2 id="t-obras" class="rv">Tres obras, tres escalas.</h2>
   </div>
   <div class="obras">
-    <article class="obra">
-      <div class="bg" data-px="0.1"><img src="photos/e/tel.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Estructura de acero y concreto de una estación del teleférico"></div>
-      <div class="wrap rv">
-        <span class="num" aria-hidden="true">01</span>
-        <span class="mono" style="color:var(--text)">2025 — hoy · APYCSA</span>
-        <h3>Teleférico de Morelia</h3>
-        <p>Control de superestructura metálica en la línea completa, con modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p>
-        <div class="cifras"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div>
-        <div class="acc"><button class="btn solid" type="button" data-obra="0" data-w="3">Información</button><button class="btn" type="button" data-obra="0" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="0" data-w="2">Planos</button></div>
-      </div>
-    </article>
-    <article class="obra">
+<article class="obra">
       <div class="bg" data-px="0.1"><img src="photos/e/naves.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Obra de nave industrial en construcción"></div>
       <div class="wrap rv">
-        <span class="num" aria-hidden="true">02</span>
+        <span class="num" aria-hidden="true">01</span>
         <span class="mono" style="color:var(--text)">2023 · Grupo Ortiz</span>
         <h3>Naves industriales</h3>
         <p>Dos naves completas en sitio con la infraestructura de vialidades y servicios que las conecta. Administración de materiales y mano de obra, y supervisión de maquinaria pesada.</p>
         <div class="cifras"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div>
-        <div class="acc"><button class="btn solid" type="button" data-obra="1" data-w="3">Información</button><button class="btn" type="button" data-obra="1" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="1" data-w="2">Planos</button></div>
+        <div class="acc"><button class="btn go i" type="button" data-obra="1" data-w="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Información</button><button class="btn go c" type="button" data-obra="1" data-w="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Maqueta 3D</button><button class="btn go p" type="button" data-obra="1" data-w="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 10h8v10M12 14h8"/></svg>Planos</button></div>
       </div>
     </article>
-    <article class="obra">
+<article class="obra">
       <div class="bg" data-px="0.1"><img src="photos/e/casa.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Casa habitación en obra"></div>
       <div class="wrap rv">
-        <span class="num" aria-hidden="true">03</span>
+        <span class="num" aria-hidden="true">02</span>
         <span class="mono" style="color:var(--text)">2021 — 2022</span>
         <h3>Casa habitación</h3>
         <p>Vivienda unifamiliar en terreno de 1,000 m² con presupuesto de $5 M MXN. Diseño interior y exterior, acabados y control de materiales y avance de principio a fin.</p>
         <div class="cifras"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div>
-        <div class="acc"><button class="btn solid" type="button" data-obra="2" data-w="3">Información</button><button class="btn" type="button" data-obra="2" data-w="1">Maqueta 3D</button><button class="btn" type="button" data-obra="2" data-w="2">Planos</button></div>
+        <div class="acc"><button class="btn go i" type="button" data-obra="2" data-w="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Información</button><button class="btn go c" type="button" data-obra="2" data-w="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Maqueta 3D</button><button class="btn go p" type="button" data-obra="2" data-w="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 10h8v10M12 14h8"/></svg>Planos</button></div>
+      </div>
+    </article>
+<article class="obra">
+      <div class="bg" data-px="0.1"><img src="photos/e/tel.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Estructura de acero y concreto de una estación del teleférico"></div>
+      <div class="wrap rv">
+        <span class="num" aria-hidden="true">03</span>
+        <span class="mono" style="color:var(--text)">2025 — hoy · APYCSA</span>
+        <h3>Teleférico de Morelia</h3>
+        <p>Control de superestructura metálica en la línea completa, con modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p>
+        <div class="cifras"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div>
+        <div class="acc"><button class="btn go i" type="button" data-obra="0" data-w="3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Información</button><button class="btn go c" type="button" data-obra="0" data-w="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Maqueta 3D</button><button class="btn go p" type="button" data-obra="0" data-w="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 10h8v10M12 14h8"/></svg>Planos</button></div>
       </div>
     </article>
   </div>
@@ -308,11 +337,34 @@ if('IntersectionObserver' in window&&!reduce){
 var px=[].slice.call(document.querySelectorAll('[data-px]')),tick=false;
 function par(){tick=false;bar.classList.toggle('fija',scrollY>40);if(reduce)return;var h=innerHeight;px.forEach(function(el){var r=el.parentNode.getBoundingClientRect();if(r.bottom<-100||r.top>h+100)return;var c=(r.top+r.height/2-h/2);el.style.transform='translate3d(0,'+(c*-parseFloat(el.dataset.px)).toFixed(1)+'px,0)'})}
 addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(par)}},{passive:true});addEventListener('resize',par);par();
+
+/* hero: dos opciones para elegir (?hero=a | ?hero=b) */
+var hero=document.getElementById('hero'),hv=(/hero=(a|b)/.exec(location.search)||[0,'a'])[1];
+hero.className='hero hero--'+hv;
+if(hv==='b'){(function(){
+  var cv=document.getElementById('bim'),cx=cv.getContext('2d'),W,H,ang=.6,tgt=0,dpr=Math.min(devicePixelRatio||1,2);
+  var P=[],L=[],NF=8,w=4,h=3.2,ap=4.6,i,k;
+  function pt(x,y,z){P.push([x,y,z]);return P.length-1}
+  for(i=0;i<NF;i++){var z=(i-(NF-1)/2)*2.2;
+    var b0=P.length;
+    pt(-w,0,z);pt(-w,h,z);pt(0,ap,z);pt(w,h,z);pt(w,0,z);pt(-w/2,(h+ap)/2,z);pt(w/2,(h+ap)/2,z);pt(0,h-.7,z);
+    L.push([b0,b0+1,0],[b0+1,b0+2,0],[b0+2,b0+3,0],[b0+3,b0+4,0],[b0+1,b0+3,1],[b0+5,b0+7,1],[b0+6,b0+7,1],[b0+7,b0+2,1],[b0+1,b0+7,1],[b0+7,b0+3,1]);
+    if(i){var q=b0-8;for(k=1;k<=6;k++)L.push([q+k,b0+k,k===2?2:1]);L.push([q,b0,1],[q+4,b0+4,1])}}
+  function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0)}
+  function draw(){cx.clearRect(0,0,W,H);var s=Math.min(W,H*1.5)/(W<700?12:15),ox=W<700?W*.5:W*.68,oy=H*(W<700?.3:.46),ca=Math.cos(ang),sa=Math.sin(ang);
+    var cp=Math.cos(.42),sp=Math.sin(.42);var pr=P.map(function(p){var x=p[0]*ca-p[2]*sa,z1=p[0]*sa+p[2]*ca,y=p[1]-2.3,y2=y*cp-z1*sp,z2=y*sp+z1*cp,f=30/(30+z2);return[ox+x*s*f,oy-y2*s*f]});
+    cx.lineWidth=1.4;L.forEach(function(l){var A=pr[l[0]],B=pr[l[1]];cx.strokeStyle=l[2]===2?'rgba(242,169,0,.85)':l[2]===1?'rgba(237,237,237,.42)':'rgba(237,237,237,.85)';cx.beginPath();cx.moveTo(A[0],A[1]);cx.lineTo(B[0],B[1]);cx.stroke()});
+    cx.fillStyle='#F2A900';pr.forEach(function(p,j){if(j%8===2){cx.beginPath();cx.arc(p[0],p[1],2.4,0,7);cx.fill()}})}
+  size();addEventListener('resize',function(){size();draw()});
+  hero.addEventListener('pointermove',function(e){tgt=(e.clientX/innerWidth-.5)});
+  function loop(){ang+=.0022+tgt*.003;draw();requestAnimationFrame(loop)}
+  draw();if(!reduce)requestAnimationFrame(loop);
+})()}
 /* visor: maqueta 3D y planos del recorrido, solo al pulsar */
 var vz=document.getElementById('vz'),fr=null,ult=null;
 function cierra(){if(fr){fr.remove();fr=null}if(vz.open)vz.close()}
 document.querySelectorAll('[data-obra]').forEach(function(b){b.addEventListener('click',function(){
-  ult=b;ev('visor-'+b.dataset.obra+'-'+b.dataset.w);
+  ult=b;ev('visor-'+b.dataset.obra+'-'+b.dataset.w);var r=b.getBoundingClientRect();vz.style.setProperty('--ox',(r.left+r.width/2)+'px');vz.style.setProperty('--oy',(r.top+r.height/2)+'px');b.classList.add('carga');setTimeout(function(){b.classList.remove('carga')},1200);
   fr=document.createElement('iframe');fr.title='Visor de la obra';fr.src='lab.html#obra='+b.dataset.obra+'&w='+b.dataset.w;
   vz.appendChild(fr);vz.showModal();})});
 document.getElementById('vz-x').addEventListener('click',cierra);
