@@ -66,21 +66,6 @@ em{font-style:normal}
 .datos b{font:800 clamp(24px,3vw,36px)/1 var(--sans);letter-spacing:-.02em;display:block}
 .datos span{font-size:13px;color:var(--muted)}
 /* OBRAS inmersivas */
-.ob{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
-.ob img.f{position:absolute;inset:-3% 0;width:100%;height:106%;object-fit:cover;z-index:-2;will-change:transform}
-.ob::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(10,12,15,.84) 0,rgba(10,12,15,.4) 34%,rgba(10,12,15,0) 62%),linear-gradient(90deg,rgba(10,12,15,.38) 0,rgba(10,12,15,0) 50%)}
-.ob .tx{width:100%;padding:90px var(--gut) clamp(30px,6vw,64px);position:relative}
-.ob .n{display:block;font:400 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
-.ob h2{margin:0;font:800 clamp(52px,12vw,180px)/.88 var(--sans);letter-spacing:-.04em;text-shadow:0 2px 40px rgba(0,0,0,.35)}
-.ob h2 em{display:block;color:var(--cta);text-shadow:none}
-.ob .meta{display:flex;flex-wrap:wrap;gap:8px 34px;align-items:flex-end;justify-content:space-between;margin-top:22px}
-.ob p{margin:0;max-width:46ch;font-size:17px;text-shadow:0 1px 14px rgba(0,0,0,.6)}
-.ob .cf{display:flex;gap:30px}
-.ob .cf b{font:800 clamp(30px,4vw,52px)/1 var(--sans);letter-spacing:-.02em;display:block}
-.ob .cf span{font-size:13px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
-.ob .sig{position:absolute;right:var(--gut);top:90px;writing-mode:vertical-rl;font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:10px 6px;text-shadow:0 1px 12px rgba(0,0,0,.8);transition:color .2s,transform .3s var(--ease)}
-.ob .sig:hover{transform:translateY(6px)}
-.ob .sig:hover{color:var(--cta)}
 /* ANTES DE CONSTRUIR */
 .dip{display:grid;min-height:100svh}
 @media(min-width:900px){.dip{grid-template-columns:1fr 1fr}}
@@ -110,14 +95,12 @@ footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
 .w>i{display:inline-block;font-style:inherit;transform:translateY(110%) rotate(3deg);transition:transform 1s var(--ease);transition-delay:calc(var(--k,0)*.06s)}
 .on .w>i{transform:none}
-.ob img.f{clip-path:inset(10% 8% 10% 8%);transition:clip-path 1.4s var(--ease)}
-.ob.on img.f{clip-path:inset(0)}
 .dip .p::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--cta);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease);z-index:3}
 .dip .p.on::before{transform:none}
 .cur{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid var(--cta);border-radius:50%;pointer-events:none;z-index:80;display:none;align-items:center;justify-content:center;font:700 11px var(--mono);letter-spacing:.08em;color:#0A0C0F;text-transform:uppercase;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),background .3s}
 .cur.big{width:84px;height:84px;margin:-42px 0 0 -42px;background:var(--cta)}
 @media(pointer:fine){.cur{display:flex}}
-@media(prefers-reduced-motion:reduce){.w>i{transform:none;transition:none}.ob img.f{clip-path:none;transition:none}.cur,.prog{display:none}}
+@media(prefers-reduced-motion:reduce){.w>i{transform:none;transition:none}.cur,.prog{display:none}}
 .hero.sin3d{background:#0A0C0F url(photos/e/p-naves.jpg) center/cover}
 .hero.sin3d #c{display:none}.hero.sin3d .hint{display:none}
 .hero.sin3d::after{background:linear-gradient(0deg,rgba(10,12,15,.92) 0,rgba(10,12,15,.45) 60%,rgba(10,12,15,.3) 100%)}
@@ -135,6 +118,45 @@ footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:44
   footer{padding-bottom:90px}
 }
 @media(prefers-reduced-motion:reduce){.mbar{transition:none}.btn.attn,.btn.attn svg{animation:none}}
+
+/* obras: dos columnas, galería contenida y visor */
+.ob{padding:clamp(52px,7vw,104px) 0;border-top:1px solid #1d2026}
+.ob:first-child{border-top:0}
+.ob .g2{max-width:1360px;margin:0 auto;padding:0 var(--gut);display:grid;gap:34px}
+@media(min-width:980px){.ob .g2{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,5vw,88px);align-items:start}}
+.ob .n{display:block;font:400 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cta);margin-bottom:10px}
+.ob h2{margin:0 0 22px;font:800 clamp(42px,6vw,96px)/.92 var(--sans);letter-spacing:-.035em}
+.ob h2 em{display:block;color:var(--cta)}
+.ob p{margin:0 0 22px;max-width:50ch;font-size:17px}
+.ob .dat{margin:0 0 26px;display:grid;grid-template-columns:auto 1fr;gap:10px 24px;border-top:1px solid var(--line);padding-top:18px;max-width:560px}
+.ob .dat dt{font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.ob .dat dd{margin:0;font-size:16px}
+.ob .cf{display:flex;flex-wrap:wrap;gap:10px 36px}
+.ob .cf b{font:800 clamp(32px,4vw,52px)/1 var(--sans);letter-spacing:-.02em;display:block}
+.ob .cf span{font-size:13px;color:var(--muted)}
+.gal{display:grid;gap:12px;min-width:0;max-width:960px}
+.gal button{padding:0;margin:0;font:inherit;color:inherit;cursor:zoom-in;background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;position:relative;transition:border-color .25s,outline-color .25s}
+.gal button:hover{border-color:var(--cta)}
+.gal button img{display:block;width:100%;height:auto}
+.gal .main::after{content:"Ampliar";position:absolute;right:12px;bottom:12px;padding:7px 12px;border-radius:40px;background:rgba(10,12,15,.82);font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text)}
+.gal .th{display:grid;grid-template-columns:repeat(var(--c,4),minmax(0,1fr));gap:10px}
+.gal .th button{aspect-ratio:4/3}
+.gal .th img{height:100%;object-fit:cover}
+/* visor de fotos */
+dialog.lb{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:0;border:0;background:rgba(6,8,10,.97);color:var(--text)}
+dialog.lb::backdrop{background:#000}
+dialog.lb[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;animation:lbin .35s var(--ease)}
+@keyframes lbin{from{opacity:0}to{opacity:1}}
+dialog.lb img{max-width:min(96vw,100%);max-height:80vh;width:auto;height:auto;display:block}
+dialog.lb .cap{max-width:92vw;text-align:center;font-size:15px;color:var(--muted)}
+dialog.lb .cap b{color:var(--text);font-weight:500}
+dialog.lb button{position:absolute;min-width:48px;min-height:48px;border-radius:40px;border:1px solid rgba(238,240,242,.6);background:rgba(10,12,15,.8);color:var(--text);font:700 14px var(--mono);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+dialog.lb button:hover{background:var(--cta);border-color:var(--cta);color:#0A0C0F}
+dialog.lb .cl{top:14px;right:14px;padding:0 18px}
+dialog.lb .pv,dialog.lb .nx{top:50%;transform:translateY(-50%)}
+dialog.lb .pv{left:14px}dialog.lb .nx{right:14px}
+@media(max-width:700px){dialog.lb .pv,dialog.lb .nx{top:auto;bottom:18px;transform:none}dialog.lb img{max-height:70vh}}
+@media(prefers-reduced-motion:reduce){.gal button,dialog.lb button{transition:none}dialog.lb[open]{animation:none}}
 /* reveal */
 .rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.on{opacity:1;transform:none}
@@ -147,7 +169,7 @@ dialog.vz iframe{position:absolute;left:0;right:0;bottom:0;top:52px;width:100%;h
 dialog.vz .top{position:absolute;inset:0 0 auto 0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #222;background:#0A0C0F}
 dialog.vz .top span{flex:1;min-width:0;margin-right:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-radius:40px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);cursor:pointer}
-@media(max-width:759px){.ob .tx{padding-bottom:96px}.dip .tx{padding-bottom:96px}}
+@media(max-width:759px){.dip .tx{padding-bottom:96px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn::before,.dip .p img{transition:none}dialog.vz[open]{animation:none}.ob img.f{transform:none!important}}
 </style>
 </head>
@@ -177,31 +199,63 @@ dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-
 
 <div id="obras">
 <article class="ob">
-  <img class="f" data-px fetchpriority="low" decoding="async" src="photos/e/naves-v2-1600.webp" srcset="photos/e/naves-v2-900.webp 900w, photos/e/naves-v2-1600.webp 1600w, photos/e/naves-v2-2400.webp 2400w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Obra de nave industrial en construcción">
-  <div class="tx">
-    <span class="n">01 · Grupo Ortiz · 2023</span>
-    <h2 class="rv">Naves <em>industriales</em></h2>
-    <div class="meta rv"><p>Dos naves completas en sitio con vialidades y servicios. Materiales, mano de obra y supervisión de maquinaria pesada.</p><div class="cf"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div></div>
+  <div class="g2">
+    <div class="info">
+      <span class="n">01 · Obra industrial</span>
+      <h2 class="rv">Naves <em>industriales</em></h2>
+      <p>Dos naves industriales con vialidades y servicios. Programación de suministros, asignación de cuadrillas entre los dos frentes y supervisión de maquinaria pesada.</p>
+      <dl class="dat"><dt>Empresa</dt><dd>Grupo Ortiz</dd><dt>Año</dt><dd>2023</dd><dt>Rol</dt><dd>Residente de obra, Área de Proyectos</dd><dt>Alcance</dt><dd>Naves con vialidades y servicios</dd></dl>
+      <div class="cf"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div>
+    </div>
+    <div class="gal">
+<button class="main" type="button" data-full="photos/e/naves-v2-2400.webp" data-alt="Estructura metálica de una de las naves industriales en construcción" data-ev="naves" aria-label="Ampliar foto: Estructura metálica de una de las naves industriales en construcción"><img src="photos/e/naves-v2-1600.webp" srcset="photos/e/naves-v2-900.webp 900w, photos/e/naves-v2-1600.webp 1600w, photos/e/naves-v2-2400.webp 2400w" sizes="(min-width:1600px) 960px, (min-width:980px) 58vw, 100vw" width="2400" height="1792" alt="Estructura metálica de una de las naves industriales en construcción" decoding="async"></button>
+<div class="th" style="--c:4">
+<button type="button" data-full="photos/e/g-nv2-03-v3-full.webp" data-alt="Grúa y marcos metálicos de las naves durante el montaje" data-ev="naves" aria-label="Ampliar foto: Grúa y marcos metálicos de las naves durante el montaje"><img src="photos/e/g-nv2-03-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Grúa y marcos metálicos de las naves durante el montaje"></button>
+<button type="button" data-full="photos/e/g-nv2-05-v3-full.webp" data-alt="Topógrafo y compactadora junto a los marcos de la nave" data-ev="naves" aria-label="Ampliar foto: Topógrafo y compactadora junto a los marcos de la nave"><img src="photos/e/g-nv2-05-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Topógrafo y compactadora junto a los marcos de la nave"></button>
+<button type="button" data-full="photos/e/g-nv2-09-v3-full.webp" data-alt="Marcos de acero de una nave vistos desde el interior" data-ev="naves" aria-label="Ampliar foto: Marcos de acero de una nave vistos desde el interior"><img src="photos/e/g-nv2-09-v3-480.webp" width="480" height="221" loading="lazy" decoding="async" alt="Marcos de acero de una nave vistos desde el interior"></button>
+<button type="button" data-full="photos/e/g-nv2-02-v3-full.webp" data-alt="Excavadoras en el movimiento de tierras junto a la nave" data-ev="naves" aria-label="Ampliar foto: Excavadoras en el movimiento de tierras junto a la nave"><img src="photos/e/g-nv2-02-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Excavadoras en el movimiento de tierras junto a la nave"></button>
+</div>
+</div>
   </div>
-  <a class="sig" href="#o2">Siguiente obra ↓</a>
 </article>
 <article class="ob" id="o2">
-  <img class="f" data-px style="object-position:26% 50%" loading="lazy" decoding="async" src="photos/e/casa-v2-1600.webp" srcset="photos/e/casa-v2-900.webp 900w, photos/e/casa-v2-1600.webp 1600w, photos/e/casa-v2-2400.webp 2400w" sizes="(max-width:900px) 490vw, 100vw" width="2400" height="1350" alt="Fachada terminada de la casa habitación con un coche blanco al frente">
-  <div class="tx">
-    <span class="n">02 · 2021 — 2022</span>
-    <h2 class="rv">Casa <em>habitación</em></h2>
-    <div class="meta rv"><p>Vivienda unifamiliar: diseño interior y exterior, acabados y control de materiales y avance de principio a fin.</p><div class="cf"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div></div>
+  <div class="g2">
+    <div class="info">
+      <span class="n">02 · Residencial</span>
+      <h2 class="rv">Casa <em>habitación</em></h2>
+      <p>Casa habitación en un terreno de 25 × 40 m. Diseño interior y exterior, aplicación de acabados y control del presupuesto, la nómina de obra y el avance frente a programa.</p>
+      <dl class="dat"><dt>Año</dt><dd>2021 — 2022</dd><dt>Rol</dt><dd>Administrador de obra</dd><dt>Alcance</dt><dd>Diseño interior y exterior, acabados, presupuesto, nómina y avance</dd></dl>
+      <div class="cf"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div>
+    </div>
+    <div class="gal">
+<button class="main" type="button" data-full="photos/e/casa-v2-2400.webp" data-alt="Fachada de la casa habitación con un coche blanco al frente" data-ev="casa" aria-label="Ampliar foto: Fachada de la casa habitación con un coche blanco al frente"><img src="photos/e/casa-v2-1600.webp" srcset="photos/e/casa-v2-900.webp 900w, photos/e/casa-v2-1600.webp 1600w, photos/e/casa-v2-2400.webp 2400w" sizes="(min-width:1600px) 960px, (min-width:980px) 58vw, 100vw" width="2400" height="1792" alt="Fachada de la casa habitación con un coche blanco al frente" decoding="async" loading="lazy"></button>
+<div class="th" style="--c:3">
+<button type="button" data-full="photos/e/g-cs2-01-v3-full.webp" data-alt="Fachada blanca de la casa en la etapa de acabados" data-ev="casa" aria-label="Ampliar foto: Fachada blanca de la casa en la etapa de acabados"><img src="photos/e/g-cs2-01-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Fachada blanca de la casa en la etapa de acabados"></button>
+<button type="button" data-full="photos/e/g-cs2-05-v3-full.webp" data-alt="Estructura de concreto de la casa con andamio y muros de tabique" data-ev="casa" aria-label="Ampliar foto: Estructura de concreto de la casa con andamio y muros de tabique"><img src="photos/e/g-cs2-05-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Estructura de concreto de la casa con andamio y muros de tabique"></button>
+<button type="button" data-full="photos/e/g-cas-01-v3-full.webp" data-alt="Fachada terminada de la casa con un coche blanco al frente" data-ev="casa" aria-label="Ampliar foto: Fachada terminada de la casa con un coche blanco al frente"><img src="photos/e/g-cas-01-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Fachada terminada de la casa con un coche blanco al frente"></button>
+</div>
+</div>
   </div>
-  <a class="sig" href="#o3">Siguiente obra ↓</a>
 </article>
 <article class="ob" id="o3">
-  <img class="f" data-px loading="lazy" decoding="async" src="photos/e/tel-1600.webp" srcset="photos/e/tel-900.webp 900w, photos/e/tel-1600.webp 1600w" sizes="(max-width:900px) 330vw, 100vw" width="1600" height="1200" alt="Estructura de acero y concreto de una estación del teleférico">
-  <div class="tx">
-    <span class="n">03 · APYCSA · 2025 — hoy</span>
-    <h2 class="rv">Estructura <em>metálica</em></h2>
-    <div class="meta rv"><p>Control de superestructura metálica y modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p><div class="cf"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div></div>
+  <div class="g2">
+    <div class="info">
+      <span class="n">03 · Estructura metálica</span>
+      <h2 class="rv">Estructura <em>metálica</em></h2>
+      <p>Control de superestructura metálica en el Teleférico de Morelia: suministro, montaje, soldadura y terminado en los frentes activos, con modelos BIM en Revit para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p>
+      <dl class="dat"><dt>Empresa</dt><dd>APYCSA</dd><dt>Año</dt><dd>2025 — hoy</dd><dt>Rol</dt><dd>Residente proyectista de estructuras metálicas</dd><dt>Alcance</dt><dd>Superestructura metálica y coordinación BIM</dd></dl>
+      <div class="cf"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div>
+    </div>
+    <div class="gal">
+<button class="main" type="button" data-full="photos/e/tel-v3-2000.webp" data-alt="Vigas de acero blancas y grúa torre en una estación del Teleférico de Morelia" data-ev="estructura-metalica" aria-label="Ampliar foto: Vigas de acero blancas y grúa torre en una estación del Teleférico de Morelia"><img src="photos/e/tel-v3-1600.webp" srcset="photos/e/tel-v3-900.webp 900w, photos/e/tel-v3-1600.webp 1600w, photos/e/tel-v3-2000.webp 2000w" sizes="(min-width:1600px) 960px, (min-width:980px) 58vw, 100vw" width="2000" height="1500" alt="Vigas de acero blancas y grúa torre en una estación del Teleférico de Morelia" decoding="async" loading="lazy"></button>
+<div class="th" style="--c:4">
+<button type="button" data-full="photos/e/g-tel-08-v3-full.webp" data-alt="Trabajador en una plataforma suspendida junto a una viga de acero, con la ciudad al fondo" data-ev="estructura-metalica" aria-label="Ampliar foto: Trabajador en una plataforma suspendida junto a una viga de acero, con la ciudad al fondo"><img src="photos/e/g-tel-08-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Trabajador en una plataforma suspendida junto a una viga de acero, con la ciudad al fondo"></button>
+<button type="button" data-full="photos/e/g-tel-09-v3-full.webp" data-alt="Vista aérea del armado de vigas de acero de una estación" data-ev="estructura-metalica" aria-label="Ampliar foto: Vista aérea del armado de vigas de acero de una estación"><img src="photos/e/g-tel-09-v3-480.webp" width="480" height="222" loading="lazy" decoding="async" alt="Vista aérea del armado de vigas de acero de una estación"></button>
+<button type="button" data-full="photos/e/g-tel-03-v3-full.webp" data-alt="Nudos de vigas de acero sobre columnas de concreto" data-ev="estructura-metalica" aria-label="Ampliar foto: Nudos de vigas de acero sobre columnas de concreto"><img src="photos/e/g-tel-03-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Nudos de vigas de acero sobre columnas de concreto"></button>
+<button type="button" data-full="photos/e/g-teleferico-01-v3-full.webp" data-alt="Marco de columnas y vigas de una estación con grúa torre al fondo" data-ev="estructura-metalica" aria-label="Ampliar foto: Marco de columnas y vigas de una estación con grúa torre al fondo"><img src="photos/e/g-teleferico-01-v3-480.webp" width="480" height="360" loading="lazy" decoding="async" alt="Marco de columnas y vigas de una estación con grúa torre al fondo"></button>
+</div>
+</div>
   </div>
-  <a class="sig" href="#antes">Antes de construir ↓</a>
 </article>
 </div>
 
@@ -234,6 +288,7 @@ dialog.vz .x{white-space:nowrap;flex:none;min-height:38px;padding:0 16px;border-
 <footer><span>© 2026 Carlos Francisco Espinoza Manzo · Morelia, Michoacán</span><a data-evento="metric-arq" href="https://arq-carlos-servicios.vercel.app" target="_blank" rel="noopener">Mi estudio: Metric.arq</a></footer>
 
 <nav class="mbar" id="mbar" aria-label="Acciones rápidas"><a class="btn solid" data-evento="cv-movil" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">Descargar CV</a><a class="btn" data-evento="whatsapp-movil" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">WhatsApp</a></nav>
+<dialog class="lb" id="lb" aria-label="Galería de fotos de la obra"><button class="cl" type="button" id="lb-x" aria-label="Cerrar galería">Cerrar ✕</button><button class="pv" type="button" id="lb-p" aria-label="Foto anterior">←</button><img id="lb-i" alt=""><p class="cap" id="lb-c" aria-live="polite"></p><button class="nx" type="button" id="lb-n" aria-label="Foto siguiente">→</button></dialog>
 <dialog class="vz" id="vz"><div class="top"><span class="mono" id="vt"></span><button class="x" type="button" id="vx">← Volver</button></div></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onerror="document.getElementById('hero').classList.add('sin3d')"></script>
@@ -311,6 +366,21 @@ var bar=document.getElementById('bar'),prog=document.getElementById('prog'),cur=
     (function l(){x+=(tx-x)*.2;y+=(ty-y)*.2;cur.style.transform='translate('+x+'px,'+y+'px)';requestAnimationFrame(l)})();
     document.addEventListener('pointerover',function(e){var on=!!e.target.closest('#c');cur.classList.toggle('big',on);cur.textContent=on?'Girar':''})}
   addEventListener('scroll',function(){var h=document.documentElement,p=scrollY/(h.scrollHeight-innerHeight);prog.style.transform='scaleX('+p.toFixed(4)+')';bar.classList.toggle('fija',scrollY>40);var mb=document.getElementById('mbar');if(mb)mb.classList.toggle('on',scrollY>innerHeight*.7)},{passive:true});
+})();
+
+/* ---------- galería de fotos de obra (visor, teclado, Esc) ---------- */
+(function(){
+  var lb=document.getElementById('lb'),im=document.getElementById('lb-i'),cap=document.getElementById('lb-c'),set=[],k=0,opener=null;
+  function show(i){k=(i+set.length)%set.length;var b=set[k];im.src=b.dataset.full;im.alt=b.dataset.alt;cap.innerHTML='<b>'+(k+1)+' / '+set.length+'</b> · '+b.dataset.alt;
+    var nx=set[(k+1)%set.length];if(nx){var pre=new Image();pre.src=nx.dataset.full}}
+  document.querySelectorAll('.gal').forEach(function(g){var bs=[].slice.call(g.querySelectorAll('button'));
+    bs.forEach(function(b,i){b.addEventListener('click',function(){opener=b;set=bs;show(i);ev('galeria-'+b.dataset.ev);lb.showModal()})})});
+  document.getElementById('lb-x').addEventListener('click',function(){lb.close()});
+  document.getElementById('lb-p').addEventListener('click',function(){show(k-1)});
+  document.getElementById('lb-n').addEventListener('click',function(){show(k+1)});
+  lb.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){show(k-1)}else if(e.key==='ArrowRight'){show(k+1)}});
+  lb.addEventListener('click',function(e){if(e.target===lb)lb.close()});
+  lb.addEventListener('close',function(){im.removeAttribute('src');if(opener)opener.focus()});
 })();
 /* ---------- visor ---------- */
 var vz=document.getElementById('vz'),fr=null,ult=null;
