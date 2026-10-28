@@ -52,7 +52,7 @@ em{font-style:normal}
 .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* HERO 3D */
 .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
-#c{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(10,12,15,.92) 0,rgba(10,12,15,0) 48%),linear-gradient(90deg,rgba(10,12,15,.6) 0,rgba(10,12,15,0) 55%)}
 .hero .tx{position:relative;z-index:2;width:100%;padding:0 var(--gut) clamp(26px,5vw,52px);pointer-events:none}
 .hero .tx a{pointer-events:auto}
@@ -195,7 +195,7 @@ dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid 
       <small>Maqueta esquemática ilustrativa; no es el modelo del proyecto</small></div>
   </div>
   <div class="p">
-    <img loading="lazy" style="object-position:22% 50%" src="photos/e/loft360.jpg" width="1400" height="820" alt="Recorrido 360 del loft: sala con doble altura, minimapa y menú de espacios">
+    <img loading="lazy" style="object-position:8% 50%" src="photos/e/loft360.jpg" width="1600" height="900" alt="Recorrido 360 del loft: sala con doble altura, minimapa y menú de espacios">
     <div class="tx"><span class="mono">Recorrido 360 · Loft 6 × 15 m</span><h3>Camina <em>el proyecto.</em></h3><p>Cinco espacios con minimapa, plano y renders, en el navegador.</p>
       <button class="btn" type="button" data-src="dashboard/" data-t="Recorrido 360 · Loft 6 × 15 m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Entrar al recorrido</button>
       <small>Proyecto de ejemplo de mi estudio, Metric.arq · no es obra de cliente</small></div>
@@ -264,7 +264,7 @@ var vis=true,t0=performance.now();
 function frame(now){if(vis){M.uniforms.t.value=(now-t0)/1000;if(!reduce&&!drag)tgt+=.0016;ang+=(tgt+scrollY*.0016-ang)*.06;pitch+=(tp-pitch)*.06;cam();R.render(S,C)}requestAnimationFrame(frame)}
 size();addEventListener('resize',size);
 cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)});
-cv.addEventListener('pointermove',function(e){if(drag){tgt-=(e.clientX-lx)*.006;tp=Math.min(1.1,Math.max(.12,tp+(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY}else if(e.pointerType==='mouse'){tgt+=((e.clientX/innerWidth-.5)*.004)}});
+cv.addEventListener('pointermove',function(e){if(drag){tgt-=(e.clientX-lx)*.006;if(e.pointerType==="mouse")tp=Math.min(1.1,Math.max(.12,tp+(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY}else if(e.pointerType==='mouse'){tgt+=((e.clientX/innerWidth-.5)*.004)}});
 ['pointerup','pointercancel'].forEach(function(n){cv.addEventListener(n,function(){drag=false})});
 new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe(cv);
 if(reduce){M.uniforms.t.value=2;cam();R.render(S,C)}else requestAnimationFrame(frame);
