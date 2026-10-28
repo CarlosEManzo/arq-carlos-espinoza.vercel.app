@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Prototipo · Carlos Espinoza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{--bg:#0A0C0F;--text:#EEF0F2;--muted:#AEB4BB;--cta:#F2A900;--sans:'Inter',Arial,sans-serif;--serif:'Instrument Serif',Georgia,serif;--mono:'Space Mono',ui-monospace,monospace;--gut:20px;--ease:cubic-bezier(.16,1,.3,1)}
+@media(min-width:760px){:root{--gut:48px}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.mono{font:400 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+em,.sf{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
+:focus-visible{outline:2px solid var(--cta);outline-offset:3px}
+.bar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px var(--gut);mix-blend-mode:normal}
+.bar b{font-weight:700}
+.bar nav{display:flex;gap:6px;align-items:center}
+.bar nav a.l{display:none;font:400 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:10px}
+@media(min-width:900px){.bar nav a.l{display:inline-block}}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border:1px solid rgba(238,240,242,.75);border-radius:40px;font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--text);background:rgba(10,12,15,.35);cursor:pointer;position:relative;isolation:isolate;overflow:hidden;transition:transform .3s var(--ease),color .3s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--cta);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.btn:hover{color:#0A0C0F;border-color:var(--cta)}.btn:hover::before{transform:scaleX(1)}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:var(--cta);border-color:var(--cta);color:#0A0C0F}
+.btn.solid::before{background:#fff}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* HERO 3D */
+.hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(10,12,15,.92) 0,rgba(10,12,15,0) 48%),linear-gradient(90deg,rgba(10,12,15,.6) 0,rgba(10,12,15,0) 55%)}
+.hero .tx{position:relative;z-index:2;width:100%;padding:0 var(--gut) clamp(26px,5vw,52px);pointer-events:none}
+.hero .tx a{pointer-events:auto}
+.hero h1{margin:10px 0 12px;font:800 clamp(44px,9vw,128px)/.92 var(--sans);letter-spacing:-.035em}
+.hero h1 em{font-size:1.04em;color:var(--cta)}
+.hero .rol{max-width:44ch;margin:0 0 20px;font-size:clamp(17px,1.8vw,22px);text-wrap:balance}
+.acc{display:flex;flex-wrap:wrap;gap:10px}
+.hint{position:absolute;right:var(--gut);bottom:clamp(26px,5vw,52px);z-index:2;color:var(--muted);text-align:right;display:none}
+@media(min-width:900px){.hint{display:block}}
+.datos{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:22px}
+.datos b{font:800 clamp(24px,3vw,36px)/1 var(--sans);letter-spacing:-.02em;display:block}
+.datos span{font-size:13px;color:var(--muted)}
+/* OBRAS inmersivas */
+.ob{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.ob img.f{position:absolute;inset:-6% 0;width:100%;height:112%;object-fit:cover;z-index:-2;will-change:transform}
+.ob::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(10,12,15,.8) 0,rgba(10,12,15,0) 50%)}
+.ob .tx{width:100%;padding:90px var(--gut) clamp(30px,6vw,64px);position:relative}
+.ob .n{display:block;font:400 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.ob h2{margin:0;font:800 clamp(52px,12vw,180px)/.88 var(--sans);letter-spacing:-.04em;text-shadow:0 2px 40px rgba(0,0,0,.35)}
+.ob h2 em{display:block;font-size:.82em;margin-top:.04em;color:var(--cta);text-shadow:none}
+.ob .meta{display:flex;flex-wrap:wrap;gap:8px 34px;align-items:flex-end;justify-content:space-between;margin-top:22px}
+.ob p{margin:0;max-width:46ch;font-size:17px;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+.ob .cf{display:flex;gap:30px}
+.ob .cf b{font:800 clamp(30px,4vw,52px)/1 var(--sans);letter-spacing:-.02em;display:block}
+.ob .cf span{font-size:13px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.ob .sig{position:absolute;right:var(--gut);top:90px;writing-mode:vertical-rl;font:400 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;opacity:.85}
+.ob .sig:hover{color:var(--cta)}
+/* ANTES DE CONSTRUIR */
+.dip{display:grid;min-height:100svh}
+@media(min-width:900px){.dip{grid-template-columns:1fr 1fr}}
+.dip .p{position:relative;min-height:70svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.dip .p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.4s var(--ease)}
+.dip .p:hover img{transform:scale(1.06)}
+.dip .p::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(10,12,15,.88) 0,rgba(10,12,15,0) 62%)}
+.dip .tx{padding:40px var(--gut)}
+.dip h3{margin:6px 0 10px;font:800 clamp(34px,5vw,64px)/.95 var(--sans);letter-spacing:-.03em}
+.dip h3 em{color:var(--cta)}
+.dip p{margin:0 0 16px;max-width:40ch}
+.dip small{display:block;margin-top:12px;font:400 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* SOBRE MÍ + CONTACTO */
+.sb{padding:clamp(70px,10vw,140px) var(--gut);display:grid;gap:34px;max-width:1280px;margin:0 auto}
+@media(min-width:900px){.sb{grid-template-columns:280px 1fr;gap:70px;align-items:end}}
+.sb img{width:100%;max-width:280px;border-radius:200px 200px 6px 6px}
+.sb h2{margin:0 0 18px;font:800 clamp(34px,5.4vw,76px)/.95 var(--sans);letter-spacing:-.03em}
+.sb h2 em{color:var(--cta)}
+.sb p{max-width:56ch;margin:0 0 14px}
+.sb .tags{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 26px}
+.sb .tags span{font:400 12px var(--mono);letter-spacing:.06em;padding:7px 12px;border:1px solid #333;border-radius:40px}
+footer{padding:0 var(--gut) 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;color:var(--muted);font-size:14px}
+footer a{color:var(--muted)}
+/* reveal */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.on{opacity:1;transform:none}
+/* visor */
+dialog.vz{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;padding:0;border:0;background:#0A0C0F;color:var(--text)}
+dialog.vz::backdrop{background:#000}
+dialog.vz[open]{animation:vzin .6s var(--ease)}
+@keyframes vzin{from{clip-path:circle(0 at var(--ox,50%) var(--oy,50%))}to{clip-path:circle(160vmax at var(--ox,50%) var(--oy,50%))}}
+dialog.vz iframe{position:absolute;left:0;right:0;bottom:0;top:52px;width:100%;height:calc(100% - 52px);border:0}
+dialog.vz .top{position:absolute;inset:0 0 auto 0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #222;background:#0A0C0F}
+dialog.vz .x{min-height:38px;padding:0 16px;border-radius:40px;border:1px solid var(--text);background:transparent;color:var(--text);font:700 13px var(--mono);cursor:pointer}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.btn::before,.dip .p img{transition:none}dialog.vz[open]{animation:none}.ob img.f{transform:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <b>Carlos Espinoza</b>
+  <nav aria-label="Principal"><a class="l" href="#obras">Obras</a><a class="l" href="#antes">Antes de construir</a><a class="l" href="#sobre">Sobre mí</a><a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf" style="min-height:40px;padding:0 16px">CV (PDF)</a></nav>
+</header>
+
+<main>
+<section class="hero" id="hero" aria-label="Portada">
+  <canvas id="c" aria-label="Nube de puntos de dos naves industriales; mueve el ratón para girarla" role="img"></canvas>
+  <div class="tx">
+    <span class="mono" style="color:var(--text)">Arquitecto · Obra civil · Estructuras metálicas · BIM</span>
+    <h1>Carlos Francisco<br>Espinoza <em>Manzo</em></h1>
+    <p class="rol">Arquitecto con 8+ años en obra civil, estructuras metálicas y BIM. Llevo el modelo a la obra.</p>
+    <div class="acc">
+      <a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">Descargar CV</a>
+      <a class="btn" href="https://wa.me/523512025030?text=Hola%20Carlos%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20platicar." target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn" href="mailto:arqcarlosem@gmail.com">Correo</a>
+    </div>
+    <div class="datos"><div><b>8+</b><span>años en obra</span></div><div><b>12,000 m²</b><span>en dos naves industriales</span></div><div><b>$5 M</b><span>de casa habitación administrada</span></div><div><b>5</b><span>proyectos BIM en Revit</span></div></div>
+  </div>
+  <span class="hint mono">Arrastra para girar<br>↓ Obras</span>
+</section>
+
+<div id="obras">
+<article class="ob">
+  <img class="f" data-px src="photos/e/naves.jpg" width="1600" height="1200" alt="Obra de nave industrial en construcción">
+  <div class="tx">
+    <span class="n">01 · Grupo Ortiz · 2023</span>
+    <h2 class="rv">Naves <em>industriales</em></h2>
+    <div class="meta rv"><p>Dos naves completas en sitio con vialidades y servicios. Materiales, mano de obra y supervisión de maquinaria pesada.</p><div class="cf"><div><b>2</b><span>naves de 50 × 120 m</span></div><div><b>12,000</b><span>m² construidos</span></div></div></div>
+  </div>
+  <a class="sig" href="#o2">Siguiente obra ↓</a>
+</article>
+<article class="ob" id="o2">
+  <img class="f" data-px loading="lazy" src="photos/e/casa.jpg" width="1600" height="1200" alt="Casa habitación en obra">
+  <div class="tx">
+    <span class="n">02 · 2021 — 2022</span>
+    <h2 class="rv">Casa <em>habitación</em></h2>
+    <div class="meta rv"><p>Vivienda unifamiliar: diseño interior y exterior, acabados y control de materiales y avance de principio a fin.</p><div class="cf"><div><b>1,000</b><span>m² de terreno</span></div><div><b>$5 M</b><span>MXN de presupuesto</span></div></div></div>
+  </div>
+  <a class="sig" href="#o3">Siguiente obra ↓</a>
+</article>
+<article class="ob" id="o3">
+  <img class="f" data-px loading="lazy" src="photos/e/tel.jpg" width="1600" height="1200" alt="Estructura de acero y concreto de una estación del teleférico">
+  <div class="tx">
+    <span class="n">03 · APYCSA · 2025 — hoy</span>
+    <h2 class="rv">Estructura <em>metálica</em></h2>
+    <div class="meta rv"><p>Control de superestructura metálica y modelos BIM para planos de taller, cuantificación y boletines de cambio. Obra en curso.</p><div class="cf"><div><b>7</b><span>estaciones</span></div><div><b>40</b><span>postes en simultáneo</span></div></div></div>
+  </div>
+  <a class="sig" href="#antes">Antes de construir ↓</a>
+</article>
+</div>
+
+<section class="dip" id="antes" aria-label="Antes de construir">
+  <div class="p">
+    <img loading="lazy" src="photos/e/maqueta-naves.jpg" width="860" height="580" alt="Maqueta 3D de dos naves industriales">
+    <div class="tx"><span class="mono">Maqueta 3D · Naves</span><h3>Gira, corta <em>y despieza.</em></h3><p>Luz del día, capas, cortes e instalaciones en la maqueta de las dos naves.</p>
+      <button class="btn" type="button" data-src="lab.html#obra=1&w=1" data-t="Maqueta 3D · Naves industriales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Abrir la maqueta</button>
+      <small>Maqueta esquemática ilustrativa; no es el modelo del proyecto</small></div>
+  </div>
+  <div class="p">
+    <img loading="lazy" src="photos/e/loft.jpg" width="1500" height="1000" alt="Interior de un loft en 3D">
+    <div class="tx"><span class="mono">Recorrido 360 · Loft 6 × 15 m</span><h3>Camina <em>el proyecto.</em></h3><p>Cinco espacios con minimapa, plano y renders, en el navegador.</p>
+      <button class="btn" type="button" data-src="dashboard/index.html" data-t="Recorrido 360 · Loft 6 × 15 m"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Entrar al recorrido</button>
+      <small>Proyecto de ejemplo de mi estudio, Metric.arq · no es obra de cliente</small></div>
+  </div>
+</section>
+
+<section class="sb" id="sobre">
+  <img class="rv" loading="lazy" src="photos/e/yo.jpg" width="480" height="600" alt="Retrato de Carlos Francisco Espinoza Manzo">
+  <div class="rv">
+    <span class="mono" style="color:var(--cta)">Sobre mí</span>
+    <h2>Obra, modelo <em>y código.</em></h2>
+    <p>Llevo más de 8 años en campo, de estimaciones a residente proyectista. Trabajo donde el modelo BIM se encuentra con la obra, y como también programo, automatizo lo repetitivo y construyo mis propias herramientas de visualización.</p>
+    <div class="tags"><span>Revit</span><span>AutoCAD</span><span>Dynamo</span><span>Estructura metálica</span><span>JavaScript / React</span><span>Python</span></div>
+    <div class="acc"><a class="btn solid" href="cv-carlos-espinoza.pdf" download="CV-Carlos-Espinoza-Manzo.pdf">Descargar CV</a><a class="btn" href="mailto:arqcarlosem@gmail.com">arqcarlosem@gmail.com</a><a class="btn" href="https://wa.me/523512025030" target="_blank" rel="noopener">WhatsApp</a></div>
+  </div>
+</section>
+</main>
+<footer><span>© 2026 Carlos Francisco Espinoza Manzo · Morelia, Michoacán</span><a href="https://arq-carlos-servicios.vercel.app" target="_blank" rel="noopener">Mi estudio: Metric.arq</a></footer>
+
+<dialog class="vz" id="vz"><div class="top"><span class="mono" id="vt"></span><button class="x" type="button" id="vx">← Volver</button></div></dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* ---------- escena 3D: dos naves como nube de puntos ---------- */
+var cv=document.getElementById('c'),mobile=innerWidth<760;
+var R=new THREE.WebGLRenderer({canvas:cv,antialias:false,alpha:true});
+R.setPixelRatio(Math.min(devicePixelRatio||1,mobile?1.5:2));
+var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(38,1,.1,400);
+var segs=[];function seg(a,b){segs.push([a,b])}
+function nave(cx){ /* 50 × 120 m, columnas 9 m, cumbrera 12 m, marcos cada 10 m */
+  var hw=25,L=120,h=9,rd=12,n=12;
+  for(var i=0;i<=n;i++){var z=-L/2+i*L/n;
+    seg([cx-hw,0,z],[cx-hw,h,z]);seg([cx+hw,0,z],[cx+hw,h,z]);
+    seg([cx-hw,h,z],[cx,rd,z]);seg([cx+hw,h,z],[cx,rd,z]);
+    seg([cx-hw,h,z],[cx+hw,h,z]);
+    for(var k=1;k<4;k++){var t=k/4;seg([cx-hw+t*hw,h+t*(rd-h),z],[cx-hw+t*2*hw*.5+0,h-1.2,z]);seg([cx+hw-t*hw,h+t*(rd-h),z],[cx+hw-t*hw,h-1.2,z])}
+    if(i<n){var z2=z+L/n;
+      seg([cx-hw,h,z],[cx-hw,h,z2]);seg([cx+hw,h,z],[cx+hw,h,z2]);seg([cx,rd,z],[cx,rd,z2]);
+      seg([cx-hw/2,(h+rd)/2,z],[cx-hw/2,(h+rd)/2,z2]);seg([cx+hw/2,(h+rd)/2,z],[cx+hw/2,(h+rd)/2,z2]);
+      seg([cx-hw,0,z],[cx-hw,0,z2]);seg([cx+hw,0,z],[cx+hw,0,z2]);
+      seg([cx-hw,h*.5,z],[cx-hw,h*.5,z2]);seg([cx+hw,h*.5,z],[cx+hw,h*.5,z2])}}
+}
+nave(-30);nave(30);
+/* terreno: retícula de puntos */
+var pts=[],col=[],zs=[];
+var dens=mobile?.45:.8;
+segs.forEach(function(s){var a=s[0],b=s[1],len=Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2]),n=Math.max(2,Math.round(len*dens));
+  for(var i=0;i<n;i++){var t=i/n;pts.push(a[0]+(b[0]-a[0])*t+(Math.random()-.5)*.25,a[1]+(b[1]-a[1])*t+(Math.random()-.5)*.25,a[2]+(b[2]-a[2])*t+(Math.random()-.5)*.25);zs.push(0)}});
+var gx=mobile?7:5;for(var x=-90;x<=90;x+=gx)for(var z=-90;z<=90;z+=gx){pts.push(x+(Math.random()-.5),-.05,z+(Math.random()-.5));zs.push(1)}
+var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));g.setAttribute('kind',new THREE.Float32BufferAttribute(zs,1));
+var M=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{t:{value:0},px:{value:R.getPixelRatio()}},
+ vertexShader:'attribute float kind;uniform float t;uniform float px;varying float vk;varying float vs;void main(){vk=kind;vec4 mv=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*mv;float s=mod(t*22.-60.,240.)-60.;vs=exp(-pow((position.z+position.x*.15-s)*.12,2.));gl_PointSize=(kind>.5?2.:3.4+vs*4.)*px*(120./-mv.z);}',
+ fragmentShader:'varying float vk;varying float vs;void main(){vec2 c=gl_PointCoord-.5;float d=length(c);if(d>.5)discard;float a=smoothstep(.5,.1,d);vec3 base=vk>.5?vec3(.35,.42,.5):vec3(.93,.95,.98);vec3 amb=vec3(.95,.66,.0);gl_FragColor=vec4(mix(base,amb,vs),a*(vk>.5?.5:1.));}'});
+var P=new THREE.Points(g,M);S.add(P);
+var ang=.7,tgt=.7,pitch=.42,tp=.42,drag=false,lx=0,ly=0;
+function size(){var w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;if(w>=h)C.setViewOffset(w,h,-w*.22,h*.16,w,h);else C.setViewOffset(w,h,0,h*.2,w,h);C.updateProjectionMatrix()}
+function cam(){var d=(C.aspect<1?260:165);C.position.set(Math.sin(ang)*Math.cos(pitch)*d,Math.sin(pitch)*d+10,Math.cos(ang)*Math.cos(pitch)*d);C.lookAt(0,5,0);}
+var vis=true,t0=performance.now();
+function frame(now){if(vis){M.uniforms.t.value=(now-t0)/1000;if(!reduce&&!drag)tgt+=.0016;ang+=(tgt-ang)*.06;pitch+=(tp-pitch)*.06;cam();R.render(S,C)}requestAnimationFrame(frame)}
+size();addEventListener('resize',size);
+cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',function(e){if(drag){tgt-=(e.clientX-lx)*.006;tp=Math.min(1.1,Math.max(.12,tp+(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY}else if(e.pointerType==='mouse'){tgt+=((e.clientX/innerWidth-.5)*.004)}});
+['pointerup','pointercancel'].forEach(function(n){cv.addEventListener(n,function(){drag=false})});
+new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe(cv);
+if(reduce){M.uniforms.t.value=2;cam();R.render(S,C)}else requestAnimationFrame(frame);
+/* ---------- reveal y parallax ---------- */
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target)}})},{threshold:.15});
+document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+var px=[].slice.call(document.querySelectorAll('[data-px]'));
+function par(){if(reduce)return;var h=innerHeight;px.forEach(function(el){var r=el.parentNode.getBoundingClientRect();if(r.bottom<0||r.top>h)return;el.style.transform='translate3d(0,'+((r.top+r.height/2-h/2)*-.08).toFixed(1)+'px,0)'})}
+addEventListener('scroll',par,{passive:true});par();
+/* ---------- visor ---------- */
+var vz=document.getElementById('vz'),fr=null,ult=null;
+[].forEach.call(document.querySelectorAll('[data-src]'),function(b){b.addEventListener('click',function(){
+  ult=b;var r=b.getBoundingClientRect();vz.style.setProperty('--ox',(r.left+r.width/2)+'px');vz.style.setProperty('--oy',(r.top+r.height/2)+'px');
+  document.getElementById('vt').textContent=b.dataset.t;fr=document.createElement('iframe');fr.title=b.dataset.t;fr.src=b.dataset.src;vz.appendChild(fr);vz.showModal()})});
+document.getElementById('vx').addEventListener('click',function(){vz.close()});
+vz.addEventListener('close',function(){if(fr){fr.remove();fr=null}if(ult)ult.focus()});
+})();
+</script>
+</body>
+</html>
