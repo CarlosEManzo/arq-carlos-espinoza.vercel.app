@@ -6,7 +6,8 @@ Sitio estático (HTML + CSS + JS, sin build en el servidor). Diseño «Minimalis
 
 | Ruta | Qué es |
 |---|---|
-| `src/pagina.html` | Fuente de la página (estilos, contenido y scripts). Aquí se edita. |
+| `src/portafolio.html` | Fuente del portafolio principal (vertical, para empleo): `index.html`. |
+| `src/pagina.html` | Fuente del recorrido interactivo (maquetas 3D, demos): se publica como `/lab`, fuera del buscador. |
 | `tools/build.py` | Genera `index.html` (cabecera, metadatos para compartir) y revisa que estén todas las fotos. |
 | `index.html` | Página final que se publica. No se edita a mano. |
 | `photos/` | Fotos usadas (`photos/t/` son las miniaturas). |

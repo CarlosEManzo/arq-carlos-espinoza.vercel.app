@@ -79,5 +79,22 @@ cabecera = f"""<!doctype html>
 """
 # el documento original arranca con <link>/<style> sueltos y termina con scripts: se envuelve tal cual
 html = cabecera + "</head>\n<body>\n" + pagina + "\n</body>\n</html>\n"
-(raiz / "index.html").write_text(html, encoding="utf-8")
-print("index.html", len(html) // 1024, "KB ·", len(ids), "fotos usadas")
+# versión interactiva (recorrido, maquetas 3D, demos): /lab, fuera del buscador
+html = html.replace(f'<link rel="canonical" href="{base}/">', '<meta name="robots" content="noindex,follow">' + chr(10) + f'<link rel="canonical" href="{base}/lab">')
+html = html.replace(f'<meta property="og:url" content="{base}/">', f'<meta property="og:url" content="{base}/lab">')
+(raiz / "lab.html").write_text(html, encoding="utf-8")
+print("lab.html", len(html) // 1024, "KB ·", len(ids), "fotos usadas")
+
+# ---- portafolio principal (vertical, para empleo): src/portafolio.html -> index.html ----
+ld_emp = dict(_json.loads(ld))
+ld_emp.update({
+    "jobTitle": "Arquitecto · Estructuras metálicas · Coordinación BIM",
+    "description": "Arquitecto en Morelia con 8+ años en obra: residente proyectista de estructuras metálicas, modelos BIM en Revit, planos de taller y cuantificación.",
+    "worksFor": {"@type": "Organization", "name": "APYCSA"},
+    "knowsLanguage": ["es", "en"],
+    "knowsAbout": ["Revit", "BIM", "Estructuras metálicas", "AutoCAD", "Dynamo", "Planos de taller", "Cuantificación de obra", "Residencia de obra"],
+})
+emp = (raiz / "src" / "portafolio.html").read_text(encoding="utf-8")
+emp = emp.replace("{{BASE}}", base).replace("{{LD}}", _json.dumps(ld_emp, ensure_ascii=False))
+(raiz / "index.html").write_text(emp, encoding="utf-8")
+print("index.html", len(emp) // 1024, "KB")
